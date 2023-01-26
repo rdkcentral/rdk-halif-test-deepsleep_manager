@@ -26,16 +26,13 @@
 
 void test_l1_PLAT_DS_INIT(void)
 {
-    #ifdef ENABLE_DEEP_SLEEP
     int result = -1;
     result = PLAT_DS_INIT();
     UT_ASSERT_EQUAL( result, 0 );
-    #endif
 } 
 
 void test_l1_PLAT_DS_SetDeepSleep(void)
 {
-    #ifdef ENABLE_DEEP_SLEEP
     int result = -1;
     uint32_t deep_sleep_timeout = 120;
     bool isGPIOWakeup;
@@ -56,41 +53,34 @@ void test_l1_PLAT_DS_SetDeepSleep(void)
     else {
         printf("Resumed due to non-user action.\n");
     }
-    #endif
 } 
 
 void test_l1_PLAT_DS_DeepSleepWakeup(void)
 {
     /* TBD: How to check?
     */
-   #ifdef ENABLE_DEEP_SLEEP
     PLAT_DS_DeepSleepWakeup();
     printf("[%s:%d]Device resumed from Deep sleep Mode. \n", __FUNCTION__, __LINE__);
-    #endif
 }
 
 void test_l1_PLAT_DS_GetLastWakeupReason(void)
 {
-    #ifdef ENABLE_DEEP_SLEEP
     int result = -1;
     DeepSleep_WakeupReason_t wakeupReason = DEEPSLEEP_WAKEUPREASON_UNKNOWN;
     result = PLAT_DS_GetLastWakeupReason(&wakeupReason);
     UT_ASSERT_EQUAL( result, 0 );
     printf("[%s:%d]PLAT_DS_GetLastWakeupReason is %d. \n",
      __FUNCTION__, __LINE__, wakeupReason);
-     #endif 
 }
 
 void test_l1_PLAT_DS_GetLastWakeupKeyCode(void)
 {
-    #ifdef ENABLE_DEEP_SLEEP
 	int result = -1;
     IARM_Bus_DeepSleepMgr_WakeupKeyCode_Param_t wakeupKeyCode;
     result = PLAT_DS_GetLastWakeupKeyCode(&wakeupKeyCode);
     UT_ASSERT_EQUAL( result, 0 );
     printf("[%s:%d]PLAT_DS_GetLastWakeupReason is %d. \n",
      __FUNCTION__, __LINE__, wakeupKeyCode.keyCode);
-     #endif 
 }
 
 static UT_test_suite_t *pSuite = NULL;
