@@ -15,10 +15,12 @@ deepSleepError_t PLAT_DS_INIT(void)
 deepSleepError_t PLAT_DS_SetDeepSleep(uint32_t deep_sleep_timeout, bool* isGPIOWakeup, bool networkStandby)
 {
   /*TODO: Implement Me!*/
-  (void)deep_sleep_timeout;
-  (void)isGPIOWakeup;
-  (void)networkStandby;
-  return DEEPSLEEP_SUCCESS;
+  if(isGPIOWakeup == NULL) {
+      return DEEPSLEEP_INVALID_ARGUMENT;
+  }
+  else {
+      return DEEPSLEEP_SUCCESS;
+  }
 }
 
 void PLAT_DS_DeepSleepWakeup(void)
@@ -34,14 +36,22 @@ void PLAT_DS_TERM(void)
 deepSleepError_t PLAT_DS_GetLastWakeupReason(DeepSleep_WakeupReason_t* wakeupReason)
 {
   /*TODO: Implement Me!*/
-  (void)wakeupReason;
-  return DEEPSLEEP_SUCCESS;
+  if(wakeupReason == NULL)
+  {
+      return DEEPSLEEP_INVALID_ARGUMENT; 
+  }
+  else
+      return DEEPSLEEP_SUCCESS;
 }
 
 deepSleepError_t PLAT_DS_GetLastWakeupKeyCode(IARM_Bus_DeepSleepMgr_WakeupKeyCode_Param_t* wakeupKeyCode)
 {
   /*TODO: Implement Me!*/
-  (void)wakeupKeyCode;
-  return DEEPSLEEP_SUCCESS;
+  if(wakeupKeyCode == NULL)
+  {
+      return DEEPSLEEP_INVALID_ARGUMENT; 
+  }
+  else
+      return DEEPSLEEP_SUCCESS;
 }
 

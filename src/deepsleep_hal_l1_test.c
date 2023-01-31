@@ -24,63 +24,200 @@
 #include <stdint.h>
 #include "deepSleepMgr.h"
 
+
+/**
+ * @brief This function will do the unit testing of PLAT_DS_INIT ().
+ * This function will ensure underlying API implementation is handling
+ * the invalid call sequences to the API properly.
+ * This UT implementation will verify it by calling the function in all
+ * invalid possibilities.
+ * In all the invalid call sequence 
+ * scenarios API should return the expected error codes defined in the respective HAL
+ * documentation. Please see all the expected error codes and respective scenarios
+ * in which the error codes will be returned.
+ * DEEPSLEEP_SUCCESS: will be returned if PLAT_DS_INIT() is executed successfully.
+ * DEEPSLEEP_GENERAL_ERROR : will be returned if PLAT_DS_INIT is called second time or 
+ * underlying platform implementation is failed.
+ */
 void test_l1_PLAT_DS_INIT(void)
 {
-    int result = -1;
+    deepSleepError_t result;
+    /* Positive result */
+    /* Calling to Initialized Platform Deepsleep HAL */
     result = PLAT_DS_INIT();
-    UT_ASSERT_EQUAL( result, 0 );
+    UT_ASSERT_EQUAL( result, DEEPSLEEP_SUCCESS);
+
+    /* Negative result */
+    /*Calling PLAT_DS_INIT second time, should return the general failure*/
+    result = PLAT_DS_INIT();
+    UT_ASSERT_EQUAL( result, DEEPSLEEP_GENERAL_ERROR);
+
+    /* Calling to deinitialized the Platform Deepsleep HAL */
+    PLAT_DS_TERM(); 
 } 
 
+/**
+ * @brief This function will do the unit testing of PLAT_DS_SetDeepSleep ().
+ * This function will ensure underlying API implementation is handling
+ * the invalid call sequences to the API properly.
+ * This UT implementation will verify it by calling the function in all
+ * invalid possibilities.
+ * In all the invalid call sequence 
+ * scenarios API should return the expected error codes defined in the respective HAL
+ * documentation. Please see all the expected error codes and respective scenarios
+ * in which the error codes will be returned.
+ * DEEPSLEEP_SUCCESS - It will be returned if PLAT_DS_SetDeepSleep() is executed successfully.
+ * DEEPSLEEP_INVALID_STATE - It's invalid failure state, it will returns if calling without platform initialized method PLAT_DS_INIT().
+ * DEEPSLEEP_INVALID_ARGUMENT - It will returned if invalid argument passed to this method.
+ * DEEPSLEEP_GENERAL_ERROR - It will returns if any error or general failure occured in underneath layer.
+ */
 void test_l1_PLAT_DS_SetDeepSleep(void)
 {
-    int result = -1;
+    deepSleepError_t result;
     uint32_t deep_sleep_timeout = 120;
     bool isGPIOWakeup;
     bool networkStandby = false;
+    
+    /* Positive result */
+    /* Calling to initialized the Platform Deepsleep HAL */
+    result = PLAT_DS_INIT();
+    UT_ASSERT_EQUAL( result, DEEPSLEEP_SUCCESS);
 
-    printf("Device entered to Deep sleep Mode with deep_sleep_timeout (%d) and networkStandby (%d). \n", 
-            deep_sleep_timeout, networkStandby);
-    printf("This is Blocking call, it will resume after timeout or Pressing Remote key.");
+    /* Calling with proper arguments */
+    /* After calling this function successfully, the device will go for deepsleep state. 
+     * User has to press Remote key to wakeup or check the possible DeepSleep_WakeupReason_t to wakeup. 
+     */
     result = PLAT_DS_SetDeepSleep(deep_sleep_timeout, &isGPIOWakeup, networkStandby);
-    UT_ASSERT_EQUAL( result, 0 );
+    UT_ASSERT_EQUAL( result, DEEPSLEEP_SUCCESS );
 
-    printf("Device resumed from Deep sleep Mode. \n");
+    /* Calling to deinitialized the Platform Deepsleep HAL */
+    PLAT_DS_TERM();
 
-    if (isGPIOWakeup) 
-    {
-        printf("Resumed due to user action.\n");
-    }
-    else {
-        printf("Resumed due to non-user action.\n");
-    }
+    /* Negative result */
+    /* Calling without Initialized Platform Deepsleep HAL */
+    result = PLAT_DS_SetDeepSleep(deep_sleep_timeout, &isGPIOWakeup, networkStandby);
+    UT_ASSERT_EQUAL( result, DEEPSLEEP_INVALID_STATE );
+
+    /* Negative result */
+    /* Calling with invalid argument after Initialized Platform Deepsleep HAL */
+    result = PLAT_DS_INIT();
+    UT_ASSERT_EQUAL( result, DEEPSLEEP_SUCCESS);
+
+    /* Calling with Invalid argument */
+    result = PLAT_DS_SetDeepSleep(deep_sleep_timeout, NULL, networkStandby);
+    UT_ASSERT_EQUAL( result, DEEPSLEEP_INVALID_ARGUMENT);
+
+     /* Calling to deinitialized the Platform Deepsleep HAL */
+    PLAT_DS_TERM();
+    
+    /* #TODO: Unclear how the function will fail, it may be due failure in underneath layer */
+
 } 
 
 void test_l1_PLAT_DS_DeepSleepWakeup(void)
 {
     /* TBD: How to check?
     */
+    /* #TODO: Unclear how this function can be tested,  */
     PLAT_DS_DeepSleepWakeup();
-    printf("[%s:%d]Device resumed from Deep sleep Mode. \n", __FUNCTION__, __LINE__);
 }
 
+/**
+ * @brief This function will do the unit testing of PLAT_DS_GetLastWakeupReason ().
+ * This function will ensure underlying API implementation is handling
+ * the invalid call sequences to the API properly.
+ * This UT implementation will verify it by calling the function in all
+ * invalid possibilities.
+ * In all the invalid call sequence 
+ * scenarios API should return the expected error codes defined in the respective HAL
+ * documentation. Please see all the expected error codes and respective scenarios
+ * in which the error codes will be returned.
+ * DEEPSLEEP_SUCCESS - It will be returned if PLAT_DS_GetLastWakeupReason() is executed successfully.
+ * DEEPSLEEP_INVALID_STATE - It's invalid failure state, it will returns if calling without platform initialized method PLAT_DS_INIT().
+ * DEEPSLEEP_INVALID_ARGUMENT - It will returned if invalid argument passed to this method.
+ * DEEPSLEEP_GENERAL_ERROR - It will returns if any error or general failure occured in underneath layer.
+ */
 void test_l1_PLAT_DS_GetLastWakeupReason(void)
 {
-    int result = -1;
-    DeepSleep_WakeupReason_t wakeupReason = DEEPSLEEP_WAKEUPREASON_UNKNOWN;
+    deepSleepError_t result;
+    DeepSleep_WakeupReason_t wakeupReason;
+    
+    /* Positive result */
+    /* Calling to initialized the Platform Deepsleep HAL */
+    result = PLAT_DS_INIT();
+    UT_ASSERT_EQUAL( result, DEEPSLEEP_SUCCESS); 
+    
+    /* Calling PLAT_DS_GetLastWakeupReason with proper argument */ 
     result = PLAT_DS_GetLastWakeupReason(&wakeupReason);
-    UT_ASSERT_EQUAL( result, 0 );
-    printf("[%s:%d]PLAT_DS_GetLastWakeupReason is %d. \n",
-     __FUNCTION__, __LINE__, wakeupReason);
+    UT_ASSERT_EQUAL( result, DEEPSLEEP_SUCCESS );
+
+    /* Calling to deinitialized the Platform Deepsleep HAL */
+    PLAT_DS_TERM();
+
+    /* Negative  Value*/
+    /* Calling PLAT_DS_GetLastWakeupReason without PLAT_DS_INIT() */ 
+    result = PLAT_DS_GetLastWakeupReason(&wakeupReason);
+    UT_ASSERT_EQUAL( result, DEEPSLEEP_INVALID_STATE );
+
+    /* Calling to initialized the Platform Deepsleep HAL */
+    result = PLAT_DS_INIT();
+    UT_ASSERT_EQUAL( result, DEEPSLEEP_SUCCESS); 
+    
+    /* Calling PLAT_DS_GetLastWakeupReason with NULL/Invalid argument */ 
+    result = PLAT_DS_GetLastWakeupReason(NULL);
+    UT_ASSERT_EQUAL( result, DEEPSLEEP_INVALID_ARGUMENT );
+
+    /* Calling to deinitialized the Platform Deepsleep HAL */
+    PLAT_DS_TERM();
 }
 
+/**
+ * @brief This function will do the unit testing of PLAT_DS_GetLastWakeupKeyCode ().
+ * This function will ensure underlying API implementation is handling
+ * the invalid call sequences to the API properly.
+ * This UT implementation will verify it by calling the function in all
+ * invalid possibilities.
+ * In all the invalid call sequence 
+ * scenarios API should return the expected error codes defined in the respective HAL
+ * documentation. Please see all the expected error codes and respective scenarios
+ * in which the error codes will be returned.
+ * DEEPSLEEP_SUCCESS - It will be returned if PLAT_DS_GetLastWakeupKeyCode() is executed successfully.
+ * DEEPSLEEP_INVALID_STATE - It's invalid failure state, it will returns if calling without platform initialized method PLAT_DS_INIT().
+ * DEEPSLEEP_INVALID_ARGUMENT - It will returned if invalid argument passed to this method.
+ * DEEPSLEEP_GENERAL_ERROR - It will returns if any error or general failure occured in underneath layer.
+ */
 void test_l1_PLAT_DS_GetLastWakeupKeyCode(void)
 {
-	int result = -1;
+	deepSleepError_t result = -1;
     IARM_Bus_DeepSleepMgr_WakeupKeyCode_Param_t wakeupKeyCode;
+    
+     /* Positive  Value*/
+    /* Calling to initialized the Platform Deepsleep HAL */
+    result = PLAT_DS_INIT();
+    UT_ASSERT_EQUAL( result, DEEPSLEEP_SUCCESS); 
+
+    /* Calling PLAT_DS_GetLastWakeupKeyCode with proper argument */  
     result = PLAT_DS_GetLastWakeupKeyCode(&wakeupKeyCode);
-    UT_ASSERT_EQUAL( result, 0 );
-    printf("[%s:%d]PLAT_DS_GetLastWakeupReason is %d. \n",
-     __FUNCTION__, __LINE__, wakeupKeyCode.keyCode);
+    UT_ASSERT_EQUAL( result, DEEPSLEEP_SUCCESS );
+    
+    /* Calling to deinitialized the Platform Deepsleep HAL */
+    PLAT_DS_TERM();
+
+    /* Negative  Value*/
+    /* Calling PLAT_DS_GetLastWakeupKeyCode without PLAT_DS_INIT() */ 
+    result = PLAT_DS_GetLastWakeupKeyCode(&wakeupKeyCode);
+    UT_ASSERT_EQUAL( result, DEEPSLEEP_INVALID_STATE );
+
+    /* Calling to initialized the Platform Deepsleep HAL */
+    result = PLAT_DS_INIT();
+    UT_ASSERT_EQUAL( result, DEEPSLEEP_SUCCESS); 
+    
+    /* Calling PLAT_DS_GetLastWakeupKeyCode with NULL/Invalid argument */ 
+    result = PLAT_DS_GetLastWakeupKeyCode(NULL);
+    UT_ASSERT_EQUAL( result, DEEPSLEEP_INVALID_ARGUMENT );
+
+    /* Calling to deinitialized the Platform Deepsleep HAL */
+    PLAT_DS_TERM(); 
 }
 
 static UT_test_suite_t *pSuite = NULL;

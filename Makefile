@@ -64,7 +64,7 @@ build: $(SETUP_MOCK_LIBS)
 
 mock:
 	echo $(CC)
-	$(CC) -fPIC -shared -I$(ROOT_DIR)/include $(MOCK_SRCS) -o lib$(HAL_LIB).so
+	$(CC) -fPIC -shared -I$(ROOT_DIR)/../include $(MOCK_SRCS) -o lib$(HAL_LIB).so
 	mkdir -p $(HAL_LIB_DIR)
 	cp $(ROOT_DIR)/lib$(HAL_LIB).so $(HAL_LIB_DIR)
 
