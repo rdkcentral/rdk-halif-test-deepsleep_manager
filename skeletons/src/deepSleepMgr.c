@@ -23,9 +23,10 @@ deepSleepError_t PLAT_DS_SetDeepSleep(uint32_t deep_sleep_timeout, bool* isGPIOW
   }
 }
 
-void PLAT_DS_DeepSleepWakeup(void)
+deepSleepError_t PLAT_DS_DeepSleepWakeup(void)
 {
   /*TODO: Implement Me!*/
+  return DEEPSLEEP_SUCCESS;
 }
 
 void PLAT_DS_TERM(void)

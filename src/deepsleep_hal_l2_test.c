@@ -75,6 +75,10 @@ void test_l2_PLAT_DS_SetDeepSleep(void)
         printf ("\n [%s] Resume wakeup from DeepSleep without User Input after deepsleep timeout (%d).\n", __FUNCTION__ , deep_sleep_timeout);
     }
 
+    /* This call will Initialized Platform services properly after deepsleep wakeup */
+    result = PLAT_DS_DeepSleepWakeup();
+    UT_ASSERT_EQUAL( result, DEEPSLEEP_SUCCESS );
+
     /* Calling to deinitialized the Platform Deepsleep HAL */
     PLAT_DS_TERM();
 
@@ -103,6 +107,11 @@ void test_l2_PLAT_DS_SetDeepSleep(void)
         UT_ASSERT_FALSE(isGPIOWakeup); 
         printf ("\n [%s] Resume wakeup from DeepSleep without User Input\n", __FUNCTION__ );
     }
+
+    /* This call will Initialized Platform services properly after deepsleep wakeup */
+    result = PLAT_DS_DeepSleepWakeup();
+    UT_ASSERT_EQUAL( result, DEEPSLEEP_SUCCESS );
+
     /* Calling to deinitialized the Platform Deepsleep HAL */
     PLAT_DS_TERM();   
 

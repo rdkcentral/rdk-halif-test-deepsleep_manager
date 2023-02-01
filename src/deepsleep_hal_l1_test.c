@@ -114,12 +114,42 @@ void test_l1_PLAT_DS_SetDeepSleep(void)
 
 } 
 
+/**
+ * @brief This function will do the unit testing of PLAT_DS_DeepSleepWakeup ().
+ * This function is platform specific. it will ensure that after deepsleep wake
+ * all the platform calls are gracefully activated and all services are resume.
+ * This function is ensure underlaying API implementation is handling the
+ * invalid call sequences to the API properly.
+ * This UT implementation will verify it by calling the function in all
+ * invalid possibilities.
+ * In all the invalid call sequence
+ * scenarios API should return the expected error codes defined in the respective HAL
+ * documentation. Please see all the expected error codes and respective scenarios
+ * in which the error codes will be returned.
+ * DEEPSLEEP_SUCCESS - It will be returned if PLAT_DS_SetDeepSleep() is executed successfully.
+ * DEEPSLEEP_INVALID_STATE - It's invalid failure state, it will returns if calling without platform initialized method PLAT_DS_INIT().
+ * DEEPSLEEP_GENERAL_ERROR - It will returns if any error or general failure occured in underneath layer.
+ */
 void test_l1_PLAT_DS_DeepSleepWakeup(void)
 {
-    /* TBD: How to check?
-    */
-    /* #TODO: Unclear how this function can be tested,  */
-    PLAT_DS_DeepSleepWakeup();
+    deepSleepError_t result;
+    /* Positive */
+    /* Calling to initialized the Platform Deepsleep HAL */
+    result = PLAT_DS_INIT();
+    UT_ASSERT_EQUAL( result, DEEPSLEEP_SUCCESS);
+
+    result = PLAT_DS_DeepSleepWakeup();
+    UT_ASSERT_EQUAL( result, DEEPSLEEP_SUCCESS);
+
+    /* Calling to deinitialized the Platform HAL */
+    PLAT_DS_TERM();
+
+    /* Negative */
+    /* Calling without Initialized Platform Deepsleep HAL */
+    result = PLAT_DS_DeepSleepWakeup();
+    UT_ASSERT_EQUAL( result, DEEPSLEEP_INVALID_STATE );
+
+    /* #TODO: Unclear how the function will fail, it may be due failure in underneath layer */
 }
 
 /**
