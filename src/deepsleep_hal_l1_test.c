@@ -27,10 +27,7 @@
 
 /**
  * @brief Ensure PLAT_DS_INIT() returns correct error codes during positive scenarios
- * 
- * This test case ensures the following conditions:
- * 1. PLAT_DS_INIT() should return DEEPSLEEP_SUCCESS when initializing the module.
- * 2. PLAT_DS_TERM() should return DEEPSLEEP_SUCCESS after successful termination.
+ * @todo Add comments saying which error returns we cannot simulate
  * 
  * **Test Group ID:** Basic: 01@n
  * **Test Case ID:** 001@n
@@ -52,10 +49,6 @@
 /**
  * @brief Ensure PLAT_DS_INIT() returns correct error codes during negative scenarios
  * 
- * This test case ensures the following conditions:
- * 1. PLAT_DS_INIT() should return DEEPSLEEP_SUCCESS when initializing the module.
- * 2. PLAT_DS_INIT() should return DEEPSLEEP_ALREADY_INITIALIZED when trying to initialize again.
- * 3. PLAT_DS_TERM() should return DEEPSLEEP_SUCCESS after successful termination.
  * 
  * **Test Group ID:** Basic: 01@n
  * **Test Case ID:** 002@n
@@ -78,10 +71,9 @@
 /**
  * @brief Ensure PLAT_DS_SetDeepSleep() returns correct error codes during positive scenarios
  * 
- * This test case ensures the following conditions:
- * 1. PLAT_DS_INIT() should return DEEPSLEEP_SUCCESS when initializing the module.
- * 2. PLAT_DS_SetDeepSleep() should return DEEPSLEEPMGR_SUCCESS.
- * 3. PLAT_DS_TERM() should return DEEPSLEEP_SUCCESS after successful termination.
+ * @todo remove the next four lines for everyone
+ * @todo Add additional varaitions for the positive inputs to cover all descrete cases
+ * @todo add interrupt to wake us up from deepsleep
  * 
  * **Test Group ID:** Basic: 01@n
  * **Test Case ID:** 003@n
@@ -97,18 +89,17 @@
  * |:--:|---------|----------|--------------|-----|
  * |01|Call PLAT_DS_INIT() - open interface | | DEEPSLEEP_SUCCESS | Should Pass |
  * |02|Call PLAT_DS_SetDeepSleep() set deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
- * |03|Call PLAT_DS_TERM() - close interface | | DEEPSLEEP_SUCCESS | Should Pass |
+ * 
+ * |03|Call PLAT_DS_SetDeepSleep() set deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=true | DEEPSLEEPMGR_SUCCESS | Should Pass |
+ * 
+ * |04|Call PLAT_DS_SetDeepSleep() set deep sleep | deep_sleep_timeout=10, *isGPIOWakeup=false, networkStandby=true | DEEPSLEEPMGR_SUCCESS | Should Pass |
+ * 
+ * |05|Call PLAT_DS_TERM() - close interface | | DEEPSLEEP_SUCCESS | Should Pass |
  * 
  */
 
 /**
  * @brief Ensure PLAT_DS_SetDeepSleep() returns correct error codes during negative scenarios
- * 
- * This test case ensures the following conditions:
- * 1. PLAT_DS_SetDeepSleep() should return DEEPSLEEPMGR_NOT_INITIALIZED.
- * 2. PLAT_DS_INIT() should return DEEPSLEEP_SUCCESS when initializing the module.
- * 3. PLAT_DS_SetDeepSleep() should return DEEPSLEEPMGR_INVALID_ARGUMENT.
- * 4. PLAT_DS_TERM() should return DEEPSLEEP_SUCCESS after successful termination.
  * 
  * **Test Group ID:** Basic: 01@n
  * **Test Case ID:** 004@n
@@ -124,19 +115,15 @@
  * |:--:|---------|----------|--------------|-----|
  * |01|Call PLAT_DS_SetDeepSleep() again | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_NOT_INITIALIZED | Should Pass |
  * |02|Call PLAT_DS_INIT() - open interface | | DEEPSLEEP_SUCCESS | Should Pass |
- * |03|Call PLAT_DS_SetDeepSleep() set deep sleep | deep_sleep_timeout=-1, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_INVALID_ARGUMENT | Should Pass |
- * |04|Call PLAT_DS_SetDeepSleep() set deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=NULL, networkStandby=false | DEEPSLEEPMGR_INVALID_ARGUMENT | Should Pass |
- * |05|Call PLAT_DS_TERM() - close interface | | DEEPSLEEP_SUCCESS | Should Pass |
+ * |03|Call PLAT_DS_SetDeepSleep() set deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=NULL, networkStandby=false | DEEPSLEEPMGR_INVALID_ARGUMENT | Should Pass |
+ * |04|Call PLAT_DS_TERM() - close interface | | DEEPSLEEP_SUCCESS | Should Pass |
  * 
  */
 
 /**
  * @brief Ensure PLAT_DS_DeepSleepWakeup() returns correct error codes during positive scenarios
  * 
- * This test case ensures the following conditions:
- * 1. PLAT_DS_INIT() should return DEEPSLEEP_SUCCESS when initializing the module.
- * 2. PLAT_DS_DeepSleepWakeup() should return DEEPSLEEPMGR_SUCCESS.
- * 3. PLAT_DS_TERM() should return DEEPSLEEP_SUCCESS after successful termination.
+ * @todo add set to deepsleep
  * 
  * **Test Group ID:** Basic: 01@n
  * **Test Case ID:** 005@n
@@ -157,12 +144,28 @@
  */
 
 /**
- * @brief Ensure PLAT_DS_GetLastWakeupReason() returns correct error codes during positive scenarios
+ * @brief Ensure PLAT_DS_DeepSleepWakeup() returns correct error codes during negative scenarios
  * 
- * This test case ensures the following conditions:
- * 1. PLAT_DS_INIT() should return DEEPSLEEP_SUCCESS when initializing the module.
- * 2. PLAT_DS_GetLastWakeupReason() should return DEEPSLEEPMGR_SUCCESS.
- * 3. PLAT_DS_TERM() should return DEEPSLEEP_SUCCESS after successful termination.
+ * @todo add set to deepsleep
+ * 
+ * **Test Group ID:** Basic: 01@n
+ * **Test Case ID:** 005@n
+ * 
+ * **Pre-Conditions:**@n
+ * None.
+ * 
+ * **Dependencies:** None@n
+ * **User Interaction:** None
+ * 
+ * **Test Procedure:**@n
+ * |Variation / Step|Description|Test Data|Expected Result|Notes|
+ * |:--:|---------|----------|--------------|-----|
+ * |01|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up without initializing the module| | DEEPSLEEPMGR_NOT_INITIALIZED | Should Pass |
+ * 
+ */
+
+/**
+ * @brief Ensure PLAT_DS_GetLastWakeupReason() returns correct error codes during positive scenarios
  * 
  * **Test Group ID:** Basic: 01@n
  * **Test Case ID:** 006@n
@@ -184,12 +187,6 @@
 
 /**
  * @brief Ensure PLAT_DS_GetLastWakeupReason() returns correct error codes during negative scenarios
- * 
- * This test case ensures the following conditions:
- * 1. PLAT_DS_GetLastWakeupReason() should return DEEPSLEEPMGR_NOT_INITIALIZED.
- * 2. PLAT_DS_INIT() should return DEEPSLEEP_SUCCESS when initializing the module.
- * 3. PLAT_DS_GetLastWakeupReason() should return DEEPSLEEPMGR_INVALID_ARGUMENT.
- * 4. PLAT_DS_TERM() should return DEEPSLEEP_SUCCESS after successful termination.
  * 
  * 
  * **Test Group ID:** Basic: 01@n
@@ -214,11 +211,6 @@
 /**
  * @brief Ensure PLAT_DS_GetLastWakeupKeyCode() returns correct error codes during positive scenarios
  * 
- * This test case ensures the following conditions:
- * 1. PLAT_DS_INIT() should return DEEPSLEEP_SUCCESS when initializing the module.
- * 2. PLAT_DS_GetLastWakeupKeyCode() should return DEEPSLEEPMGR_SUCCESS.
- * 3. PLAT_DS_TERM() should return DEEPSLEEP_SUCCESS after successful termination.
- * 
  * **Test Group ID:** Basic: 01@n
  * **Test Case ID:** 008@n
  * 
@@ -239,12 +231,6 @@
 
 /**
  * @brief Ensure PLAT_DS_GetLastWakeupKeyCode() returns correct error codes during negative scenarios
- * 
- * This test case ensures the following conditions:
- * 1. PLAT_DS_GetLastWakeupKeyCode() should return DEEPSLEEPMGR_NOT_INITIALIZED.
- * 2. PLAT_DS_INIT() should return DEEPSLEEP_SUCCESS when initializing the module.
- * 3. PLAT_DS_GetLastWakeupKeyCode() should return DEEPSLEEPMGR_INVALID_ARGUMENT.
- * 4. PLAT_DS_TERM() should return DEEPSLEEP_SUCCESS after successful termination.
  * 
  * **Test Group ID:** Basic: 01@n
  * **Test Case ID:** 009@n
@@ -270,10 +256,6 @@
 /**
  * @brief Ensure PLAT_DS_TERM() returns correct error codes during positive scenarios
  * 
- * This test case ensures the following conditions:
- * 1. PLAT_DS_INIT() should return DEEPSLEEP_SUCCESS when initializing the module.
- * 2. PLAT_DS_TERM() should return DEEPSLEEP_SUCCESS after successful termination.
- * 
  * **Test Group ID:** Basic: 01@n
  * **Test Case ID:** 010@n
  * 
@@ -293,9 +275,6 @@
 
 /**
  * @brief Ensure PLAT_DS_TERM() returns correct error codes during negative scenarios
- * 
- * This test case ensures the following conditions:
- * 1. PLAT_DS_TERM() should return DEEPSLEEPMGR_NOT_INITIALIZED after successful termination.
  * 
  * **Test Group ID:** Basic: 01@n
  * **Test Case ID:** 011@n
