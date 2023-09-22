@@ -40,7 +40,6 @@
 
 /**
  * @brief Ensure PLAT_DS_INIT() returns correct error codes during positive scenarios
- * @todo Add comments saying which error returns we cannot simulate
  * 
  * **Test Group ID:** Basic: 01@n
  * **Test Case ID:** 001@n
@@ -66,6 +65,7 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_INIT (void)
 /**
  * @brief Ensure PLAT_DS_INIT() returns correct error codes during negative scenarios
  * 
+ * @note The error code DEEPSLEEPMGR_INIT_FAILURE is not able to be tested here.
  * 
  * **Test Group ID:** Basic: 01@n
  * **Test Case ID:** 002@n
@@ -110,12 +110,12 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_INIT (void)
  * |:--:|---------|----------|--------------|-----|
  * |01|Call PLAT_DS_INIT() - open interface | | DEEPSLEEP_SUCCESS | Should Pass |
  * |02|Call PLAT_DS_SetDeepSleep() set deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
- * 
- * |03|Call PLAT_DS_SetDeepSleep() set deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=true | DEEPSLEEPMGR_SUCCESS | Should Pass |
- * 
- * |04|Call PLAT_DS_SetDeepSleep() set deep sleep | deep_sleep_timeout=10, *isGPIOWakeup=false, networkStandby=true | DEEPSLEEPMGR_SUCCESS | Should Pass |
- * 
- * |05|Call PLAT_DS_TERM() - close interface | | DEEPSLEEP_SUCCESS | Should Pass |
+ * |03|Manual key press to wake up the device |
+ * |04|Call PLAT_DS_SetDeepSleep() set deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=true | DEEPSLEEPMGR_SUCCESS | Should Pass |
+ * |05|Manual key press to wake up the device |
+ * |06|Call PLAT_DS_SetDeepSleep() set deep sleep | deep_sleep_timeout=10, *isGPIOWakeup=false, networkStandby=true | DEEPSLEEPMGR_SUCCESS | Should Pass |
+ * |07|Manual key press to wake up the device |
+ * |08|Call PLAT_DS_TERM() - close interface | | DEEPSLEEP_SUCCESS | Should Pass |
  * 
  */
 void test_l1_deepSleepMgr_positive_PLAT_DS_SetDeepSleep (void)
@@ -125,6 +125,8 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_SetDeepSleep (void)
 
 /**
  * @brief Ensure PLAT_DS_SetDeepSleep() returns correct error codes during negative scenarios
+ * 
+ * @note The error code DEEPSLEEP_SET_FAILURE is not able to be tested here.
  * 
  * **Test Group ID:** Basic: 01@n
  * **Test Case ID:** 004@n
@@ -152,8 +154,6 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_SetDeepSleep (void)
 /**
  * @brief Ensure PLAT_DS_DeepSleepWakeup() returns correct error codes during positive scenarios
  * 
- * @todo add set to deepsleep
- * 
  * **Test Group ID:** Basic: 01@n
  * **Test Case ID:** 005@n
  * 
@@ -167,8 +167,10 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_SetDeepSleep (void)
  * |Variation / Step|Description|Test Data|Expected Result|Notes|
  * |:--:|---------|----------|--------------|-----|
  * |01|Call PLAT_DS_INIT() - open interface | | DEEPSLEEP_SUCCESS | Should Pass |
- * |02|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
- * |03|Call PLAT_DS_TERM() - close interface | | DEEPSLEEP_SUCCESS | Should Pass |
+ * |02|Call PLAT_DS_SetDeepSleep() set deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+ * |03|Manual key press to wake up the device |
+ * |04|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+ * |05|Call PLAT_DS_TERM() - close interface | | DEEPSLEEP_SUCCESS | Should Pass |
  * 
  */
 void test_l1_deepSleepMgr_positive_PLAT_DS_DeepSleepWakeup (void)
@@ -179,10 +181,10 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_DeepSleepWakeup (void)
 /**
  * @brief Ensure PLAT_DS_DeepSleepWakeup() returns correct error codes during negative scenarios
  * 
- * @todo add set to deepsleep
+ * @note The error code DEEPSLEEP_WAKEUP_FAILURE cannot be tested
  * 
  * **Test Group ID:** Basic: 01@n
- * **Test Case ID:** 005@n
+ * **Test Case ID:** 006@n
  * 
  * **Pre-Conditions:**@n
  * None.
@@ -205,7 +207,7 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_DeepSleepWakeup (void)
  * @brief Ensure PLAT_DS_GetLastWakeupReason() returns correct error codes during positive scenarios
  * 
  * **Test Group ID:** Basic: 01@n
- * **Test Case ID:** 006@n
+ * **Test Case ID:** 007@n
  * 
  * **Pre-Conditions:**@n
  * None.
@@ -217,7 +219,7 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_DeepSleepWakeup (void)
  * |Variation / Step|Description|Test Data|Expected Result|Notes|
  * |:--:|---------|----------|--------------|-----|
  * |01|Call PLAT_DS_INIT() - open interface | | DEEPSLEEP_SUCCESS | Should Pass |
- * |02|Call PLAT_DS_GetLastWakeupReason() Get last wakeup reason | *wakeupReason=DEEPSLEEP_WAKEUPREASON_IR | DEEPSLEEPMGR_SUCCESS | Should Pass |
+ * |02|Call PLAT_DS_GetLastWakeupReason() Get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
  * |03|Call PLAT_DS_TERM() - close interface | | DEEPSLEEP_SUCCESS | Should Pass |
  * 
  */
@@ -231,7 +233,7 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_GetLastWakeupReason (void)
  * 
  * 
  * **Test Group ID:** Basic: 01@n
- * **Test Case ID:** 007@n
+ * **Test Case ID:** 008@n
  * 
  * **Pre-Conditions:**@n
  * None.
@@ -257,7 +259,7 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_GetLastWakeupReason (void)
  * @brief Ensure PLAT_DS_GetLastWakeupKeyCode() returns correct error codes during positive scenarios
  * 
  * **Test Group ID:** Basic: 01@n
- * **Test Case ID:** 008@n
+ * **Test Case ID:** 009@n
  * 
  * **Pre-Conditions:**@n
  * None.
@@ -283,7 +285,7 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_GetLastWakeupKeyCode (void)
  * @brief Ensure PLAT_DS_GetLastWakeupKeyCode() returns correct error codes during negative scenarios
  * 
  * **Test Group ID:** Basic: 01@n
- * **Test Case ID:** 009@n
+ * **Test Case ID:** 010@n
  * 
  * **Pre-Conditions:**@n
  * None.
@@ -309,7 +311,7 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_GetLastWakeupKeyCode (void)
  * @brief Ensure PLAT_DS_TERM() returns correct error codes during positive scenarios
  * 
  * **Test Group ID:** Basic: 01@n
- * **Test Case ID:** 010@n
+ * **Test Case ID:** 011@n
  * 
  * **Pre-Conditions:**@n
  * None.
@@ -333,7 +335,7 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_TERM (void)
  * @brief Ensure PLAT_DS_TERM() returns correct error codes during negative scenarios
  * 
  * **Test Group ID:** Basic: 01@n
- * **Test Case ID:** 011@n
+ * **Test Case ID:** 012@n
  * 
  * **Pre-Conditions:**@n
  * None.
