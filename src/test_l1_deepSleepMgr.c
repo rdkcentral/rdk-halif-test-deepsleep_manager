@@ -81,7 +81,7 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_INIT (void)
 
     // Variation 01: Call PLAT_DS_INIT() and check the result
     DeepSleep_Return_Status_t resultInit = PLAT_DS_INIT();
-    UT_ASSERT_EQUAL(resultInit, expectedInit);  // Assuming UT_ASSERT_EQUAL is a function in your UT framework
+    UT_ASSERT_EQUAL(resultInit, expectedInit);  
 
     // Variation 02: Call PLAT_DS_TERM() and check the result
     DeepSleep_Return_Status_t resultTerm = PLAT_DS_TERM();
@@ -89,7 +89,7 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_INIT (void)
 
     // Variation 03: Call PLAT_DS_INIT() and check the result
     DeepSleep_Return_Status_t resultInit = PLAT_DS_INIT();
-    UT_ASSERT_EQUAL(resultInit, expectedInit);  // Assuming UT_ASSERT_EQUAL is a function in your UT framework
+    UT_ASSERT_EQUAL(resultInit, expectedInit);  
 
     // Variation 04: Call PLAT_DS_TERM() and check the result
     DeepSleep_Return_Status_t resultTerm = PLAT_DS_TERM();
@@ -127,7 +127,7 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_INIT (void)
 
     // Variation 01: Call PLAT_DS_INIT() and check the result
     DeepSleep_Return_Status_t resultInit = PLAT_DS_INIT();
-    UT_ASSERT_EQUAL(resultInit, expectedInit);  // Assuming UT_ASSERT_EQUAL is a function in your UT framework
+    UT_ASSERT_EQUAL(resultInit, expectedInit);  
 
     // Variation 02: Call PLAT_DS_INIT() again and expect it to be already initialized
     DeepSleep_Return_Status_t resultAlreadyInitialized = PLAT_DS_INIT();
@@ -165,7 +165,7 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_TERM (void)
 
     // Variation 01: Call PLAT_DS_INIT() and check the result
     DeepSleep_Return_Status_t resultInit = PLAT_DS_INIT();
-    UT_ASSERT_EQUAL(resultInit, expectedInit);  // Assuming UT_ASSERT_EQUAL is a function in your UT framework
+    UT_ASSERT_EQUAL(resultInit, expectedInit);  
 
     // Variation 02: Call PLAT_DS_TERM() and check the result
     DeepSleep_Return_Status_t resultTerm = PLAT_DS_TERM();
@@ -203,7 +203,7 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_TERM (void)
 
     // Variation 01: Attempt to close interface before initialization and check the result
     DeepSleep_Return_Status_t resultNotInitialized1 = PLAT_DS_TERM();
-    UT_ASSERT_EQUAL(resultNotInitialized1, expectedNotInitialized);  // Assuming UT_ASSERT_EQUAL is a function in your UT framework
+    UT_ASSERT_EQUAL(resultNotInitialized1, expectedNotInitialized);  
 
     // Variation 02: Call PLAT_DS_INIT() and check the result
     DeepSleep_Return_Status_t resultInit = PLAT_DS_INIT();
@@ -248,7 +248,7 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_DeepSleepWakeup (void)
 
     // Variation 01: Call PLAT_DS_INIT() and check the result
     DeepSleep_Return_Status_t resultInit = PLAT_DS_INIT();
-    UT_ASSERT_EQUAL(resultInit, expectedInit);  // Assuming UT_ASSERT_EQUAL is a function in your UT framework
+    UT_ASSERT_EQUAL(resultInit, expectedInit);  
 
     // Variation 02: Call PLAT_DS_DeepSleepWakeup() and check the result
     DeepSleep_Return_Status_t resultWakeup = PLAT_DS_DeepSleepWakeup();
@@ -295,7 +295,7 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_DeepSleepWakeup (void)
 
     // Variation 01: Call PLAT_DS_DeepSleepWakeup() before initialization and check the result
     DeepSleep_Return_Status_t resultNotInitialized1 = PLAT_DS_DeepSleepWakeup();
-    UT_ASSERT_EQUAL(resultNotInitialized1, expectedNotInitialized);  // Assuming UT_ASSERT_EQUAL is a function in your UT framework
+    UT_ASSERT_EQUAL(resultNotInitialized1, expectedNotInitialized);  
 
     // Variation 02: Call PLAT_DS_INIT() and check the result
     DeepSleep_Return_Status_t resultInit = PLAT_DS_INIT();
@@ -345,7 +345,7 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_SetDeepSleep (void)
 
     // Variation 01: Call PLAT_DS_INIT() and check the result
     DeepSleep_Return_Status_t resultInit = PLAT_DS_INIT();
-    UT_ASSERT_EQUAL(resultInit, expectedInit);  // Assuming UT_ASSERT_EQUAL is a function in your UT framework
+    UT_ASSERT_EQUAL(resultInit, expectedInit);  
 
     // Parameters for PLAT_DS_SetDeepSleep
     int deep_sleep_timeout = 30;
@@ -418,7 +418,7 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_SetDeepSleep (void)
     isGPIOWakeup = false;
     networkStandby = false;
     DeepSleep_Return_Status_t resultNotInitialized1 = PLAT_DS_SetDeepSleep(deep_sleep_timeout, &isGPIOWakeup, networkStandby);
-    UT_ASSERT_EQUAL(resultNotInitialized1, expectedNotInitialized);  // Assuming UT_ASSERT_EQUAL is a function in your UT framework
+    UT_ASSERT_EQUAL(resultNotInitialized1, expectedNotInitialized);  
 
     // Variation 02: Call PLAT_DS_INIT() and check the result
     DeepSleep_Return_Status_t resultInit = PLAT_DS_INIT();
@@ -475,7 +475,7 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_GetLastWakeupReason (void)
 
     // Variation 01: Call PLAT_DS_INIT() and check the result
     DeepSleep_Return_Status_t resultInit = PLAT_DS_INIT();
-    UT_ASSERT_EQUAL(resultInit, expectedInit);  // Assuming UT_ASSERT_EQUAL is a function in your UT framework
+    UT_ASSERT_EQUAL(resultInit, expectedInit);  
 
     // Variation 02: Call PLAT_DS_GetLastWakeupReason() and check the result
     DeepSleep_Return_Status_t resultGetReason = PLAT_DS_GetLastWakeupReason(&wakeupReason1);
@@ -533,7 +533,7 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_GetLastWakeupReason (void)
 
     // Variation 01: Call PLAT_DS_GetLastWakeupReason() before initialization and check the result
     DeepSleep_Return_Status_t resultNotInitialized1 = PLAT_DS_GetLastWakeupReason(&wakeupReason);
-    UT_ASSERT_EQUAL(resultNotInitialized1, expectedNotInitialized);  // Assuming UT_ASSERT_EQUAL is a function in your UT framework
+    UT_ASSERT_EQUAL(resultNotInitialized1, expectedNotInitialized);  
 
     // Variation 02: Call PLAT_DS_INIT() and check the result
     DeepSleep_Return_Status_t resultInit = PLAT_DS_INIT();
@@ -589,7 +589,7 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_GetLastWakeupKeyCode (void)
 
     // Variation 01: Call PLAT_DS_INIT() and check the result
     DeepSleep_Return_Status_t resultInit = PLAT_DS_INIT();
-    UT_ASSERT_EQUAL(resultInit, expectedInit);  // Assuming UT_ASSERT_EQUAL is a function in your UT framework
+    UT_ASSERT_EQUAL(resultInit, expectedInit);  
 
     // Variation 02: Call PLAT_DS_GetLastWakeupKeyCode() and check the result
     DeepSleep_Return_Status_t resultGetKeyCode = PLAT_DS_GetLastWakeupKeyCode(&wakeupKeyCode1);
@@ -642,7 +642,7 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_GetLastWakeupKeyCode (void)
 
     // Variation 01: Call PLAT_DS_GetLastWakeupKeyCode() before initialization and check the result
     DeepSleep_Return_Status_t resultNotInitialized1 = PLAT_DS_GetLastWakeupKeyCode(&wakeupKeyCode);
-    UT_ASSERT_EQUAL(resultNotInitialized1, expectedNotInitialized);  // Assuming UT_ASSERT_EQUAL is a function in your UT framework
+    UT_ASSERT_EQUAL(resultNotInitialized1, expectedNotInitialized);  
 
     // Variation 02: Call PLAT_DS_INIT() and check the result
     DeepSleep_Return_Status_t resultInit = PLAT_DS_INIT();
