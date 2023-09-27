@@ -57,43 +57,49 @@ The following functions are expecting to test the module operates correctly.
 
 |Title|Details|
 |--|--|
-|Function Name|`test_l2_<filename>_<testName>`|
-|Description|TODO: Add the description of what is tested and why in this test|
-|Test Group|TODO: Basic (for L1): 01 / Module (L2): 02 / Stress (L2): 03)|
-|Test Case ID|TODO: Add the ID of the test case so that it can be logically tracked in the logs|
-|Priority|TODO: (Low/Med/High) Add the priority for the level of test, how important is the test to overall functionality|
+|Function Name|`test_l2_deepSleepMgr_PLAT_DS_SetDeepSleep`|
+|Description|Ensure PLAT_DS_SetDeepSleep() functionally works as intended when manual wake up is needed.|
+|Test Group|Module: 02@n |
+|Test Case ID|01@n|
+|Priority|High|
 
 **Pre-Conditions :**
 TODO: Add pre-conditions, if any
 
 **Dependencies :** TODO: Add dependencies for this test, if any
 
-**User Interaction :** TODO: Add any user interactions required during this test, if any
+**User Interaction :** User action is required to take the device up after it goes into deep sleep without a timeout set.
+
+@todo send out a mail on the points we need to discuss
 
 #### Test Procedure :
 
-TODO: Add the steps to run this test and add a line in the below table for each input variation tried in this function.
-
 | Variation / Steps | Description | Test Data | Expected Result | Notes|
 | -- | --------- | ---------- | -------------- | ----- |
-| 01 | First set of conditions | What is input data to be tested | How to gauge success, is it a success variable? | Should be successful |
+|01|Call PLAT_DS_INIT() - open interface | | DEEPSLEEP_SUCCESS | Should Pass |
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=30, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|04|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=true | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|04|Manual button press to trigger wake up from deepsleep | | | Should Pass |
+|05|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|06|Call PLAT_DS_TERM() - close interface | | DEEPSLEEP_SUCCESS | Should Pass |
 
 ### Test 2
 
 |Title|Details|
 |--|--|
-|Function Name|`test_l2_<filename>_<testName>`|
-|Description|TODO: Add the description of what is tested and why in this test|
-|Test Group|TODO: Basic (for L1): 01 / Module (L2): 02 / Stress (L2): 03)|
-|Test Case ID|TODO: Add the ID of the test case so that it can be logically tracked in the logs|
-|Priority|TODO: (Low/Med/High) Add the priority for the level of test, how important is the test to overall functionality|
+|Function Name|`test_l2_deepSleepMgr_PLAT_GetLastWakeupReason`|
+|Description|Ensure that PLAT_DS_GetLastWakeupReason returns the proper wake up reason.|
+|Test Group|Module: 02@n)|
+|Test Case ID|02@n|
+|Priority|High|
 
 **Pre-Conditions :**
 TODO: Add pre-conditions, if any
 
 **Dependencies :** TODO: Add dependencies for this test, if any
 
-**User Interaction :** TODO: Add any user interactions required during this test, if any
+**User Interaction :** User action is required to take the device up after it goes into deep sleep without a timeout set.
 
 #### Test Procedure :
 
@@ -101,4 +107,234 @@ TODO: Add the steps to run this test and add a line in the below table for each 
 
 | Variation / Steps | Description | Test Data | Expected Result | Notes|
 | -- | --------- | ---------- | -------------- | ----- |
-| 01 | First set of conditions | What is input data to be tested | How to gauge success, is it a success variable? | Should be successful |
+|Variation / Step|Description|Test Data|Expected Result|Notes|
+|:--:|---------|----------|--------------|-----|
+|01|Call PLAT_DS_INIT() - open interface | | DEEPSLEEP_SUCCESS | Should Pass |
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger IR wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupReason() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger RCU_BT wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupReason() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger RCU_RF4CE wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupReason() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger GPIO wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupReason() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger LAN wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupReason() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger WLAN wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupReason() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=30, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Let device wake up through timer |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupReason() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger through Front Panel wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupReason() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger Watchdog wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupReason() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger CEC wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupReason() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger Voice wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupReason() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger Presence wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupReason() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger Software Reset wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupReason() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger Thermal Reset wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupReason() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger Cold boot wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupReason() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger STR Auth Failure wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupReason() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger Warm Reset wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupReason() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+|05|Call PLAT_DS_TERM() - close interface | | DEEPSLEEP_SUCCESS | Should Pass |
+
+
+### Test 1
+
+|Title|Details|
+|--|--|
+|Function Name|`test_l2_deepSleepMgr_PLAT_DS_GetLastWakeupKeyCode`|
+|Description|Ensure PLAT_DS_SetDeepSleep() functionally works as intended when manual wake up is needed.|
+|Test Group|Module: 02@n |
+|Test Case ID|03@n|
+|Priority|High|
+
+**Pre-Conditions :**
+TODO: Add pre-conditions, if any
+
+**Dependencies :** TODO: Add dependencies for this test, if any
+
+**User Interaction :** User action is required to take the device up after it goes into deep sleep without a timeout set.
+
+#### Test Procedure :
+
+| Variation / Steps | Description | Test Data | Expected Result | Notes|
+| -- | --------- | ---------- | -------------- | ----- |
+|01|Call PLAT_DS_INIT() - open interface | | DEEPSLEEP_SUCCESS | Should Pass |
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger IR wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupKeyCode() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger RCU_BT wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupKeyCode() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger RCU_RF4CE wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupKeyCode() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger GPIO wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupKeyCode() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger LAN wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupKeyCode() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger WLAN wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupKeyCode() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=30, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Let device wake up through timer |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupKeyCode() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger through Front Panel wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupKeyCode() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger Watchdog wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupKeyCode() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger CEC wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupKeyCode() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger Voice wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupKeyCode() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger Presence wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupKeyCode() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger Software Reset wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupKeyCode() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger Thermal Reset wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupKeyCode() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger Cold boot wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupKeyCode() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger STR Auth Failure wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupKeyCode() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+
+|02|Call PLAT_DS_SetDeepSleep() - initiate device deep sleep | deep_sleep_timeout=0, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Manually trigger Warm Reset wake up |  |  | Should Pass |
+|03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
+|02|Call PLAT_DS_GetLastWakeupKeyCode() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
+
+|05|Call PLAT_DS_TERM() - close interface | | DEEPSLEEP_SUCCESS | Should Pass |

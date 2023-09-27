@@ -39,17 +39,59 @@
 #include <ut_log.h>
 
 /**
-* @brief TODO: Describe the object of the test
-*
-* TODO: Add the description of what is tested and why in this test
-*
-* **Test Group ID:** TODO: Add the group this test belongs to - Basic (for L1): 01 / Module (L2): 02 / Stress (L2): 03)@n
-* **Test Case ID:** TODO: Add the ID of the test case so that it can be logically tracked in the logs@n
-*
-* **Test Procedure:**
-* Refer to UT specification documentation [l2_module_test_specification.md](l2_module_test_specification.md)
-*/
-void test_l2_deepSleepMgr (void)
+ * @brief Test to make sure PLAT_DS_SetDeepSleep() wakes up properly when woken via user input.
+ *
+ * In this test, we set the wake up timer to 0 to enforce needing to wake up via user input (e.g. Remote key press).
+ *
+ * **Test Group ID:** Module: 02@n
+ * **Test Case ID:** 01@n
+ *
+ * **Test Procedure:**
+ * Refer to UT specification documentation [l2_module_test_specification.md](l2_module_test_specification.md)
+ * 
+ */
+void test_l2_deepSleepMgr_PLAT_DS_SetDeepSleep (void)
+{
+	UT_FAIL(This function needs to be implemented!); 
+}
+
+/**
+ * @brief Test to make sure PLAT_DS_GetLastWakeupReason() returns the proper value when woken up in the corresponding manner.
+ * 
+ * @todo Discuss the deepsleep wake up reasons that cannot be easily tested.
+ *
+ * Set deepsleep multiple times, and make sure that when the device is woken up in a specific manner (e.g. key press, motion, voice, timer, etc)
+ *          the device returns the corresponding wake up reason
+ *
+ * **Test Group ID:** Module: 02@n
+ * **Test Case ID:** 02@n
+ *
+ * **Test Procedure:**
+ * Refer to UT specification documentation [l2_module_test_specification.md](l2_module_test_specification.md)
+ * 
+ */
+void test_l2_deepSleepMgr_PLAT_DS_GetLastWakeupReason (void)
+{
+	UT_FAIL(This function needs to be implemented!); 
+}
+
+/**
+ * @brief Test to make sure PLAT_DS_GetLastWakeupKeyCode() returns the proper value when woken up in the corresponding manner.
+ * 
+ * @todo figure out how to test to make sure we get the proper keycode on return
+ * @todo Discuss the deepsleep wake up reasons that cannot be easily tested.
+ *
+ * Set deepsleep multiple times, and make sure that when the device is woken up in a specific manner (e.g. key press, motion, voice, timer, etc)
+ *          the device returns the corresponding wake up keycode
+ *
+ * **Test Group ID:** Module: 02@n
+ * **Test Case ID:** 03@n
+ *
+ * **Test Procedure:**
+ * Refer to UT specification documentation [l2_module_test_specification.md](l2_module_test_specification.md)
+ * 
+ */
+void test_l2_deepSleepMgr_PLAT_DS_GetLastWakeupKeyCode (void)
 {
 	UT_FAIL(This function needs to be implemented!); 
 }
