@@ -330,8 +330,6 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_DeepSleepWakeup (void)
  * **Test Group ID:** Basic: 01@n
  * **Test Case ID:** 007@n
  * 
- * @todo add UT log inbetween the deepsleep calls to specify how long the sleep is.
- * 
  * **Pre-Conditions:**@n
  * None.
  * 
@@ -462,7 +460,6 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_SetDeepSleep (void)
 
 /**
  * @brief Ensure PLAT_DS_GetLastWakeupReason() returns correct error codes during positive scenarios
- * @todo add wake up with timeout test
  * 
  * **Test Group ID:** Basic: 01@n
  * **Test Case ID:** 009@n
