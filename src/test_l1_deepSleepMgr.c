@@ -49,8 +49,12 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "deepSleepMgr.h"
 #include <ut.h>
 #include <ut_log.h>
+
+static int gTestGroup = 1;
+static int gTestID = 1;
 
 /**
  * @brief Ensure PLAT_DS_INIT() returns correct error codes during positive scenarios
@@ -122,6 +126,7 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_INIT (void)
  */
 void test_l1_deepSleepMgr_negative_PLAT_DS_INIT (void)
 {
+    gTestID = 2;
     UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
 	// Define expected results for each variation/step
     const DeepSleep_Return_Status_t expectedInit = DEEPSLEEPMGR_SUCCESS;
@@ -163,6 +168,7 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_INIT (void)
  */
 void test_l1_deepSleepMgr_positive_PLAT_DS_TERM (void)
 {
+    gTestID = 3;
     UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
 	// Define expected results for each variation/step
     const DeepSleep_Return_Status_t expectedInit = DEEPSLEEPMGR_SUCCESS;
@@ -204,6 +210,7 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_TERM (void)
 
 void test_l1_deepSleepMgr_negative_PLAT_DS_TERM (void)
 {
+    gTestID = 4;
     UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
 	// Define expected results for each variation/step
     const DeepSleep_Return_Status_t expectedNotInitialized = DEEPSLEEPMGR_NOT_INITIALIZED;
@@ -251,6 +258,7 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_TERM (void)
  */
 void test_l1_deepSleepMgr_positive_PLAT_DS_DeepSleepWakeup (void)
 {
+    gTestID = 5;
     UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
 	// Define expected results for each variation/step
     const DeepSleep_Return_Status_t expectedInit = DEEPSLEEPMGR_SUCCESS;
@@ -300,6 +308,7 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_DeepSleepWakeup (void)
  */
 void test_l1_deepSleepMgr_negative_PLAT_DS_DeepSleepWakeup (void)
 {
+    gTestID = 6;
     UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
 	 // Define expected results for each variation/step
     const DeepSleep_Return_Status_t expectedNotInitialized = DEEPSLEEPMGR_NOT_INITIALIZED;
@@ -349,6 +358,7 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_DeepSleepWakeup (void)
  */
 void test_l1_deepSleepMgr_positive_PLAT_DS_SetDeepSleep (void)
 {
+    gTestID = 7;
     UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
 	// Define expected results for each variation/step
     const DeepSleep_Return_Status_t expectedInit = DEEPSLEEPMGR_SUCCESS;
@@ -419,6 +429,7 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_SetDeepSleep (void)
  */
 void test_l1_deepSleepMgr_negative_PLAT_DS_SetDeepSleep (void)
 {
+    gTestID = 8;
     UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
 	// Define expected results for each variation/step
     const DeepSleep_Return_Status_t expectedNotInitialized = DEEPSLEEPMGR_NOT_INITIALIZED;
@@ -482,6 +493,7 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_SetDeepSleep (void)
  */
 void test_l1_deepSleepMgr_positive_PLAT_DS_GetLastWakeupReason (void)
 {
+    gTestID = 9;
     UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
 	// Define expected results for each variation/step
     const DeepSleep_Return_Status_t expectedInit = DEEPSLEEPMGR_SUCCESS;
@@ -542,6 +554,7 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_GetLastWakeupReason (void)
  */
 void test_l1_deepSleepMgr_negative_PLAT_DS_GetLastWakeupReason (void)
 {
+    gTestID = 10;
     UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
     // Define expected results for each variation/step
     const DeepSleep_Return_Status_t expectedNotInitialized = DEEPSLEEPMGR_NOT_INITIALIZED;
@@ -600,6 +613,7 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_GetLastWakeupReason (void)
 
 void test_l1_deepSleepMgr_positive_PLAT_DS_GetLastWakeupKeyCode (void)
 {
+    gTestID = 11;
     UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
 	 // Define expected results for each variation/step
     const DeepSleep_Return_Status_t expectedInit = DEEPSLEEPMGR_SUCCESS;
@@ -655,6 +669,7 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_GetLastWakeupKeyCode (void)
  */
 void test_l1_deepSleepMgr_negative_PLAT_DS_GetLastWakeupKeyCode (void)
 {
+    gTestID = 12;
     UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
 	 // Define expected results for each variation/step
     const DeepSleep_Return_Status_t expectedNotInitialized = DEEPSLEEPMGR_NOT_INITIALIZED;
