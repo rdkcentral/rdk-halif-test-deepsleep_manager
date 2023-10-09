@@ -1,16 +1,28 @@
 /**
- * @addtogroup HPK HPK
+ * @addtogroup HPK Hardware Porting Kit
  * @{
- * @addtogroup DEEPSLEEPMGR DEEPSLEEPMGR
- * @{
+ * @par The Hardware Porting Kit
+ * HPK is the next evolution of the well-defined Hardware Abstraction Layer
+ * (HAL), but augmented with more comprehensive documentation and test suites
+ * that OEM or SOC vendors can use to self-certify their ports before taking
+ * them to RDKM for validation or to an operator for final integration and
+ * deployment. The Hardware Porting Kit effectively enables an OEM and/or SOC
+ * vendor to self-certify their own Video Accelerator devices, with minimal RDKM
+ * assistance.
  *
  */
-
 /**
- * @defgroup DEEPSLEEPMGR_TESTS DEEPSLEEPMGR_TESTS
+ * @addtogroup Deepsleep_Manager Deep Sleep Manager
  * @{
- * @par
- * Unit Testing Suite for HDMI CEC HAL
+ * @par Application API Specification
+ */
+/**
+ * @defgroup Deepsleep_Manager_HALTEST Deep Sleep Manager HALTEST
+ * @{
+ */
+/**
+ * @defgroup Deepsleep_Mgr_HALTEST_L1 Deep Sleep Manager HALTEST L1
+ * @{
  */
 
 /**
@@ -715,6 +727,7 @@ int test_l1_deepSleepMgr_register ( void )
 
 	return 0;
 } 
-/** @} */ // End of DEEPSLEEPMGR_TESTS DEEPSLEEPMGR_TESTS
-/** @} */ // End of DEEPSLEEPMGR DEEPSLEEPMGR
+/** @} */ // End of Deepsleep_Mgr_HALTEST_L1
+/** @} */ // End of Deepsleep_Manager_HALTEST
+/** @} */ // End Deepsleep_Manager
 /** @} */ // End of HPK
