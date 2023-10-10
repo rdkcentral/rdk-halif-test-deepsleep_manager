@@ -87,12 +87,12 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_INIT (void)
     UT_ASSERT_EQUAL(resultTerm, expectedTerm);
 
     // Variation 03: Call PLAT_DS_INIT() and check the result
-    DeepSleep_Return_Status_t resultInit = PLAT_DS_INIT();
-    UT_ASSERT_EQUAL(resultInit, expectedInit);  
+    DeepSleep_Return_Status_t resultInit2 = PLAT_DS_INIT();
+    UT_ASSERT_EQUAL(resultInit2, expectedInit);  
 
     // Variation 04: Call PLAT_DS_TERM() and check the result
-    DeepSleep_Return_Status_t resultTerm = PLAT_DS_TERM();
-    UT_ASSERT_EQUAL(resultTerm, expectedTerm);
+    DeepSleep_Return_Status_t resultTerm2 = PLAT_DS_TERM();
+    UT_ASSERT_EQUAL(resultTerm2, expectedTerm);
     UT_LOG("\n Out  %s\n",__FUNCTION__);
 }
 
@@ -507,8 +507,8 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_GetLastWakeupReason (void)
     UT_ASSERT_EQUAL(resultGetReason, expectedGetReason);
 
     // Variation 03: Call PLAT_DS_GetLastWakeupReason() and check the result
-    DeepSleep_Return_Status_t resultGetReason = PLAT_DS_GetLastWakeupReason(&wakeupReason2);
-    UT_ASSERT_EQUAL(resultGetReason, expectedGetReason);
+    DeepSleep_Return_Status_t resultGetReason2 = PLAT_DS_GetLastWakeupReason(&wakeupReason2);
+    UT_ASSERT_EQUAL(resultGetReason2, expectedGetReason);
 
     // Variation 04: Verify that the returns are the same
     UT_ASSERT_EQUAL(wakeupReason1, wakeupReason2);
@@ -627,8 +627,8 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_GetLastWakeupKeyCode (void)
     UT_ASSERT_EQUAL(resultGetKeyCode, expectedGetKeyCode);
 
     // Variation 03: Call PLAT_DS_GetLastWakeupKeyCode() and check the result
-    DeepSleep_Return_Status_t resultGetKeyCode = PLAT_DS_GetLastWakeupKeyCode(&wakeupKeyCode2);
-    UT_ASSERT_EQUAL(resultGetKeyCode, expectedGetKeyCode);
+    DeepSleep_Return_Status_t resultGetKeyCode2 = PLAT_DS_GetLastWakeupKeyCode(&wakeupKeyCode2);
+    UT_ASSERT_EQUAL(resultGetKeyCode2, expectedGetKeyCode);
 
     // Variation 04: Verify that the returns contain the same value
     UT_ASSERT_EQUAL(wakeupKeyCode2.keyCode, wakeupKeyCode1.keyCode);
@@ -672,7 +672,7 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_GetLastWakeupKeyCode (void)
     const DeepSleep_Return_Status_t expectedTerm = DEEPSLEEPMGR_SUCCESS;
 
     // Placeholder for the wakeup keycode
-    int wakeupKeyCode;
+    DeepSleepMgr_WakeupKeyCode_Param_t wakeupKeyCode;
 
     // Variation 01: Call PLAT_DS_GetLastWakeupKeyCode() before initialization and check the result
     DeepSleep_Return_Status_t resultNotInitialized1 = PLAT_DS_GetLastWakeupKeyCode(&wakeupKeyCode);
