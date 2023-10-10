@@ -71,7 +71,7 @@ int test_l2_deepSleepMgr_register ( void )
 	}	
 
 	
-	UT_add_test( pSuite, "test_l2_deepSleepMgr" ,test_l2_deepSleepMgr );
+	UT_add_test( pSuite, "test_l2_deepSleepMgr" ,test_l2_deepSleepMgr_power );
 
 	return 0;
 } 
