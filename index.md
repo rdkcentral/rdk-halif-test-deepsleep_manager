@@ -13,13 +13,12 @@ Unless required by applicable law or agreed to in writing, software distributed 
 See the License for the specific language governing permissions and limitations under the License.
 -->
 
-# Unit Testing Suite For Deep Sleep Manager CEC HAL
+# Unit Testing Suite For Deep Sleep Manager HAL
 
 The following documents should be references to provide specific information on the tests required for this module.
 
 [Documentation can be found under "docs/pages" in this repository](./docs/pages)
 
--## Index of important Documents
--
--- [Deep Sleep Manager L2 Test Specification Document](./docs/pages/deepsleepmgr_l2_module_test_specification.md)
+## Index of important Documents
 
+[Deep Sleep Manager L2 Test Specification Document](./docs/pages/l2_module_test_specification_template.md "Deep Sleep Manager L2 Test Specification Document")

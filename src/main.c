@@ -18,6 +18,34 @@
 */
 
 /**
+ * @addtogroup HPK Hardware Porting Kit
+ * @{
+ * @par The Hardware Porting Kit
+ * HPK is the next evolution of the well-defined Hardware Abstraction Layer
+ * (HAL), but augmented with more comprehensive documentation and test suites
+ * that OEM or SOC vendors can use to self-certify their ports before taking
+ * them to RDKM for validation or to an operator for final integration and
+ * deployment. The Hardware Porting Kit effectively enables an OEM and/or SOC
+ * vendor to self-certify their own Video Accelerator devices, with minimal RDKM
+ * assistance.
+ *
+ */
+/**
+ * @addtogroup Deepsleep_Manager Deep Sleep Manager
+ * @{
+ * @par Application API Specification
+ */
+/**
+ * @defgroup Deepsleep_Manager_HALTEST Deep Sleep Manager HALTEST
+ * @{
+ */
+/**
+ * @defgroup Deepsleep_Mgr_HALTEST_MAIN Deep Sleep Manager HALTEST MAIN
+ * @{
+ */
+
+
+/**
 * @file TODO: main.c
 * @page module_name TODO: Required field, name of the main module
 * @subpage sub_page_name TODO: Add a function group if relevant
@@ -66,3 +94,8 @@ int main(int argc, char** argv)
 	return 0;
 
 }
+
+/** @} */ // End of Deepsleep_Mgr_HALTEST_MAIN
+/** @} */ // End of Deepsleep_Manager_HALTEST
+/** @} */ // End Deepsleep_Manager
+/** @} */ // End of HPK

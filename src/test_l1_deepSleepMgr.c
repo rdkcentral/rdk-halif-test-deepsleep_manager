@@ -17,7 +17,7 @@
  * @par Application API Specification
  */
 /**
- * @defgroup Deepsleep_Manager_HALTEST Deep Sleep Manager HALTEST
+ * @addtogroup Deepsleep_Manager_HALTEST Deep Sleep Manager HALTEST
  * @{
  */
 /**

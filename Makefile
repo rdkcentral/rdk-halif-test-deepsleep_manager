@@ -1,3 +1,4 @@
+#* ******************************************************************************
 # * If not stated otherwise in this file or this component's LICENSE file the
 # * following copyright and licenses apply:
 # *
@@ -22,7 +23,7 @@
 #*   ** @file        : makefile
 #*   ** @date        : 20/05/2022
 #*   **
-#*   ** @brief       : Makefile for UT
+#*   ** @brief       : Makefile for ut
 #*   ** 
 #*
 #* ******************************************************************************
