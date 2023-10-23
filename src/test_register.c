@@ -48,6 +48,22 @@
 
 
 /**
+* @file register.c
+* @page Deepsleep_Mgr_HALTEST_REGISTER
+*
+* ## Module's Role
+* This module includes the main file for L1 and L2 tests
+* This is to ensure that the API meets the operational requirements of the Power Manager across all vendors
+*
+* **Pre-Conditions:**  None@n
+* **Dependencies:** None@n
+*
+* Ref to API Definition specification documentation : [deepsleep-manager_halSpec.md](../../../docs/deepsleep-manager_halSpec.md)
+*/
+
+
+
+/**
  * @brief Register test functionality
  * 
  */
