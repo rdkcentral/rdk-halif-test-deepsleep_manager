@@ -19,6 +19,7 @@ The following documents should be references to provide specific information on 
 
 [Documentation can be found under "docs/pages" in this repository](./docs/pages)
 
-## Index of important Documents
+-## Index of important Documents
+-
+-- [Deep Sleep Manager L2 Test Specification Document](./docs/pages/deepsleepmgr_l2_module_test_specification.md)
 
-[Deep Sleep Manager L2 Test Specification Document](./docs/pages/l2_module_test_specification_template.md "Deep Sleep Manager L2 Test Specification Document")
