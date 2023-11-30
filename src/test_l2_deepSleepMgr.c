@@ -1,5 +1,5 @@
 /**
-*  If not stated otherwise in this file or this component's Licenses.txt
+*  If not stated otherwise in this file or this component's LICENSE
 *  file the following copyright and licenses apply:
 *
 *  Copyright 2022 RDK Management
@@ -45,16 +45,16 @@
  */
 
 /**
-* @file @todo: test_l2_deepSleepMgr.c
-* @page module_name @todo: Required field, name of the main module
-* @subpage sub_page_name @todo: Add a function group if relevant
+* @file TODO: test_l2_deepSleepMgr.c
+* @page module_name TODO: Required field, name of the main module
+* @subpage sub_page_name TODO: Add a function group if relevant
 *
 * ## Module's Role
-* @todo: Explain the module's role in the system in general
+* TODO: Explain the module's role in the system in general
 * This is to ensure that the API meets the operational requirements of the module across all vendors.
 *
-* **Pre-Conditions:**  @todo: Add pre-conditions if any@n
-* **Dependencies:** @todo: Add dependencies if any@n
+* **Pre-Conditions:**  TODO: Add pre-conditions if any@n
+* **Dependencies:** TODO: Add dependencies if any@n
 *
 * Ref to API Definition specification documentation : [halSpec.md](../../../docs/halSpec.md)
 */
@@ -66,12 +66,12 @@
 #include <ut_log.h>
 
 /**
-* @brief @todo: Describe the object of the test
+* @brief TODO: Describe the object of the test
 *
-* @todo: Add the description of what is tested and why in this test
+* TODO: Add the description of what is tested and why in this test
 *
-* **Test Group ID:** @todo: Add the group this test belongs to - Basic (for L1): 01 / Module (L2): 02 / Stress (L2): 03)@n
-* **Test Case ID:** @todo: Add the ID of the test case so that it can be logically tracked in the logs@n
+* **Test Group ID:** TODO: Add the group this test belongs to - Basic (for L1): 01 / Module (L2): 02 / Stress (L2): 03)@n
+* **Test Case ID:** TODO: Add the ID of the test case so that it can be logically tracked in the logs@n
 *
 * **Test Procedure:**
 * Refer to UT specification documentation [l2_module_test_specification.md](l2_module_test_specification.md)

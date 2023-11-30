@@ -1,5 +1,5 @@
 /**
-*  If not stated otherwise in this file or this component's Licenses.txt
+*  If not stated otherwise in this file or this component's LICENSE
 *  file the following copyright and licenses apply:
 *
 *  Copyright 2022 RDK Management
@@ -50,7 +50,7 @@
 *
 * ## Module's Role
 * This module includes the main file for L1 and L2 tests
-* This is to ensure that the API meets the operational requirements of the Power Manager across all vendors
+* This is to ensure that the API meets the operational requirements of the Deepsleep Manager across all vendors
 *
 * **Pre-Conditions:**  None@n
 * **Dependencies:** None@n

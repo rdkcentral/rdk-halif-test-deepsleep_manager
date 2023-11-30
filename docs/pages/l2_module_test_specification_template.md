@@ -41,7 +41,7 @@ This document describes the level 2 testing suite for the <component> module.
   - `GTest` \- Google Test Suit <https://google.github.io/googletest>
   - `CUnit` \- C Testing Suit <http://cunit.sourceforge.net/>
   - `Unity` \- C Embedded Testing Suit <http://www.throwtheswitch.org/unity>
-  - `ut-core` \- Common Testing Framework <https://github.com/comcast-sky/rdk-components-ut-core>, which wraps a open-source framework that can be expanded to the requirements for future comcast-sky framework.
+  - `ut-core` \- Common Testing Framework <https://github.com/rdkcentral/ut-core>, which wraps a open-source framework that can be expanded based on future requirements.
 
 ### References
 
