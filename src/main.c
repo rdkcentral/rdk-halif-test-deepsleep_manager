@@ -55,7 +55,7 @@
 * **Pre-Conditions:**  None@n
 * **Dependencies:** None@n
 *
-* Ref to API Definition specification documentation : [deepsleep-manager_halSpec.md](../../../docs/deepsleep-manager_halSpec.md)
+* Ref to API Definition specification documentation : [deepsleep-manager_halSpec.md](../../docs/deepsleep-manager_halSpec.md)
 */
 
 #include <ut.h>

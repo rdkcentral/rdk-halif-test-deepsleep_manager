@@ -30,33 +30,39 @@
  * assistance.
  *
  */
+
 /**
  * @addtogroup Deepsleep_Manager Deep Sleep Manager
  * @{
- * @par Application API Specification
+ *
  */
+
 /**
  * @addtogroup Deepsleep_Manager_HALTEST Deep Sleep Manager HALTEST
  * @{
  */
+
 /**
  * @defgroup Deepsleep_Mgr_HALTEST_L1 Deep Sleep Manager HALTEST L1
  * @{
+ * @parblock
+ *
+ * ### L1 Tests for Deep Sleep Manager HAL :
+ *
+ * This module includes Level 1 functional tests (success and failure scenarios)
+ *
+ * **Pre-Conditions:**  None@n
+ * **Dependencies:** None@n
+ *
+ * Ref to API Definition specification documentation : [deepsleep-manager_halSpec.md](../../docs/pages/deepsleep-manager_halSpec.md)
+ *
+ * @endparblock
  */
 
 /**
-* @file test_l1_deepSleepMgr.c
-* @page DEEPSLEEPMGR_L1_Tests DEEPSLEEPMGR Level 1 Tests
-*
-* ## Module's Role
-* This module includes Level 1 functional tests (success and failure scenarios)
-* This is to ensure that the API meets the operational requirements of the HDMI CEC across all vendors
-*
-* **Pre-Conditions:**  None@n
-* **Dependencies:** None@n
-*
-* Ref to API Definition specification documentation : [deepsleep-manager_halSpec.md](../../../docs/pages/deepsleep-manager_halSpec.md)
-*/
+ * @file test_l1_deepSleepMgr.c
+ *
+ */
 
 #include <string.h>
 #include <stdlib.h>

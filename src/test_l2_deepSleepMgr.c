@@ -40,7 +40,7 @@
  * @{
  */
 /**
- * @defgroup Deepsleep_Mgr_HALTEST_L2 Deep Sleep Manager HALTEST L1
+ * @defgroup Deepsleep_Mgr_HALTEST_L2 Deep Sleep Manager HALTEST L2
  * @{
  */
 
