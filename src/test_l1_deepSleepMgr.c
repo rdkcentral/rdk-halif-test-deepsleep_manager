@@ -43,7 +43,7 @@
  */
 
 /**
- * @defgroup Deepsleep_Mgr_HALTEST_L1 Deep Sleep Manager HALTEST L1
+ * @defgroup Deepsleep_Mgr_HALTEST_L1 Deep Sleep Manager HALTEST L1 File
  * @{
  * @parblock
  *

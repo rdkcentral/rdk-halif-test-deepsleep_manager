@@ -30,31 +30,37 @@
  * assistance.
  *
  */
+
 /**
  * @addtogroup Deepsleep_Manager Deep Sleep Manager
  * @{
  * @par Application API Specification
  */
+
 /**
  * @defgroup Deepsleep_Manager_HALTEST Deep Sleep Manager HALTEST
  * @{
+ *
  */
+
 /**
- * @defgroup Deepsleep_Mgr_HALTEST_MAIN Deep Sleep Manager HALTEST MAIN
+ * @defgroup Deepsleep_Mgr_HALTEST_MAIN Deep Sleep Manager HALTEST Main File
  * @{
+ * @parblock
+ * ### Tests for Deepsleep Manager HAL :
+ *
+ * This is to ensure that the APIs meets the operational requirements of the module across all vendors.
+ *
+ * **Pre-Conditions:**  None@n
+ * **Dependencies:** None@n
+ *
+ * Ref to API Definition specification documentation : [deepsleep-manager_halSpec.md](../../docs/pages/deepsleep-manager_halSpec.md)
+ * @endparblock
  */
 
 /**
 * @file main.c
 *
-* ### Tests for Deepsleep Manager HAL :
-*
-* This is to ensure that the APIs meets the operational requirements of the module across all vendors.
-*
-* **Pre-Conditions:**  None@n
-* **Dependencies:** None@n
-*
-* Ref to API Definition specification documentation : [deepsleep-manager_halSpec.md](../../docs/pages/deepsleep-manager_halSpec.md)
 */
 
 #include <ut.h>
