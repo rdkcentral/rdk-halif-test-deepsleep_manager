@@ -56,7 +56,7 @@
 * **Pre-Conditions:**  TODO: Add pre-conditions if any@n
 * **Dependencies:** TODO: Add dependencies if any@n
 *
-* Ref to API Definition specification documentation : [halSpec.md](../../../docs/halSpec.md)
+* Ref to API Definition specification documentation : [deepsleep-manager_halSpec.md](../../docs/pages/deepsleep-manager_halSpec.md)
 */
 
 #include <string.h>

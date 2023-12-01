@@ -46,16 +46,15 @@
 
 /**
 * @file main.c
-* @page Deepsleep_Mgr_HALTEST_MAIN
 *
-* ## Module's Role
-* This module includes the main file for L1 and L2 tests
-* This is to ensure that the API meets the operational requirements of the Deepsleep Manager across all vendors
+* ### Tests for Deepsleep Manager HAL :
+*
+* This is to ensure that the APIs meets the operational requirements of the module across all vendors.
 *
 * **Pre-Conditions:**  None@n
 * **Dependencies:** None@n
 *
-* Ref to API Definition specification documentation : [deepsleep-manager_halSpec.md](../../docs/deepsleep-manager_halSpec.md)
+* Ref to API Definition specification documentation : [deepsleep-manager_halSpec.md](../../docs/pages/deepsleep-manager_halSpec.md)
 */
 
 #include <ut.h>

@@ -49,7 +49,7 @@
  *
  * ### L1 Tests for Deep Sleep Manager HAL :
  *
- * This module includes Level 1 functional tests (success and failure scenarios)
+ * This module includes Level 1 functional tests (success and failure scenarios) for all APIs of Deepsleep Manager HAL
  *
  * **Pre-Conditions:**  None@n
  * **Dependencies:** None@n
