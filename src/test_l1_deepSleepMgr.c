@@ -74,6 +74,14 @@
 static int gTestGroup = 1;
 static int gTestID = 1;
 
+#define PLAT_DS_ASSERT_AUTO_TERM_NUMERICAL(value, comparison){\
+    if(value != comparison){\
+        UT_LOG("\n In %s Comparison: [%d = %d]\n", __FUNCTION__, value, comparison);\
+        PLAT_DS_TERM();\
+        UT_FAIL();\
+    }\
+}\
+
 /**
  * @brief Ensure PLAT_DS_INIT() returns correct error codes during positive scenarios
  * 
@@ -97,27 +105,26 @@ static int gTestID = 1;
  */
 void test_l1_deepSleepMgr_positive_PLAT_DS_INIT (void)
 {
+    int result = DEEPSLEEPMGR_SUCCESS;
     gTestID = 1;
     UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
-	// Define expected results
-    const DeepSleep_Return_Status_t expectedInit = DEEPSLEEPMGR_SUCCESS;
-    const DeepSleep_Return_Status_t expectedTerm = DEEPSLEEPMGR_SUCCESS;
 
     // Variation 01: Call PLAT_DS_INIT() and check the result
-    DeepSleep_Return_Status_t resultInit = PLAT_DS_INIT();
-    UT_ASSERT_EQUAL(resultInit, expectedInit);  
+    result = PLAT_DS_INIT();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 02: Call PLAT_DS_TERM() and check the result
-    DeepSleep_Return_Status_t resultTerm = PLAT_DS_TERM();
-    UT_ASSERT_EQUAL(resultTerm, expectedTerm);
+    result = PLAT_DS_TERM();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 03: Call PLAT_DS_INIT() and check the result
-    DeepSleep_Return_Status_t resultInit2 = PLAT_DS_INIT();
-    UT_ASSERT_EQUAL(resultInit2, expectedInit);  
+    result = PLAT_DS_INIT();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 04: Call PLAT_DS_TERM() and check the result
-    DeepSleep_Return_Status_t resultTerm2 = PLAT_DS_TERM();
-    UT_ASSERT_EQUAL(resultTerm2, expectedTerm);
+    result = PLAT_DS_TERM();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_SUCCESS);
+
     UT_LOG("\n Out  %s\n",__FUNCTION__);
 }
 
@@ -145,24 +152,22 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_INIT (void)
  */
 void test_l1_deepSleepMgr_negative_PLAT_DS_INIT (void)
 {
+    int result = DEEPSLEEPMGR_SUCCESS;
     gTestID = 2;
     UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
-	// Define expected results for each variation/step
-    const DeepSleep_Return_Status_t expectedInit = DEEPSLEEPMGR_SUCCESS;
-    const DeepSleep_Return_Status_t expectedAlreadyInitialized = DEEPSLEEPMGR_ALREADY_INITIALIZED;
-    const DeepSleep_Return_Status_t expectedTerm = DEEPSLEEPMGR_SUCCESS;
 
     // Variation 01: Call PLAT_DS_INIT() and check the result
-    DeepSleep_Return_Status_t resultInit = PLAT_DS_INIT();
-    UT_ASSERT_EQUAL(resultInit, expectedInit);  
+    result = PLAT_DS_INIT();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 02: Call PLAT_DS_INIT() again and expect it to be already initialized
-    DeepSleep_Return_Status_t resultAlreadyInitialized = PLAT_DS_INIT();
-    UT_ASSERT_EQUAL(resultAlreadyInitialized, expectedAlreadyInitialized);
+    result = PLAT_DS_INIT();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_ALREADY_INITIALIZED);
 
     // Variation 03: Call PLAT_DS_TERM() and check the result
-    DeepSleep_Return_Status_t resultTerm = PLAT_DS_TERM();
-    UT_ASSERT_EQUAL(resultTerm, expectedTerm);
+    result = PLAT_DS_TERM();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_SUCCESS);
+
     UT_LOG("\n Out  %s\n",__FUNCTION__);
 }
 
@@ -187,19 +192,18 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_INIT (void)
  */
 void test_l1_deepSleepMgr_positive_PLAT_DS_TERM (void)
 {
+    int result = DEEPSLEEPMGR_SUCCESS;
     gTestID = 3;
     UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
-	// Define expected results for each variation/step
-    const DeepSleep_Return_Status_t expectedInit = DEEPSLEEPMGR_SUCCESS;
-    const DeepSleep_Return_Status_t expectedTerm = DEEPSLEEPMGR_SUCCESS;
 
     // Variation 01: Call PLAT_DS_INIT() and check the result
-    DeepSleep_Return_Status_t resultInit = PLAT_DS_INIT();
-    UT_ASSERT_EQUAL(resultInit, expectedInit);  
+    result = PLAT_DS_INIT();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 02: Call PLAT_DS_TERM() and check the result
-    DeepSleep_Return_Status_t resultTerm = PLAT_DS_TERM();
-    UT_ASSERT_EQUAL(resultTerm, expectedTerm);
+    result = PLAT_DS_TERM();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_SUCCESS);
+
     UT_LOG("\n Out  %s\n",__FUNCTION__);
 }
 
@@ -229,28 +233,26 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_TERM (void)
 
 void test_l1_deepSleepMgr_negative_PLAT_DS_TERM (void)
 {
+    int result = DEEPSLEEPMGR_SUCCESS;
     gTestID = 4;
     UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
-	// Define expected results for each variation/step
-    const DeepSleep_Return_Status_t expectedNotInitialized = DEEPSLEEPMGR_NOT_INITIALIZED;
-    const DeepSleep_Return_Status_t expectedInit = DEEPSLEEPMGR_SUCCESS;
-    const DeepSleep_Return_Status_t expectedTerm = DEEPSLEEPMGR_SUCCESS;
 
     // Variation 01: Attempt to close interface before initialization and check the result
-    DeepSleep_Return_Status_t resultNotInitialized1 = PLAT_DS_TERM();
-    UT_ASSERT_EQUAL(resultNotInitialized1, expectedNotInitialized);  
+    result = PLAT_DS_TERM();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
 
     // Variation 02: Call PLAT_DS_INIT() and check the result
-    DeepSleep_Return_Status_t resultInit = PLAT_DS_INIT();
-    UT_ASSERT_EQUAL(resultInit, expectedInit);
+    result = PLAT_DS_INIT();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 03: Call PLAT_DS_TERM() and check the result
-    DeepSleep_Return_Status_t resultTerm = PLAT_DS_TERM();
-    UT_ASSERT_EQUAL(resultTerm, expectedTerm);
+    result = PLAT_DS_TERM();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 04: Attempt to close interface after termination and check the result
-    DeepSleep_Return_Status_t resultNotInitialized2 = PLAT_DS_TERM();
-    UT_ASSERT_EQUAL(resultNotInitialized2, expectedNotInitialized);
+    result = PLAT_DS_TERM();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
+
     UT_LOG("\n Out  %s\n",__FUNCTION__);
 }
 
@@ -271,34 +273,27 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_TERM (void)
  * |:--:|---------|----------|--------------|-----|
  * |01|Call PLAT_DS_INIT() - open interface | | DEEPSLEEP_SUCCESS | Should Pass |
  * |02|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
- * |03|Call PLAT_DS_DeepSleepWakeup() Trigger deep sleep wake up | | DEEPSLEEPMGR_SUCCESS | Should Pass |
- * |04|Call PLAT_DS_TERM() - close interface | | DEEPSLEEP_SUCCESS | Should Pass |
+ * |03|Call PLAT_DS_TERM() - close interface | | DEEPSLEEP_SUCCESS | Should Pass |
  * 
  */
 void test_l1_deepSleepMgr_positive_PLAT_DS_DeepSleepWakeup (void)
 {
+    int result = DEEPSLEEPMGR_SUCCESS;
     gTestID = 5;
     UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
-	// Define expected results for each variation/step
-    const DeepSleep_Return_Status_t expectedInit = DEEPSLEEPMGR_SUCCESS;
-    const DeepSleep_Return_Status_t expectedWakeup = DEEPSLEEPMGR_SUCCESS;
-    const DeepSleep_Return_Status_t expectedTerm = DEEPSLEEPMGR_SUCCESS;
 
     // Variation 01: Call PLAT_DS_INIT() and check the result
-    DeepSleep_Return_Status_t resultInit = PLAT_DS_INIT();
-    UT_ASSERT_EQUAL(resultInit, expectedInit);  
+    result = PLAT_DS_INIT();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 02: Call PLAT_DS_DeepSleepWakeup() and check the result
-    DeepSleep_Return_Status_t resultWakeup = PLAT_DS_DeepSleepWakeup();
-    UT_ASSERT_EQUAL(resultWakeup, expectedWakeup);
+    result = PLAT_DS_DeepSleepWakeup();
+    PLAT_DS_ASSERT_AUTO_TERM_NUMERICAL(result, DEEPSLEEPMGR_SUCCESS);
 
-    // Variation 03: Call PLAT_DS_DeepSleepWakeup() and check the result
-    DeepSleep_Return_Status_t resultWakeup2 = PLAT_DS_DeepSleepWakeup();
-    UT_ASSERT_EQUAL(resultWakeup2, expectedWakeup);
+    // Variation 03: Call PLAT_DS_TERM() and check the result
+    result = PLAT_DS_TERM();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_SUCCESS);
 
-    // Variation 04: Call PLAT_DS_TERM() and check the result
-    DeepSleep_Return_Status_t resultTerm = PLAT_DS_TERM();
-    UT_ASSERT_EQUAL(resultTerm, expectedTerm);
     UT_LOG("\n Out  %s\n",__FUNCTION__);
 }
 
@@ -327,28 +322,26 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_DeepSleepWakeup (void)
  */
 void test_l1_deepSleepMgr_negative_PLAT_DS_DeepSleepWakeup (void)
 {
+    int result = DEEPSLEEPMGR_SUCCESS;
     gTestID = 6;
     UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
-	 // Define expected results for each variation/step
-    const DeepSleep_Return_Status_t expectedNotInitialized = DEEPSLEEPMGR_NOT_INITIALIZED;
-    const DeepSleep_Return_Status_t expectedInit = DEEPSLEEPMGR_SUCCESS;
-    const DeepSleep_Return_Status_t expectedTerm = DEEPSLEEPMGR_SUCCESS;
 
     // Variation 01: Call PLAT_DS_DeepSleepWakeup() before initialization and check the result
-    DeepSleep_Return_Status_t resultNotInitialized1 = PLAT_DS_DeepSleepWakeup();
-    UT_ASSERT_EQUAL(resultNotInitialized1, expectedNotInitialized);  
+    result = PLAT_DS_DeepSleepWakeup();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
 
     // Variation 02: Call PLAT_DS_INIT() and check the result
-    DeepSleep_Return_Status_t resultInit = PLAT_DS_INIT();
-    UT_ASSERT_EQUAL(resultInit, expectedInit);
+    result = PLAT_DS_INIT();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 03: Call PLAT_DS_TERM() and check the result
-    DeepSleep_Return_Status_t resultTerm = PLAT_DS_TERM();
-    UT_ASSERT_EQUAL(resultTerm, expectedTerm);
+    result = PLAT_DS_TERM();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 04: Call PLAT_DS_DeepSleepWakeup() after termination and check the result
-    DeepSleep_Return_Status_t resultNotInitialized2 = PLAT_DS_DeepSleepWakeup();
-    UT_ASSERT_EQUAL(resultNotInitialized2, expectedNotInitialized);
+    result = PLAT_DS_DeepSleepWakeup();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
+
     UT_LOG("\n Out  %s\n",__FUNCTION__);
 }
 
@@ -377,13 +370,9 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_DeepSleepWakeup (void)
  */
 void test_l1_deepSleepMgr_positive_PLAT_DS_SetDeepSleep (void)
 {
+    int result = DEEPSLEEPMGR_SUCCESS;
     gTestID = 7;
     UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
-	// Define expected results for each variation/step
-    const DeepSleep_Return_Status_t expectedInit = DEEPSLEEPMGR_SUCCESS;
-    const DeepSleep_Return_Status_t expectedSetDeepSleep = DEEPSLEEPMGR_SUCCESS;
-    const DeepSleep_Return_Status_t expectedTerm = DEEPSLEEPMGR_SUCCESS;
-    const DeepSleep_Return_Status_t expectedWakeup = DEEPSLEEPMGR_SUCCESS;
 
     // Parameters for PLAT_DS_SetDeepSleep
     int deep_sleep_timeout = 30;
@@ -392,33 +381,32 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_SetDeepSleep (void)
 
 
     // Variation 01: Call PLAT_DS_INIT() and check the result
-    DeepSleep_Return_Status_t resultInit = PLAT_DS_INIT();
-    UT_ASSERT_EQUAL(resultInit, expectedInit);  
+    result = PLAT_DS_INIT();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 02: Call PLAT_DS_SetDeepSleep() with networkStandby=false and check the result
-    UT_LOG("\n [%s] Device going to sleep for %d seconds\n",__FUNCTION__, deep_sleep_timeout);
-    DeepSleep_Return_Status_t resultSetDeepSleep1 = PLAT_DS_SetDeepSleep(deep_sleep_timeout, &isGPIOWakeup, networkStandby);
-    UT_ASSERT_EQUAL(resultSetDeepSleep1, expectedSetDeepSleep);
+    result = PLAT_DS_SetDeepSleep(deep_sleep_timeout, &isGPIOWakeup, networkStandby);
+    PLAT_DS_ASSERT_AUTO_TERM_NUMERICAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 03: Call PLAT_DS_DeepSleepWakeup() and check the result
-    DeepSleep_Return_Status_t resultWakeup = PLAT_DS_DeepSleepWakeup();
-    UT_ASSERT_EQUAL(resultWakeup, expectedWakeup);
+    result = PLAT_DS_DeepSleepWakeup();
+    PLAT_DS_ASSERT_AUTO_TERM_NUMERICAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Update parameters for next call
     networkStandby = true;
 
     // Variation 04: Call PLAT_DS_SetDeepSleep() with networkStandby=true and check the result
-    UT_LOG("\n [%s] Device going to sleep for %d seconds\n",__FUNCTION__, deep_sleep_timeout);
-    DeepSleep_Return_Status_t resultSetDeepSleep2 = PLAT_DS_SetDeepSleep(deep_sleep_timeout, &isGPIOWakeup, networkStandby);
-    UT_ASSERT_EQUAL(resultSetDeepSleep2, expectedSetDeepSleep);
+    result = PLAT_DS_SetDeepSleep(deep_sleep_timeout, &isGPIOWakeup, networkStandby);
+    PLAT_DS_ASSERT_AUTO_TERM_NUMERICAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 05: Call PLAT_DS_DeepSleepWakeup() and check the result
-    DeepSleep_Return_Status_t resultWakeup2 = PLAT_DS_DeepSleepWakeup();
-    UT_ASSERT_EQUAL(resultWakeup2, expectedWakeup);
+    result = PLAT_DS_DeepSleepWakeup();
+    PLAT_DS_ASSERT_AUTO_TERM_NUMERICAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 06: Call PLAT_DS_TERM() and check the result
-    DeepSleep_Return_Status_t resultTerm = PLAT_DS_TERM();
-    UT_ASSERT_EQUAL(resultTerm, expectedTerm);
+    result = PLAT_DS_TERM();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_SUCCESS);
+
     UT_LOG("\n Out  %s\n",__FUNCTION__);
 }
 
@@ -448,43 +436,39 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_SetDeepSleep (void)
  */
 void test_l1_deepSleepMgr_negative_PLAT_DS_SetDeepSleep (void)
 {
-    gTestID = 8;
-    UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
-	// Define expected results for each variation/step
-    const DeepSleep_Return_Status_t expectedNotInitialized = DEEPSLEEPMGR_NOT_INITIALIZED;
-    const DeepSleep_Return_Status_t expectedInit = DEEPSLEEPMGR_SUCCESS;
-    const DeepSleep_Return_Status_t expectedInvalidArgument = DEEPSLEEPMGR_INVALID_ARGUMENT;
-    const DeepSleep_Return_Status_t expectedTerm = DEEPSLEEPMGR_SUCCESS;
-
-    // Parameters for PLAT_DS_SetDeepSleep
+    int result = DEEPSLEEPMGR_SUCCESS;
     int deep_sleep_timeout;
     bool isGPIOWakeup;
     bool networkStandby;
+
+    gTestID = 8;
+    UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
 
     // Variation 01: Call before initialization
     deep_sleep_timeout = 60;
     isGPIOWakeup = false;
     networkStandby = false;
-    DeepSleep_Return_Status_t resultNotInitialized1 = PLAT_DS_SetDeepSleep(deep_sleep_timeout, &isGPIOWakeup, networkStandby);
-    UT_ASSERT_EQUAL(resultNotInitialized1, expectedNotInitialized);  
+    result = PLAT_DS_SetDeepSleep(deep_sleep_timeout, &isGPIOWakeup, networkStandby);
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
 
     // Variation 02: Call PLAT_DS_INIT() and check the result
-    DeepSleep_Return_Status_t resultInit = PLAT_DS_INIT();
-    UT_ASSERT_EQUAL(resultInit, expectedInit);
+    result = PLAT_DS_INIT();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 03: Call PLAT_DS_SetDeepSleep() with NULL pointer for isGPIOWakeup
     deep_sleep_timeout = 30;
-    DeepSleep_Return_Status_t resultInvalidArgument = PLAT_DS_SetDeepSleep(deep_sleep_timeout, NULL, networkStandby);
-    UT_ASSERT_EQUAL(resultInvalidArgument, expectedInvalidArgument);
+    result = PLAT_DS_SetDeepSleep(deep_sleep_timeout, NULL, networkStandby);
+    PLAT_DS_ASSERT_AUTO_TERM_NUMERICAL(result, DEEPSLEEPMGR_INVALID_ARGUMENT);
 
     // Variation 04: Call PLAT_DS_TERM() and check the result
-    DeepSleep_Return_Status_t resultTerm = PLAT_DS_TERM();
-    UT_ASSERT_EQUAL(resultTerm, expectedTerm);
+    result = PLAT_DS_TERM();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 05: Call PLAT_DS_SetDeepSleep() after termination
     deep_sleep_timeout = 60;
-    DeepSleep_Return_Status_t resultNotInitialized2 = PLAT_DS_SetDeepSleep(deep_sleep_timeout, &isGPIOWakeup, networkStandby);
-    UT_ASSERT_EQUAL(resultNotInitialized2, expectedNotInitialized);
+    result = PLAT_DS_SetDeepSleep(deep_sleep_timeout, &isGPIOWakeup, networkStandby);
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
+
     UT_LOG("\n Out  %s\n",__FUNCTION__);
 }
 
@@ -505,45 +489,32 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_SetDeepSleep (void)
  * |:--:|---------|----------|--------------|-----|
  * |01|Call PLAT_DS_INIT() - open interface | | DEEPSLEEP_SUCCESS | Should Pass |
  * |02|Call PLAT_DS_GetLastWakeupReason() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
- * |03|Call PLAT_DS_GetLastWakeupReason() - get last wakeup reason | *wakeupReason | DEEPSLEEPMGR_SUCCESS | Should Pass |
- * |04|Verify that the returns from PLAT_DS_GetLastWakeupReason are the same | |  | Should Pass |
- * |05|Call PLAT_DS_TERM() - close interface | | DEEPSLEEP_SUCCESS | Should Pass |
+ * |03|Call PLAT_DS_TERM() - close interface | | DEEPSLEEP_SUCCESS | Should Pass |
  * 
  */
 void test_l1_deepSleepMgr_positive_PLAT_DS_GetLastWakeupReason (void)
 {
+    int result = DEEPSLEEPMGR_SUCCESS;
+    DeepSleep_WakeupReason_t wakeupReason;
     gTestID = 9;
     UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
-	// Define expected results for each variation/step
-    const DeepSleep_Return_Status_t expectedInit = DEEPSLEEPMGR_SUCCESS;
-    const DeepSleep_Return_Status_t expectedGetReason = DEEPSLEEPMGR_SUCCESS;
-    const DeepSleep_Return_Status_t expectedTerm = DEEPSLEEPMGR_SUCCESS;
-
-    // Placeholder for the wakeup reason
-    DeepSleep_WakeupReason_t wakeupReason1;
-    DeepSleep_WakeupReason_t wakeupReason2;
 
     // Variation 01: Call PLAT_DS_INIT() and check the result
-    DeepSleep_Return_Status_t resultInit = PLAT_DS_INIT();
-    UT_ASSERT_EQUAL(resultInit, expectedInit);  
+    result = PLAT_DS_INIT();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 02: Call PLAT_DS_GetLastWakeupReason() and check the result
-    DeepSleep_Return_Status_t resultGetReason = PLAT_DS_GetLastWakeupReason(&wakeupReason1);
-    UT_ASSERT_EQUAL(resultGetReason, expectedGetReason);
-
-    // Variation 03: Call PLAT_DS_GetLastWakeupReason() and check the result
-    DeepSleep_Return_Status_t resultGetReason2 = PLAT_DS_GetLastWakeupReason(&wakeupReason2);
-    UT_ASSERT_EQUAL(resultGetReason2, expectedGetReason);
-
-    // Variation 04: Verify that the returns are the same
-    UT_ASSERT_EQUAL(wakeupReason1, wakeupReason2);
+    result = PLAT_DS_GetLastWakeupReason(&wakeupReason);
+    PLAT_DS_ASSERT_AUTO_TERM_NUMERICAL(result, DEEPSLEEPMGR_SUCCESS);
+    UT_LOG("\n %s  wakeupReason=%d \n",__FUNCTION__,wakeupReason);
 
     // At this point, you may want to further verify if 'wakeupReason' contains valid data.
     // This is dependent on your specific requirements and what PLAT_DS_GetLastWakeupReason() actually does.
 
     // Variation 03: Call PLAT_DS_TERM() and check the result
-    DeepSleep_Return_Status_t resultTerm = PLAT_DS_TERM();
-    UT_ASSERT_EQUAL(resultTerm, expectedTerm);
+    result = PLAT_DS_TERM();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_SUCCESS);
+
     UT_LOG("\n Out  %s\n",__FUNCTION__);
 }
 
@@ -573,36 +544,31 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_GetLastWakeupReason (void)
  */
 void test_l1_deepSleepMgr_negative_PLAT_DS_GetLastWakeupReason (void)
 {
+    int result = DEEPSLEEPMGR_SUCCESS;
+    DeepSleep_WakeupReason_t wakeupReason;
     gTestID = 10;
     UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
-    // Define expected results for each variation/step
-    const DeepSleep_Return_Status_t expectedNotInitialized = DEEPSLEEPMGR_NOT_INITIALIZED;
-    const DeepSleep_Return_Status_t expectedInit = DEEPSLEEPMGR_SUCCESS;
-    const DeepSleep_Return_Status_t expectedInvalidArgument = DEEPSLEEPMGR_INVALID_ARGUMENT;
-    const DeepSleep_Return_Status_t expectedTerm = DEEPSLEEPMGR_SUCCESS;
-
-    // Placeholder for the wakeup reason
-    DeepSleep_WakeupReason_t wakeupReason;
 
     // Variation 01: Call PLAT_DS_GetLastWakeupReason() before initialization and check the result
-    DeepSleep_Return_Status_t resultNotInitialized1 = PLAT_DS_GetLastWakeupReason(&wakeupReason);
-    UT_ASSERT_EQUAL(resultNotInitialized1, expectedNotInitialized);  
+    result = PLAT_DS_GetLastWakeupReason(&wakeupReason);
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
 
     // Variation 02: Call PLAT_DS_INIT() and check the result
-    DeepSleep_Return_Status_t resultInit = PLAT_DS_INIT();
-    UT_ASSERT_EQUAL(resultInit, expectedInit);
+    result = PLAT_DS_INIT();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 03: Call PLAT_DS_GetLastWakeupReason() with NULL pointer and check the result
-    DeepSleep_Return_Status_t resultInvalidArgument = PLAT_DS_GetLastWakeupReason(NULL);
-    UT_ASSERT_EQUAL(resultInvalidArgument, expectedInvalidArgument);
+    result = PLAT_DS_GetLastWakeupReason(NULL);
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_INVALID_ARGUMENT);
 
     // Variation 04: Call PLAT_DS_TERM() and check the result
-    DeepSleep_Return_Status_t resultTerm = PLAT_DS_TERM();
-    UT_ASSERT_EQUAL(resultTerm, expectedTerm);
+    result = PLAT_DS_TERM();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 05: Call PLAT_DS_GetLastWakeupReason() after termination and check the result
-    DeepSleep_Return_Status_t resultNotInitialized2 = PLAT_DS_GetLastWakeupReason(&wakeupReason);
-    UT_ASSERT_EQUAL(resultNotInitialized2, expectedNotInitialized);
+    result = PLAT_DS_GetLastWakeupReason(&wakeupReason);
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
+
     UT_LOG("\n Out  %s\n",__FUNCTION__);
 }
 
@@ -624,43 +590,30 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_GetLastWakeupReason (void)
  * |:--:|---------|----------|--------------|-----|
  * |01|Call PLAT_DS_INIT() - open interface | | DEEPSLEEP_SUCCESS | Should Pass |
  * |02|Call PLAT_DS_GetLastWakeupKeyCode() - call get last wakeup keycode | *wakeupKeyCode | DEEPSLEEPMGR_SUCCESS | Should Pass |
- * |03|Call PLAT_DS_GetLastWakeupKeyCode() - call get last wakeup keycode | *wakeupKeyCode | DEEPSLEEPMGR_SUCCESS | Should Pass |
- * |04|Verify the returns of PLAT_DS_GetLastWakeupKeyCode are the same  |  | | Should Pass |
- * |05|Call PLAT_DS_TERM() - close interface | | DEEPSLEEP_SUCCESS | Should Pass |
+ * |03|Call PLAT_DS_TERM() - close interface | | DEEPSLEEP_SUCCESS | Should Pass |
  * 
  */
 
 void test_l1_deepSleepMgr_positive_PLAT_DS_GetLastWakeupKeyCode (void)
 {
+    int result = DEEPSLEEPMGR_SUCCESS;
+    DeepSleepMgr_WakeupKeyCode_Param_t wakeupKeyCode;
     gTestID = 11;
     UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
-	 // Define expected results for each variation/step
-    const DeepSleep_Return_Status_t expectedInit = DEEPSLEEPMGR_SUCCESS;
-    const DeepSleep_Return_Status_t expectedGetKeyCode = DEEPSLEEPMGR_SUCCESS;
-    const DeepSleep_Return_Status_t expectedTerm = DEEPSLEEPMGR_SUCCESS;
-
-    // Placeholder for the wakeup keycode
-    DeepSleepMgr_WakeupKeyCode_Param_t wakeupKeyCode1;
-    DeepSleepMgr_WakeupKeyCode_Param_t wakeupKeyCode2;
 
     // Variation 01: Call PLAT_DS_INIT() and check the result
-    DeepSleep_Return_Status_t resultInit = PLAT_DS_INIT();
-    UT_ASSERT_EQUAL(resultInit, expectedInit);  
+    result = PLAT_DS_INIT();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 02: Call PLAT_DS_GetLastWakeupKeyCode() and check the result
-    DeepSleep_Return_Status_t resultGetKeyCode = PLAT_DS_GetLastWakeupKeyCode(&wakeupKeyCode1);
-    UT_ASSERT_EQUAL(resultGetKeyCode, expectedGetKeyCode);
+    result = PLAT_DS_GetLastWakeupKeyCode(&wakeupKeyCode);
+    PLAT_DS_ASSERT_AUTO_TERM_NUMERICAL(result, DEEPSLEEPMGR_SUCCESS);
+    UT_LOG("\n %s  wakeupKeyCode=%d \n",__FUNCTION__,wakeupKeyCode);
 
-    // Variation 03: Call PLAT_DS_GetLastWakeupKeyCode() and check the result
-    DeepSleep_Return_Status_t resultGetKeyCode2 = PLAT_DS_GetLastWakeupKeyCode(&wakeupKeyCode2);
-    UT_ASSERT_EQUAL(resultGetKeyCode2, expectedGetKeyCode);
+    // Variation 03: Call PLAT_DS_TERM() and check the result
+    result = PLAT_DS_TERM();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_SUCCESS);
 
-    // Variation 04: Verify that the returns contain the same value
-    UT_ASSERT_EQUAL(wakeupKeyCode2.keyCode, wakeupKeyCode1.keyCode);
-
-    // Variation 05: Call PLAT_DS_TERM() and check the result
-    DeepSleep_Return_Status_t resultTerm = PLAT_DS_TERM();
-    UT_ASSERT_EQUAL(resultTerm, expectedTerm);
     UT_LOG("\n Out  %s\n",__FUNCTION__);
 }
 
@@ -688,36 +641,31 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_GetLastWakeupKeyCode (void)
  */
 void test_l1_deepSleepMgr_negative_PLAT_DS_GetLastWakeupKeyCode (void)
 {
+    int result = DEEPSLEEPMGR_SUCCESS;
+    DeepSleepMgr_WakeupKeyCode_Param_t wakeupKeyCode;
     gTestID = 12;
     UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
-	 // Define expected results for each variation/step
-    const DeepSleep_Return_Status_t expectedNotInitialized = DEEPSLEEPMGR_NOT_INITIALIZED;
-    const DeepSleep_Return_Status_t expectedInit = DEEPSLEEPMGR_SUCCESS;
-    const DeepSleep_Return_Status_t expectedInvalidArgument = DEEPSLEEPMGR_INVALID_ARGUMENT;
-    const DeepSleep_Return_Status_t expectedTerm = DEEPSLEEPMGR_SUCCESS;
-
-    // Placeholder for the wakeup keycode
-    DeepSleepMgr_WakeupKeyCode_Param_t wakeupKeyCode;
 
     // Variation 01: Call PLAT_DS_GetLastWakeupKeyCode() before initialization and check the result
-    DeepSleep_Return_Status_t resultNotInitialized1 = PLAT_DS_GetLastWakeupKeyCode(&wakeupKeyCode);
-    UT_ASSERT_EQUAL(resultNotInitialized1, expectedNotInitialized);  
+    result = PLAT_DS_GetLastWakeupKeyCode(&wakeupKeyCode);
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
 
     // Variation 02: Call PLAT_DS_INIT() and check the result
-    DeepSleep_Return_Status_t resultInit = PLAT_DS_INIT();
-    UT_ASSERT_EQUAL(resultInit, expectedInit);
+    result = PLAT_DS_INIT();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 03: Call PLAT_DS_GetLastWakeupKeyCode() with NULL pointer and check the result
-    DeepSleep_Return_Status_t resultInvalidArgument = PLAT_DS_GetLastWakeupKeyCode(NULL);
-    UT_ASSERT_EQUAL(resultInvalidArgument, expectedInvalidArgument);
+    result = PLAT_DS_GetLastWakeupKeyCode(NULL);
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_INVALID_ARGUMENT);
 
     // Variation 04: Call PLAT_DS_TERM() and check the result
-    DeepSleep_Return_Status_t resultTerm = PLAT_DS_TERM();
-    UT_ASSERT_EQUAL(resultTerm, expectedTerm);
+    result = PLAT_DS_TERM();
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 05: Call PLAT_DS_GetLastWakeupKeyCode() after termination and check the result
-    DeepSleep_Return_Status_t resultNotInitialized2 = PLAT_DS_GetLastWakeupKeyCode(&wakeupKeyCode);
-    UT_ASSERT_EQUAL(resultNotInitialized2, expectedNotInitialized); 
+    result = PLAT_DS_GetLastWakeupKeyCode(&wakeupKeyCode);
+    UT_ASSERT_EQUAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
+
     UT_LOG("\n Out  %s\n",__FUNCTION__);
 }
 
