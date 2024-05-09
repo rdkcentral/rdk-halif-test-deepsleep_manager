@@ -13,14 +13,6 @@
 
 - `HAL`:    Hardware Abstraction Layer
 - `API`:   Application Programming Interface
-- `IR`:     InfraRed
-- `CEC`:    Consumer Electronic Control
-- `LAN`:    Local Area Network
-- `STB`:    Set-top Box
-- `RCU`:    Remote Control Unit
-- `STR`:    Suspend To RAM
-- `HDMI`:   High-Definition Multimedia Interface
-- `GPIO`:   General Purpose Input/OutputManufacturers
 - `L2` - Level2 Testing
 - `L3` - Level3 Testing
 - `NA` : Not Applicable
@@ -37,16 +29,16 @@ The Deep Sleep Manger `HAL` provides a set of `APIs` to initialize, set the deep
 
 ## Testing Scope
 
-|#|Test Functionality|Description|L2|L3|
-|-|------------------|-----------|--|--|
-|1|[Set deep sleep with timeout](#set-deep-sleep-with-timeout)|Set the deep sleep with timeout and verify the wake-up source |Y|`NA`|
-|2|[Test with Wake-up Source](#test-with-wake-up-source)|Configure the deep sleep mode with no timeout, ensuring that the Deep Sleep Manager facilitates wake-up sources, allowing the device to awaken from deep sleep.|`NA`|Y|
+|#|Test Functionality|Description|
+|-|------------------|-----------|
+|1|[Set deep sleep with timeout](#set-deep-sleep-with-timeout)|Set the deep sleep with timeout and verify the wake-up source |
+|2|[Test with Wake-up Source](#test-with-wake-up-source)|Configure the deep sleep mode with no timeout, ensuring that the Deep Sleep Manager facilitates wake-up sources, allowing the device to awaken from deep sleep.|
+
 
 ### Set Deep Sleep with timeout
-
-|Description|
-|-----------|
-|Set the deep sleep with timeout and verify the wake-up source and timeout value|
+|S.No.|Test Functionality|Description|HAL APIs|L2|L3|Control plane requirements|
+|-----|------------------|-----------|--------|--|--|--------------------------|
+|1|[Set deep sleep with timeout](#set-deep-sleep-with-timeout)|Set the deep sleep with timeout and verify the wake-up source |PLAT_DS_SetDeepSleep|Y|`NA`|`NA`|
 
 #### Test Startup Requirement
 
@@ -61,10 +53,9 @@ The Deep Sleep Manger `HAL` provides a set of `APIs` to initialize, set the deep
 `NA`
 
 ### Test with Wake-up Source
-
-|Description|
-|-----------|
-|Configure the deep sleep mode with no timeout, ensuring that the DeepSleep Manager facilitates wake-up sources, allowing the device to awaken from deep sleep.|
+|S.No.|Test Functionality|Description|HAL APIs|L2|L3|Control plane requirements|
+|-----|------------------|-----------|--------|--|--|--------------------------|
+|2|[Test with Wake-up Source](#test-with-wake-up-source)|Configure the deep sleep mode with no timeout, ensuring that the Deep Sleep Manager facilitates wake-up sources, allowing the device to awaken from deep sleep.|PLAT_DS_SetDeepSleep|`NA`|Y|Control plane requirements to trigger non-timeout wake up source.|
 
 #### Test Startup Requirement - Test with Wake-up Source
 
