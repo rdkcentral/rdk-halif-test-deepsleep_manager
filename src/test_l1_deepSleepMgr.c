@@ -161,10 +161,12 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_INIT (void)
     UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 02: Call PLAT_DS_INIT() again and expect it to be already initialized
-    #ifdef ENABLE_ENHANCED_ERROR_CODE
-    result = PLAT_DS_INIT();
-    UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_ALREADY_INITIALIZED);
-    #endif
+     result = PLAT_DS_INIT();	
+#ifdef ENABLE_ENHANCED_ERROR_CODE
+        UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_ALREADY_INITIALIZED);
+#else
+        UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_SUCCESS);
+#endif
 
     // Variation 03: Call PLAT_DS_TERM() and check the result
     result = PLAT_DS_TERM();
@@ -240,10 +242,12 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_TERM (void)
     UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
 
     // Variation 01: Attempt to close interface before initialization and check the result
-    #ifdef ENABLE_ENHANCED_ERROR_CODE
-    result = PLAT_DS_TERM();
-    UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
-    #endif
+     result = PLAT_DS_TERM();
+#ifdef ENABLE_ENHANCED_ERROR_CODE
+        UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
+#else
+        UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_SUCCESS); 
+#endif
 
     // Variation 02: Call PLAT_DS_INIT() and check the result
     result = PLAT_DS_INIT();
@@ -254,10 +258,12 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_TERM (void)
     UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 04: Attempt to close interface after termination and check the result
-    #ifdef ENABLE_ENHANCED_ERROR_CODE
     result = PLAT_DS_TERM();
-    UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
-    #endif
+#ifdef ENABLE_ENHANCED_ERROR_CODE
+        UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
+#else
+	UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_SUCCESS);
+#endif
 
     UT_LOG("\n Out  %s\n",__FUNCTION__);
 }
@@ -333,10 +339,12 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_DeepSleepWakeup (void)
     UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
 
     // Variation 01: Call PLAT_DS_DeepSleepWakeup() before initialization and check the result
-    #ifdef ENABLE_ENHANCED_ERROR_CODE
     result = PLAT_DS_DeepSleepWakeup();
-    UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
-    #endif
+#ifdef ENABLE_ENHANCED_ERROR_CODE 
+        UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
+#else
+	PLAT_DS_ASSERT_AUTO_TERM_NUMERICAL(result, DEEPSLEEPMGR_SUCCESS);
+#endif
 
     // Variation 02: Call PLAT_DS_INIT() and check the result
     result = PLAT_DS_INIT();
@@ -347,10 +355,12 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_DeepSleepWakeup (void)
     UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 04: Call PLAT_DS_DeepSleepWakeup() after termination and check the result
-    #ifdef ENABLE_ENHANCED_ERROR_CODE
     result = PLAT_DS_DeepSleepWakeup();
-    UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
-    #endif
+#ifdef ENABLE_ENHANCED_ERROR_CODE
+        UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
+#else
+       PLAT_DS_ASSERT_AUTO_TERM_NUMERICAL(result, DEEPSLEEPMGR_SUCCESS);
+#endif
 
     UT_LOG("\n Out  %s\n",__FUNCTION__);
 }
@@ -455,35 +465,41 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_SetDeepSleep (void)
     UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
 
     // Variation 01: Call before initialization
-    #ifdef ENABLE_ENHANCED_ERROR_CODE
     deep_sleep_timeout = 60;
     isGPIOWakeup = false;
     networkStandby = false;
     result = PLAT_DS_SetDeepSleep(deep_sleep_timeout, &isGPIOWakeup, networkStandby);
-    UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
-    #endif
-
+#ifdef ENABLE_ENHANCED_ERROR_CODE  
+       UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
+#else
+       PLAT_DS_ASSERT_AUTO_TERM_NUMERICAL(result, DEEPSLEEPMGR_SUCCESS);
+#endif
+	
     // Variation 02: Call PLAT_DS_INIT() and check the result
     result = PLAT_DS_INIT();
     UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 03: Call PLAT_DS_SetDeepSleep() with NULL pointer for isGPIOWakeup
-    #ifdef ENABLE_ENHANCED_ERROR_CODE
     deep_sleep_timeout = 30;
     result = PLAT_DS_SetDeepSleep(deep_sleep_timeout, NULL, networkStandby);
-    PLAT_DS_ASSERT_AUTO_TERM_NUMERICAL(result, DEEPSLEEPMGR_INVALID_ARGUMENT);
-    #endif
+#ifdef ENABLE_ENHANCED_ERROR_CODE
+        PLAT_DS_ASSERT_AUTO_TERM_NUMERICAL(result, DEEPSLEEPMGR_INVALID_ARGUMENT);
+#else
+	PLAT_DS_ASSERT_AUTO_TERM_NUMERICAL(result, DEEPSLEEPMGR_SUCCESS);
+#endif
 
     // Variation 04: Call PLAT_DS_TERM() and check the result
     result = PLAT_DS_TERM();
     UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 05: Call PLAT_DS_SetDeepSleep() after termination
-    #ifdef ENABLE_ENHANCED_ERROR_CODE
     deep_sleep_timeout = 60;
     result = PLAT_DS_SetDeepSleep(deep_sleep_timeout, &isGPIOWakeup, networkStandby);
-    UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
-    #endif
+#ifdef ENABLE_ENHANCED_ERROR_CODE
+        UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
+#else
+	PLAT_DS_ASSERT_AUTO_TERM_NUMERICAL(result, DEEPSLEEPMGR_SUCCESS);
+#endif
 
     UT_LOG("\n Out  %s\n",__FUNCTION__);
 }
@@ -566,29 +582,33 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_GetLastWakeupReason (void)
     UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
 
     // Variation 01: Call PLAT_DS_GetLastWakeupReason() before initialization and check the result
-    #ifdef ENABLE_ENHANCED_ERROR_CODE
     result = PLAT_DS_GetLastWakeupReason(&wakeupReason);
-    UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
-    #endif
+#ifdef ENABLE_ENHANCED_ERROR_CODE
+        UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
+#else
+	PLAT_DS_ASSERT_AUTO_TERM_NUMERICAL(result, DEEPSLEEPMGR_SUCCESS);
+#endif
 
     // Variation 02: Call PLAT_DS_INIT() and check the result
     result = PLAT_DS_INIT();
     UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 03: Call PLAT_DS_GetLastWakeupReason() with NULL pointer and check the result
-    #ifdef ENABLE_ENHANCED_ERROR_CODE
+#ifdef ENABLE_ENHANCED_ERROR_CODE
     result = PLAT_DS_GetLastWakeupReason(NULL);
-    UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_INVALID_ARGUMENT);
-    #endif
+    UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_INVALID_ARGUMENT); //HAL is returning -1, there is no error code in Hal.
+#endif
 
     // Variation 04: Call PLAT_DS_TERM() and check the result
     result = PLAT_DS_TERM();
     UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 05: Call PLAT_DS_GetLastWakeupReason() after termination and check the result
-    #ifdef ENABLE_ENHANCED_ERROR_CODE
     result = PLAT_DS_GetLastWakeupReason(&wakeupReason);
-    UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
+    #ifdef ENABLE_ENHANCED_ERROR_CODE
+            UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
+    #else
+	   PLAT_DS_ASSERT_AUTO_TERM_NUMERICAL(result, DEEPSLEEPMGR_SUCCESS);
     #endif
 
     UT_LOG("\n Out  %s\n",__FUNCTION__);
@@ -669,10 +689,12 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_GetLastWakeupKeyCode (void)
     UT_LOG("\n In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
 
     // Variation 01: Call PLAT_DS_GetLastWakeupKeyCode() before initialization and check the result
-    #ifdef ENABLE_ENHANCED_ERROR_CODE
     result = PLAT_DS_GetLastWakeupKeyCode(&wakeupKeyCode);
-    UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
-    #endif
+#ifdef ENABLE_ENHANCED_ERROR_CODE
+       UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
+#else
+       PLAT_DS_ASSERT_AUTO_TERM_NUMERICAL(result, DEEPSLEEPMGR_SUCCESS);
+#endif
 
     // Variation 02: Call PLAT_DS_INIT() and check the result
     result = PLAT_DS_INIT();
@@ -681,7 +703,7 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_GetLastWakeupKeyCode (void)
     // Variation 03: Call PLAT_DS_GetLastWakeupKeyCode() with NULL pointer and check the result
     #ifdef ENABLE_ENHANCED_ERROR_CODE
     result = PLAT_DS_GetLastWakeupKeyCode(NULL);
-    UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_INVALID_ARGUMENT);
+    UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_INVALID_ARGUMENT); //HAL is returning -1, there is no error code in Hal.
     #endif
 
     // Variation 04: Call PLAT_DS_TERM() and check the result
@@ -689,10 +711,12 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_GetLastWakeupKeyCode (void)
     UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 05: Call PLAT_DS_GetLastWakeupKeyCode() after termination and check the result
-    #ifdef ENABLE_ENHANCED_ERROR_CODE
     result = PLAT_DS_GetLastWakeupKeyCode(&wakeupKeyCode);
-    UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
-    #endif
+#ifdef ENABLE_ENHANCED_ERROR_CODE
+        UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_NOT_INITIALIZED);
+#else
+	PLAT_DS_ASSERT_AUTO_TERM_NUMERICAL(result, DEEPSLEEPMGR_SUCCESS);
+#endif
 
     UT_LOG("\n Out  %s\n",__FUNCTION__);
 }
