@@ -27,7 +27,9 @@ Interface of the test is available here: [DeepSleep Manager HAL header](https://
 
 The Deep Sleep Manger `HAL` provides a set of `APIs` to initialize, set the deep sleep state and wake-up from the deep sleep state with a list of wake-up source.
 
-## Testing Scope
+## Test Scenarios
+
+The Deep-sleep Manager layer facilitates the deep-sleep sleep and wake up procedures.
 
 |#|Test Functionality|Description|
 |-|------------------|-----------|
@@ -63,10 +65,19 @@ The Deep Sleep Manger `HAL` provides a set of `APIs` to initialize, set the deep
 
 #### Emulator Requirements - Test with Wake-up Source
 
-Boot configuration: Wake-up sources supported by the device
+- Boot configuration: Wake-up sources supported by the device
 
 #### Control Plane Requirements - Test with Wake-up Source
 
-Control panel to trigger the wake-up source and supported wake-up sources are:
+- Control panel to trigger the wake-up source and supported wake-up sources are:
 
 [DeepSleep_WakeupReason_t link](https://github.com/rdkcentral/rdk-halif-deepsleep_manager/blob/main/include/deepSleepMgr.h#L146)
+
+-----------
+-----------
+
+## Boot configuartion
+
+### Module Configuration Requirements
+
+The module must be configured during the boot sequence in the case of emulation as if it were a real hardware device with access to multiple deep-sleep wake up sources.
