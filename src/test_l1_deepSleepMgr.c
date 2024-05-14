@@ -594,8 +594,8 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_GetLastWakeupReason (void)
     UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 03: Call PLAT_DS_GetLastWakeupReason() with NULL pointer and check the result
-#ifdef ENABLE_ENHANCED_ERROR_CODE
     result = PLAT_DS_GetLastWakeupReason(NULL);
+#ifdef ENABLE_ENHANCED_ERROR_CODE
     UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_INVALID_ARGUMENT); //HAL is returning -1, there is no error code in Hal.
 #endif
 
@@ -701,10 +701,10 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_GetLastWakeupKeyCode (void)
     UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_SUCCESS);
 
     // Variation 03: Call PLAT_DS_GetLastWakeupKeyCode() with NULL pointer and check the result
-    #ifdef ENABLE_ENHANCED_ERROR_CODE
     result = PLAT_DS_GetLastWakeupKeyCode(NULL);
+#ifdef ENABLE_ENHANCED_ERROR_CODE
     UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_INVALID_ARGUMENT); //HAL is returning -1, there is no error code in Hal.
-    #endif
+#endif
 
     // Variation 04: Call PLAT_DS_TERM() and check the result
     result = PLAT_DS_TERM();
