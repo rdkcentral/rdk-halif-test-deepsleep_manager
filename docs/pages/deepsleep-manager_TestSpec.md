@@ -5,8 +5,8 @@
 - [Acronyms, Terms and Abbreviations](#acronyms-terms-and-abbreviations)
 - [Introduction](#introduction)
 - [Module Description](#module-description)
-- [Testing Scope](#testing-scope)
-  - [Set DeepSleep with timeout](#set-deepsleep-with-timeout)
+- [Test Scenarios](#test-scenarios)
+  - [Set Deep Sleep with timeout](#set-deep-sleep-with-timeout)
   - [Test with wake-up Source](#test-with-wake-up-source)
 
 ## Acronyms, Terms and Abbreviations
@@ -38,9 +38,10 @@ The Deep-sleep Manager layer facilitates the deep-sleep sleep and wake up proced
 
 
 ### Set Deep Sleep with timeout
-|S.No.|Test Functionality|Description|HAL APIs|L2|L3|Control plane requirements|
-|-----|------------------|-----------|--------|--|--|--------------------------|
-|1|[Set deep sleep with timeout](#set-deep-sleep-with-timeout)|Set the deep sleep with timeout and verify the wake-up source |PLAT_DS_SetDeepSleep|Y|`NA`|`NA`|
+|Description|HAL APIs|L2|L3|Control plane requirements|
+|-----------|--------|--|--|--------------------------|
+|Set the deep sleep with timeout and verify the wake-up source |PLAT_DS_SetDeepSleep|Y|`NA`|`NA`|
+|Verify that the device has come out of deep-sleep after the specified timeout period has ended using timestamps taken before the device goes into deepsleep and after it wakes up|`NA`|Y|`NA`|`NA`|
 
 #### Test Startup Requirement
 
@@ -55,9 +56,9 @@ The Deep-sleep Manager layer facilitates the deep-sleep sleep and wake up proced
 `NA`
 
 ### Test with Wake-up Source
-|S.No.|Test Functionality|Description|HAL APIs|L2|L3|Control plane requirements|
-|-----|------------------|-----------|--------|--|--|--------------------------|
-|2|[Test with Wake-up Source](#test-with-wake-up-source)|Configure the deep sleep mode with no timeout, ensuring that the Deep Sleep Manager facilitates wake-up sources, allowing the device to awaken from deep sleep.|PLAT_DS_SetDeepSleep|`NA`|Y|Control plane requirements to trigger non-timeout wake up source.|
+|Description|HAL APIs|L2|L3|Control plane requirements|
+|-----------|--------|--|--|--------------------------|
+|Configure the deep sleep mode with no timeout, ensuring that the Deep Sleep Manager facilitates wake-up sources( PLAT_API_SetWakeupSrc ) for all wake-up sources that the device supports, allowing the device to awaken from deep sleep.|PLAT_DS_SetDeepSleep|`NA`|Y|Control plane requirements to trigger non-timeout wake up source.|
 
 #### Test Startup Requirement - Test with Wake-up Source
 
@@ -70,13 +71,6 @@ The Deep-sleep Manager layer facilitates the deep-sleep sleep and wake up proced
 #### Control Plane Requirements - Test with Wake-up Source
 
 - Control panel to trigger the wake-up source and supported wake-up sources are:
-
-[DeepSleep_WakeupReason_t link](https://github.com/rdkcentral/rdk-halif-deepsleep_manager/blob/main/include/deepSleepMgr.h#L146)
-
------------
------------
-
-## Boot configuartion
 
 ### Module Configuration Requirements
 
