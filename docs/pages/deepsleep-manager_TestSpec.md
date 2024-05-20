@@ -23,10 +23,6 @@ This document provides an overview of the testing requirements for the Deep Slee
 
 Interface of the test is available here: [DeepSleep Manager HAL header](https://github.com/rdkcentral/rdk-halif-deepsleep_manager/blob/main/include/deepSleepMgr.h)
 
-## Module Description
-
-The Deep Sleep Manger `HAL` provides a set of `APIs` to initialize, set the deep sleep state and wake-up from the deep sleep state with a list of wake-up source.
-
 ## Test Scenarios
 
 The Deep-sleep Manager layer facilitates the deep-sleep sleep and wake up procedures.
@@ -41,7 +37,7 @@ The Deep-sleep Manager layer facilitates the deep-sleep sleep and wake up proced
 |Description|HAL APIs|L2|L3|Control plane requirements|
 |-----------|--------|--|--|--------------------------|
 |Set the deep sleep with timeout and verify the wake-up source |PLAT_DS_SetDeepSleep|Y|`NA`|`NA`|
-|Verify that the device has come out of deep-sleep after the specified timeout period has ended using timestamps taken before the device goes into deepsleep and after it wakes up|`NA`|Y|`NA`|`NA`|
+|Verify that the device has come out of deep-sleep after the specified timeout period has ended using timestamps taken before the device goes into deepsleep and after it wakes up|PLAT_DS_SetDeepSleep|Y|`NA`|`NA`|
 
 #### Test Startup Requirement
 
