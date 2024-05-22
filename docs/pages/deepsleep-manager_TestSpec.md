@@ -23,6 +23,8 @@ This document provides an overview of the testing requirements for the Deep Slee
 
 Interface of the test is available here: [DeepSleep Manager HAL header](https://github.com/rdkcentral/rdk-halif-deepsleep_manager/blob/main/include/deepSleepMgr.h)
 
+The Power manager Hal Spec document: [Deepsleep Manager HAL Spec](https://github.com/rdkcentral/rdk-halif-deepsleep_manager/blob/main/docs/pages/deepsleep-manager_halSpec.md)
+
 ## Test Scenarios
 
 The Deep-sleep Manager layer facilitates the deep-sleep sleep and wake up procedures.
@@ -45,7 +47,7 @@ The Deep-sleep Manager layer facilitates the deep-sleep sleep and wake up proced
 
 #### Emulator Requirements
 
-`NA`
+- Boot configuration: Wake-up sources supported by the device read from the platform profile. See DeepSleep_WakeupReason_t.
 
 #### Control Plane Requirements
 
@@ -62,7 +64,7 @@ The Deep-sleep Manager layer facilitates the deep-sleep sleep and wake up proced
 
 #### Emulator Requirements - Test with Wake-up Source
 
-- Boot configuration: Wake-up sources supported by the device. See DeepSleep_WakeupReason_t.
+- Boot configuration: Wake-up sources supported by the device read from the platform profile. See DeepSleep_WakeupReason_t.
 
 #### Control Plane Requirements - Test with Wake-up Source
 
