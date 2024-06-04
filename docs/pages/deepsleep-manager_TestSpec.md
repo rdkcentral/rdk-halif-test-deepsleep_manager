@@ -40,7 +40,7 @@ The Deep-sleep Manager layer facilitates the deep-sleep sleep and wake up proced
 |-----------|--------|--|--|--------------------------|
 |Set the deep sleep with  of one second and verify the wake-up source |PLAT_DS_SetDeepSleep|Y|`NA`|`NA`|
 |Set the deep sleep with  of ten seconds and verify the wake-up source |PLAT_DS_SetDeepSleep|Y|`NA`|`NA`|
-|Verify that the device has come out of deep-sleep after the specified timeout period has ended. Verify that, based on how long the device sleep, it comes out with a different of +/- 10 seconds. Also verify that the internal clock matches the network clock after wake up.|PLAT_DS_SetDeepSleep|N|Y`|`NA`|
+|Verify that the device has come out of deep-sleep after the specified timeout period has ended. Verify that, based on how long the device sleep, it comes out with a time difference based on the platform configuration file. Also verify that the internal clock matches the network clock after wake up.|PLAT_DS_SetDeepSleep|N|Y`|`NA`|
 
 #### Test Startup Requirement
 
