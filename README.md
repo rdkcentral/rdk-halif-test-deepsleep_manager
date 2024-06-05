@@ -27,3 +27,5 @@ This repository contains the Unit Test Suites (L1) for Deep Sleep Manager `HAL`.
 
 - All APIs need to be implemented in this current version. If any API is not supported, please add stub implementation with return type DEEPSLEEPMGR_SUCCESS for the same.
 - Building against the actual library may introduce SOC dependencies. Hence, a template SKELETON library is created without SOC dependencies. On the real platform (target), it can be mounted, copied and bound with the actual library.
+- When running the binary, remember to include a profile file as an argument for designated test cases. The following example illustrates this: `./hal_test -p deepsleepmanagerExtendedEnumsNotSupported.yaml`
+- Profiles file available in [profile yaml file](./profiles/deepsleepmanagerExtendedEnumsNotSupported.yaml)
