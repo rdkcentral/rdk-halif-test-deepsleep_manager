@@ -1,109 +1,187 @@
-/**
-*  If not stated otherwise in this file or this component's LICENSE
-*  file the following copyright and licenses apply:
+/*
+* If not stated otherwise in this file or this component's LICENSE file the
+* following copyright and licenses apply:*
+* Copyright 2024 RDK Management
 *
-*  Copyright 2022 RDK Management
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
 *
-*  Licensed under the Apache License, Version 2.0 (the License);
-*  you may not use this file except in compliance with the License.
-*  You may obtain a copy of the License at
+* http://www.apache.org/licenses/LICENSE-2.0
 *
-*  http://www.apache.org/licenses/LICENSE-2.0
-*
-*  Unless required by applicable law or agreed to in writing, software
-*  distributed under the License is distributed on an AS IS BASIS,
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*  See the License for the specific language governing permissions and
-*  limitations under the License.
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
 */
 
 /**
- * @addtogroup HPK Hardware Porting Kit
- * @{
- * @par The Hardware Porting Kit
- * HPK is the next evolution of the well-defined Hardware Abstraction Layer
- * (HAL), but augmented with more comprehensive documentation and test suites
- * that OEM or SOC vendors can use to self-certify their ports before taking
- * them to RDKM for validation or to an operator for final integration and
- * deployment. The Hardware Porting Kit effectively enables an OEM and/or SOC
- * vendor to self-certify their own Video Accelerator devices, with minimal RDKM
- * assistance.
- *
- */
-/**
- * @addtogroup Deepsleep_Manager Deep Sleep Manager
- * @{
- * @par Application API Specification
- */
-/**
- * @addtogroup Deepsleep_Manager_HALTEST Deep Sleep Manager HALTEST
- * @{
- */
-/**
- * @defgroup Deepsleep_Mgr_HALTEST_L2 Deep Sleep Manager HALTEST L2
- * @{
- */
-
-/**
-* @file TODO: test_l2_deepSleepMgr.c
-* @page module_name TODO: Required field, name of the main module
-* @subpage sub_page_name TODO: Add a function group if relevant
+* @file test_l2_deepSleepMgr.c
+* @page deepSleepMgr Level 2 Tests
 *
 * ## Module's Role
-* TODO: Explain the module's role in the system in general
-* This is to ensure that the API meets the operational requirements of the module across all vendors.
+* This module includes Level 2 functional tests (success and failure scenarios).
+* This is to ensure that the deepSleepMgr APIs meet the requirements across all vendors.
 *
-* **Pre-Conditions:**  TODO: Add pre-conditions if any@n
-* **Dependencies:** TODO: Add dependencies if any@n
+* **Pre-Conditions:**  None@n
+* **Dependencies:** None@n
 *
-* Ref to API Definition specification documentation : [deepsleep-manager_halSpec.md](../../docs/pages/deepsleep-manager_halSpec.md)
+* Ref to API Definition specification documentation : [deepSleepMgr_halSpec.md](../../docs/pages/deepSleepMgr_halSpec.md)
 */
-
-#include <string.h>
-#include <stdlib.h>
 
 #include <ut.h>
 #include <ut_log.h>
+#include <ut_kvp_profile.h>
+#include <unistd.h>
+#include "deepSleepMgr.h"
+
+static int gTestGroup = 2;
+static int gTestID = 1;
 
 /**
-* @brief TODO: Describe the object of the test
+* @brief Test to verify the deep sleep and wakeup functionality
 *
-* TODO: Add the description of what is tested and why in this test
+* This test case verifies the deep sleep and wakeup functionality of the L2 deep sleep manager. It checks if the system can successfully enter deep sleep mode and wake up from it.
 *
-* **Test Group ID:** TODO: Add the group this test belongs to - Basic (for L1): 01 / Module (L2): 02 / Stress (L2): 03)@n
-* **Test Case ID:** TODO: Add the ID of the test case so that it can be logically tracked in the logs@n
+* **Test Group ID:** 02@n
+* **Test Case ID:** 001@n
 *
 * **Test Procedure:**
-* Refer to UT specification documentation [l2_module_test_specification.md](l2_module_test_specification.md)
+* Refer to UT specification documentation [deepSleepMgr_L2_Low-Level_TestSpecification.md](../../docs/pages/deepSleepMgr_L2_Low-Level_TestSpecification.md)
 */
-void test_l2_deepSleepMgr_power (void)
+
+void test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeup1(void)
 {
-	UT_FAIL_FATAL("This function needs to be implemented!"); 
+    gTestID = 1;
+    UT_LOG_INFO("In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
+
+    DeepSleep_Return_Status_t status;
+    bool isGPIOWakeup = false;
+
+    UT_LOG_DEBUG("Invoking PLAT_DS_INIT");
+    status = PLAT_DS_INIT();
+    UT_LOG_DEBUG("Return status: %d", status);
+    UT_ASSERT_EQUAL_FATAL(status, DEEPSLEEPMGR_SUCCESS);
+
+    UT_LOG_DEBUG("Invoking PLAT_DS_SetDeepSleep with deep_sleep_timeout=1, isGPIOWakeup=TRUE, networkStandby=FALSE");
+    status = PLAT_DS_SetDeepSleep(1, &isGPIOWakeup, false);
+    UT_LOG_DEBUG("Return status: %d, isGPIOWakeup: %d", status, isGPIOWakeup);
+    UT_ASSERT_EQUAL(status, DEEPSLEEPMGR_SUCCESS);
+    if (status != DEEPSLEEPMGR_SUCCESS)
+    {
+        UT_LOG_ERROR("PLAT_DS_SetDeepSleep failed with status: %d", status);
+        UT_LOG_DEBUG("Invoking PLAT_DS_TERM");
+        PLAT_DS_TERM();
+        return;
+    }
+
+    sleep(1);
+
+    UT_LOG_DEBUG("Invoking PLAT_DS_DeepSleepWakeup");
+    status = PLAT_DS_DeepSleepWakeup();
+    UT_LOG_DEBUG("Return status: %d", status);
+    UT_ASSERT_EQUAL(status, DEEPSLEEPMGR_SUCCESS);
+    UT_ASSERT_EQUAL(isGPIOWakeup, true);
+    if (status != DEEPSLEEPMGR_SUCCESS)
+    {
+        UT_LOG_ERROR("PLAT_DS_DeepSleepWakeup failed with status: %d", status);
+        UT_LOG_DEBUG("Invoking PLAT_DS_TERM");
+        PLAT_DS_TERM();
+        return;
+    }
+
+    UT_LOG_DEBUG("Invoking PLAT_DS_TERM");
+    status = PLAT_DS_TERM();
+    UT_LOG_DEBUG("Return status: %d", status);
+    UT_ASSERT_EQUAL_FATAL(status, DEEPSLEEPMGR_SUCCESS);
+
+    UT_LOG_INFO("Out %s\n", __FUNCTION__);
+}
+
+/**
+* @brief Test to verify the deep sleep and wake up functionality
+*
+* This test case sets the system into deep sleep and verifies if the system wakes up correctly. The test is crucial to ensure the power management functionality of the system is working as expected.
+*
+* **Test Group ID:** 02@n
+* **Test Case ID:** 002@n
+*
+* **Test Procedure:**
+* Refer to UT specification documentation [deepSleepMgr_L2_Low-Level_TestSpecification.md](../../docs/pages/deepSleepMgr_L2_Low-Level_TestSpecification.md)
+*/
+
+void test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeUp10(void)
+{
+    gTestID = 2;
+    UT_LOG_INFO("In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
+
+    DeepSleep_Return_Status_t status;
+    bool isGPIOWakeup;
+    uint32_t deep_sleep_timeout = 10;
+    bool networkStandby = true;
+
+    UT_LOG_DEBUG("Invoking PLAT_DS_INIT");
+    status = PLAT_DS_INIT();
+    UT_LOG_DEBUG("Return status: %d", status);
+    UT_ASSERT_EQUAL_FATAL(status, DEEPSLEEPMGR_SUCCESS);
+
+    UT_LOG_DEBUG("Invoking PLAT_DS_SetDeepSleep with deep_sleep_timeout: %d, isGPIOWakeup: valid pointer, networkStandby: %d", deep_sleep_timeout, networkStandby);
+    status = PLAT_DS_SetDeepSleep(deep_sleep_timeout, &isGPIOWakeup, networkStandby);
+    UT_LOG_DEBUG("Return status: %d", status);
+    UT_ASSERT_EQUAL(status, DEEPSLEEPMGR_SUCCESS);
+    UT_LOG_DEBUG("isGPIOWakeup: %d", isGPIOWakeup);
+    if (status != DEEPSLEEPMGR_SUCCESS)
+    {
+        UT_LOG_ERROR("PLAT_DS_SetDeepSleep failed with status: %d", status);
+        UT_LOG_DEBUG("Invoking PLAT_DS_TERM");
+        PLAT_DS_TERM();
+        return;
+    }
+
+    sleep(10);
+
+    UT_LOG_DEBUG("Invoking PLAT_DS_DeepSleepWakeup");
+    status = PLAT_DS_DeepSleepWakeup();
+    UT_LOG_DEBUG("Return status: %d", status);
+    UT_ASSERT_EQUAL(status, DEEPSLEEPMGR_SUCCESS);
+    UT_ASSERT_EQUAL(isGPIOWakeup, true);
+    if (status != DEEPSLEEPMGR_SUCCESS)
+    {
+        UT_LOG_ERROR("PLAT_DS_DeepSleepWakeup failed with status: %d", status);
+        UT_LOG_DEBUG("Invoking PLAT_DS_TERM");
+        PLAT_DS_TERM();
+        return;
+    }
+
+    UT_LOG_DEBUG("Invoking PLAT_DS_TERM");
+    status = PLAT_DS_TERM();
+    UT_LOG_DEBUG("Return status: %d", status);
+    UT_ASSERT_EQUAL_FATAL(status, DEEPSLEEPMGR_SUCCESS);
+
+    UT_LOG_INFO("Out %s\n", __FUNCTION__);
 }
 
 static UT_test_suite_t * pSuite = NULL;
 
 /**
- * @brief Register the main test(s) for this module
+ * @brief Register the main tests for this module
  *
  * @return int - 0 on success, otherwise failure
  */
-int test_l2_deepSleepMgr_register ( void )
+
+int test_deepSleepMgr_l2_register(void)
 {
-	/* add a suite to the registry */
-	pSuite = UT_add_suite( "[L2 deepSleepMgr]", NULL, NULL );
-	if ( NULL == pSuite )
-	{
-		return -1;
-	}	
+    // Create the test suite
+    pSuite = UT_add_suite("[L2 deepSleepMgr]", NULL, NULL);
+    if (pSuite == NULL)
+    {
+        return -1;
+    }
+    // List of test function names and strings
 
-	
-	UT_add_test( pSuite, "test_l2_deepSleepMgr" ,test_l2_deepSleepMgr_power );
+    UT_add_test( pSuite, "l2_deepSleepMgr_SetDeepSleepAndVerifyWakeup1", test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeup1);
+    UT_add_test( pSuite, "l2_deepSleepMgr_SetDeepSleepAndVerifyWakeUp10", test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeUp10);
 
-	return 0;
-} 
-
-/** @} */ // End of Deepsleep_Mgr_HALTEST_L2
-/** @} */ // End of Deepsleep_Manager_HALTEST
-/** @} */ // End Deepsleep_Manager
-/** @} */ // End of HPK
+    return 0;
+}
