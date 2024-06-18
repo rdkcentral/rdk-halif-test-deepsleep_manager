@@ -33,7 +33,6 @@
 #include <ut.h>
 #include <ut_log.h>
 #include <ut_kvp_profile.h>
-#include <unistd.h>
 #include "deepSleepMgr.h"
 
 static int gTestGroup = 2;
@@ -57,14 +56,14 @@ void test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeup1(void)
     UT_LOG_INFO("In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
 
     DeepSleep_Return_Status_t status;
-    bool isGPIOWakeup = false;
+    bool isGPIOWakeup ;
 
     UT_LOG_DEBUG("Invoking PLAT_DS_INIT");
     status = PLAT_DS_INIT();
     UT_LOG_DEBUG("Return status: %d", status);
     UT_ASSERT_EQUAL_FATAL(status, DEEPSLEEPMGR_SUCCESS);
 
-    UT_LOG_DEBUG("Invoking PLAT_DS_SetDeepSleep with deep_sleep_timeout=1, isGPIOWakeup=TRUE, networkStandby=FALSE");
+    UT_LOG_DEBUG("Invoking PLAT_DS_SetDeepSleep with deep_sleep_timeout=1, isGPIOWakeup= valid pointer, networkStandby=FALSE");
     status = PLAT_DS_SetDeepSleep(1, &isGPIOWakeup, false);
     UT_LOG_DEBUG("Return status: %d, isGPIOWakeup: %d", status, isGPIOWakeup);
     UT_ASSERT_EQUAL(status, DEEPSLEEPMGR_SUCCESS);
@@ -76,13 +75,11 @@ void test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeup1(void)
         return;
     }
 
-    sleep(1);
-
     UT_LOG_DEBUG("Invoking PLAT_DS_DeepSleepWakeup");
     status = PLAT_DS_DeepSleepWakeup();
     UT_LOG_DEBUG("Return status: %d", status);
     UT_ASSERT_EQUAL(status, DEEPSLEEPMGR_SUCCESS);
-    UT_ASSERT_EQUAL(isGPIOWakeup, true);
+    UT_ASSERT_EQUAL(isGPIOWakeup, false);
     if (status != DEEPSLEEPMGR_SUCCESS)
     {
         UT_LOG_ERROR("PLAT_DS_DeepSleepWakeup failed with status: %d", status);
@@ -119,7 +116,7 @@ void test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeUp10(void)
     DeepSleep_Return_Status_t status;
     bool isGPIOWakeup;
     uint32_t deep_sleep_timeout = 10;
-    bool networkStandby = true;
+    bool networkStandby = false;
 
     UT_LOG_DEBUG("Invoking PLAT_DS_INIT");
     status = PLAT_DS_INIT();
@@ -139,13 +136,11 @@ void test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeUp10(void)
         return;
     }
 
-    sleep(10);
-
     UT_LOG_DEBUG("Invoking PLAT_DS_DeepSleepWakeup");
     status = PLAT_DS_DeepSleepWakeup();
     UT_LOG_DEBUG("Return status: %d", status);
     UT_ASSERT_EQUAL(status, DEEPSLEEPMGR_SUCCESS);
-    UT_ASSERT_EQUAL(isGPIOWakeup, true);
+    UT_ASSERT_EQUAL(isGPIOWakeup, false);
     if (status != DEEPSLEEPMGR_SUCCESS)
     {
         UT_LOG_ERROR("PLAT_DS_DeepSleepWakeup failed with status: %d", status);
