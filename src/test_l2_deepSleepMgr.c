@@ -223,3 +223,9 @@ int test_l2_deepSleepMgr_register(void)
 
     return 0;
 }
+
+
+/** @} */ // End of Deepsleep_Mgr_HALTEST_L2
+/** @} */ // End of Deepsleep_Manager_HALTEST
+/** @} */ // End Deepsleep_Manager
+/** @} */ // End of HPK
