@@ -42,7 +42,7 @@
  */
 
 /**
- * @defgroup Deepsleep_Mgr_HALTEST_L1 Deep Sleep Manager HALTEST L2 File
+ * @defgroup Deepsleep_Mgr_HALTEST_L2 Deep Sleep Manager HALTEST L2 File
  * @{
  * @parblock
  *
@@ -59,24 +59,9 @@
  */
 
 /**
- * @file test_l1_deepSleepMgr.c
+ * @file test_l2_deepSleepMgr.c
  *
  */
-
-
-/**
-* @file test_l2_deepSleepMgr.c
-* @page deepSleepMgr Level 2 Tests
-*
-* ## Module's Role
-* This module includes Level 2 functional tests (success and failure scenarios).
-* This is to ensure that the deepSleepMgr APIs meet the requirements across all vendors.
-*
-* **Pre-Conditions:**  None@n
-* **Dependencies:** None@n
-*
-* Ref to API Definition specification documentation : [deepSleepMgr_halSpec.md](../../docs/pages/deepSleepMgr_halSpec.md)
-*/
 
 #include <ut.h>
 #include <ut_log.h>
@@ -87,15 +72,15 @@ static int gTestGroup = 2;
 static int gTestID = 1;
 
 /**
-* @brief Test to verify the deep sleep and wakeup functionality
+* @brief Test to verify the deep sleep and wake-up functionality
 *
-* This test case verifies the deep sleep and wakeup functionality of the L2 deep sleep manager. It checks if the system can successfully enter deep sleep mode and wake up from it.
+* This test case verifies the deep sleep and wake-up functionality of the L2 deep sleep manager. It checks if the system can successfully enter deep sleep mode and wake up from it.
 *
 * **Test Group ID:** 02@n
 * **Test Case ID:** 001@n
 *
 * **Test Procedure:**
-* Refer to UT specification documentation [deepSleepMgr_L2_Low-Level_TestSpecification.md](../../docs/pages/deepSleepMgr_L2_Low-Level_TestSpecification.md)
+* Refer to UT specification documentation [deepSleepMgr_L2_Low-Level_TestSpecification.md](../docs/pages/deepSleepMgr_L2_Low-Level_TestSpecification.md)
 */
 
 void test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeup1(void)
@@ -105,6 +90,7 @@ void test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeup1(void)
 
     DeepSleep_Return_Status_t status;
     bool isGPIOWakeup ;
+    DeepSleep_WakeupReason_t wakeupReason=DEEPSLEEP_WAKEUPREASON_MAX;
 
     UT_LOG_DEBUG("Invoking PLAT_DS_INIT");
     status = PLAT_DS_INIT();
@@ -135,6 +121,10 @@ void test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeup1(void)
         PLAT_DS_TERM();
         return;
     }
+    status = PLAT_DS_GetLastWakeupReason(&wakeupReason);
+    UT_LOG_DEBUG("Return status: %d, Wakeup Reason:%d", status,wakeupReason);
+    UT_ASSERT_EQUAL(status, DEEPSLEEPMGR_SUCCESS);
+    UT_ASSERT_EQUAL(wakeupReason,DEEPSLEEP_WAKEUPREASON_TIMER);
 
     UT_LOG_DEBUG("Invoking PLAT_DS_TERM");
     status = PLAT_DS_TERM();
@@ -145,15 +135,15 @@ void test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeup1(void)
 }
 
 /**
-* @brief Test to verify the deep sleep and wake up functionality
+* @brief Test to verify the deep sleep and wake-up functionality
 *
-* This test case sets the system into deep sleep and verifies if the system wakes up correctly. The test is crucial to ensure the power management functionality of the system is working as expected.
+* This test case sets the system into a deep sleep and verifies if the system wakes up correctly. The test is crucial to ensure the power management functionality of the system is working as expected.
 *
 * **Test Group ID:** 02@n
 * **Test Case ID:** 002@n
 *
 * **Test Procedure:**
-* Refer to UT specification documentation [deepSleepMgr_L2_Low-Level_TestSpecification.md](../../docs/pages/deepSleepMgr_L2_Low-Level_TestSpecification.md)
+* Refer to UT specification documentation [deepSleepMgr_L2_Low-Level_TestSpecification.md](../docs/pages/deepSleepMgr_L2_Low-Level_TestSpecification.md)
 */
 
 void test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeUp10(void)
@@ -165,6 +155,7 @@ void test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeUp10(void)
     bool isGPIOWakeup;
     uint32_t deep_sleep_timeout = 10;
     bool networkStandby = false;
+    DeepSleep_WakeupReason_t wakeupReason=DEEPSLEEP_WAKEUPREASON_MAX;
 
     UT_LOG_DEBUG("Invoking PLAT_DS_INIT");
     status = PLAT_DS_INIT();
@@ -196,6 +187,10 @@ void test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeUp10(void)
         PLAT_DS_TERM();
         return;
     }
+    status = PLAT_DS_GetLastWakeupReason(&wakeupReason);
+    UT_LOG_DEBUG("Return status: %d, Wakeup Reason:%d", status,wakeupReason);
+    UT_ASSERT_EQUAL(status, DEEPSLEEPMGR_SUCCESS);
+    UT_ASSERT_EQUAL(wakeupReason,DEEPSLEEP_WAKEUPREASON_TIMER);
 
     UT_LOG_DEBUG("Invoking PLAT_DS_TERM");
     status = PLAT_DS_TERM();
