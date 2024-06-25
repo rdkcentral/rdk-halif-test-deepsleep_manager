@@ -80,7 +80,7 @@ static int gTestID = 1;
 * **Test Case ID:** 001@n
 *
 * **Test Procedure:**
-* Refer to UT specification documentation [deepSleepMgr_L2_Low-Level_TestSpecification.md](../docs/pages/deepSleepMgr_L2_Low-Level_TestSpecification.md)
+* Refer to UT specification documentation [deep-sleep-manager_L2-Low-Level_TestSpec.md](../docs/pages/deep-sleep-manager_L2-Low-Level_TestSpec.md)
 */
 
 void test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeup1(void)
@@ -104,9 +104,6 @@ void test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeup1(void)
     if (status != DEEPSLEEPMGR_SUCCESS)
     {
         UT_LOG_ERROR("PLAT_DS_SetDeepSleep failed with status: %d", status);
-        UT_LOG_DEBUG("Invoking PLAT_DS_TERM");
-        PLAT_DS_TERM();
-        return;
     }
 
     UT_LOG_DEBUG("Invoking PLAT_DS_DeepSleepWakeup");
@@ -117,9 +114,6 @@ void test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeup1(void)
     if (status != DEEPSLEEPMGR_SUCCESS)
     {
         UT_LOG_ERROR("PLAT_DS_DeepSleepWakeup failed with status: %d", status);
-        UT_LOG_DEBUG("Invoking PLAT_DS_TERM");
-        PLAT_DS_TERM();
-        return;
     }
     status = PLAT_DS_GetLastWakeupReason(&wakeupReason);
     UT_LOG_DEBUG("Return status: %d, Wakeup Reason:%d", status,wakeupReason);
@@ -143,7 +137,7 @@ void test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeup1(void)
 * **Test Case ID:** 002@n
 *
 * **Test Procedure:**
-* Refer to UT specification documentation [deepSleepMgr_L2_Low-Level_TestSpecification.md](../docs/pages/deepSleepMgr_L2_Low-Level_TestSpecification.md)
+* Refer to UT specification documentation [deep-sleep-manager_L2-Low-Level_TestSpec.md](../docs/pages/deep-sleep-manager_L2-Low-Level_TestSpec.md)
 */
 
 void test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeUp10(void)
@@ -170,9 +164,6 @@ void test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeUp10(void)
     if (status != DEEPSLEEPMGR_SUCCESS)
     {
         UT_LOG_ERROR("PLAT_DS_SetDeepSleep failed with status: %d", status);
-        UT_LOG_DEBUG("Invoking PLAT_DS_TERM");
-        PLAT_DS_TERM();
-        return;
     }
 
     UT_LOG_DEBUG("Invoking PLAT_DS_DeepSleepWakeup");
@@ -183,9 +174,6 @@ void test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeUp10(void)
     if (status != DEEPSLEEPMGR_SUCCESS)
     {
         UT_LOG_ERROR("PLAT_DS_DeepSleepWakeup failed with status: %d", status);
-        UT_LOG_DEBUG("Invoking PLAT_DS_TERM");
-        PLAT_DS_TERM();
-        return;
     }
     status = PLAT_DS_GetLastWakeupReason(&wakeupReason);
     UT_LOG_DEBUG("Return status: %d, Wakeup Reason:%d", status,wakeupReason);
@@ -208,7 +196,7 @@ static UT_test_suite_t * pSuite = NULL;
  * @return int - 0 on success, otherwise failure
  */
 
-int test_l2_deepSleepMgr_register(void)  
+int test_l2_deepSleepMgr_register(void)
 {
     // Create the test suite
     pSuite = UT_add_suite("[L2 deepSleepMgr]", NULL, NULL);
@@ -218,8 +206,8 @@ int test_l2_deepSleepMgr_register(void)
     }
     // List of test function names and strings
 
-    UT_add_test( pSuite, "l2_deepSleepMgr_SetDeepSleepAndVerifyWakeup1", test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeup1);
-    UT_add_test( pSuite, "l2_deepSleepMgr_SetDeepSleepAndVerifyWakeUp10", test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeUp10);
+    UT_add_test( pSuite, "L2_SetDeepSleepAndVerifyWakeup1sec", test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeup1);
+    UT_add_test( pSuite, "L2_SetDeepSleepAndVerifyWakeUp10sec", test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeUp10);
 
     return 0;
 }

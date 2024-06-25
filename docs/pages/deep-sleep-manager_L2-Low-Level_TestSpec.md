@@ -1,19 +1,16 @@
-# DEEPSLEEPMGR L2 Low-Level Test Specification and Procedure Documentation
+# Deep Sleep Manager L2 Low-Level Test Specification and Procedure Documentation
 
 ## Table of Contents
 
-- [DEEPSLEEPMGR L2 Low Level Test Specification and Procedure Documentation](#deepsleepmgr-l2-low-level-test-specification-and-procedure-documentation)
-
-  - [Table of Contents](#table-of-contents)
-  - [Overview](#overview)
-    - [Acronyms, Terms and Abbreviations](#acronyms-terms-and-abbreviations)
-    - [Definitions](#definitions)
-    - [References](#references)
-  - [Level 2 Test Procedure](#level-2-test-procedure)
+- [Overview](#overview)
+- [Acronyms, Terms and Abbreviations](#acronyms-terms-and-abbreviations)
+- [Definitions](#definitions)
+- [References](#references)
+- [Level 2 Test Procedure](#level-2-test-procedure)
 
 ## Overview
 
-This document describes the level 2 testing suite for the DEEPSLEEPMGR module.
+This document describes the L2 Low-Level Test Specification and Procedure Documentation for the Deep Sleep Manager module.
 
 ### Acronyms, Terms and Abbreviations
 
@@ -24,10 +21,11 @@ This document describes the level 2 testing suite for the DEEPSLEEPMGR module.
 
 ### Definitions
 
-  - `ut-core` \- Common Testing Framework <https://github.com/rdkcentral/ut-core>, which wraps an open-source framework that can be expanded to the requirements for future frameworks.
+- `ut-core` \- Common Testing Framework <https://github.com/rdkcentral/ut-core>, which wraps an open-source framework that can be expanded to the requirements for future frameworks.
 
 ### References
-- `High Level Test Specification` - [deepsleep-manager_TestSpec.md](deepsleep-manager_TestSpec.md)
+
+- `High Level Test Specification` - [DeepSleep Manager High Level TestSpec](deep-sleep-manager_High-Level_TestSpec.md)
 - `HAL Interface file` -  [DeepSleep Manager HAL header](https://github.com/rdkcentral/rdk-halif-deepsleep_manager/blob/main/include/deepSleepMgr.h)
 
 ## Level 2 Test Procedure
@@ -44,16 +42,16 @@ The following functions are expected to test whether the module operates correct
 |Test Case ID|001|
 |Priority|High|
 
-**Pre-Conditions **
+**Pre-Conditions**
 None
 
-**Dependencies **
+**Dependencies**
 None
 
-**User Interaction **
+**User Interaction**
 If the user chooses to run the test in interactive mode, then the test case has to be selected via the console.
 
-#### Test Procedure :
+#### Test Procedure - Test 1
 
 | Variation / Steps | Description | Test Data | Expected Result | Notes|
 | -- | --------- | ---------- | -------------- | ----- |
@@ -78,7 +76,6 @@ F -->|DEEPSLEEPMGR_SUCCESS| G[Test case success]
 F -->|Failure| F1[Test case fail]
 ```
 
-
 ### Test 2
 
 |Title|Details|
@@ -89,16 +86,16 @@ F -->|Failure| F1[Test case fail]
 |Test Case ID|002|
 |Priority|High|
 
-**Pre-Conditions **
+**Pre-Conditions**
 None
 
-**Dependencies **
+**Dependencies**
 None
 
-**User Interaction **
+**User Interaction**
 If the user chooses to run the test in interactive mode, then the test case has to be selected via the console.
 
-#### Test Procedure :
+#### Test Procedure - Test2
 
 | Variation / Steps | Description | Test Data | Expected Result | Notes|
 | -- | --------- | ---------- | -------------- | ----- |
@@ -122,5 +119,3 @@ E -->|Failure| E1[Test case fail]
 F -->|DEEPSLEEPMGR_SUCCESS| G[Test case success]
 F -->|Failure| F1[Test case fail]
 ```
-
-
