@@ -437,8 +437,9 @@ void test_l1_deepSleepMgr_positive_PLAT_DS_SetDeepSleep (void)
  * |01|Call PLAT_DS_SetDeepSleep() - call before initialization | deep_sleep_timeout=60, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_NOT_INITIALIZED | Should Pass |
  * |02|Call PLAT_DS_INIT() - open interface | | DEEPSLEEP_SUCCESS | Should Pass |
  * |03|Call PLAT_DS_SetDeepSleep() set deep sleep | deep_sleep_timeout=30, *isGPIOWakeup=NULL, networkStandby=false | DEEPSLEEPMGR_INVALID_ARGUMENT | Should Pass |
- * |04|Call PLAT_DS_TERM() - close interface | | DEEPSLEEP_SUCCESS | Should Pass |
- * |05|Call PLAT_DS_SetDeepSleep() - call after termination | deep_sleep_timeout=60, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_NOT_INITIALIZED | Should Pass |
+ * |04|Call PLAT_DS_SetDeepSleep() set deep sleep | deep_sleep_timeout=604801, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_INVALID_ARGUMENT | Should Pass |
+ * |05|Call PLAT_DS_TERM() - close interface | | DEEPSLEEP_SUCCESS | Should Pass |
+ * |06|Call PLAT_DS_SetDeepSleep() - call after termination | deep_sleep_timeout=60, *isGPIOWakeup=false, networkStandby=false | DEEPSLEEPMGR_NOT_INITIALIZED | Should Pass |
  * 
  */
 void test_l1_deepSleepMgr_negative_PLAT_DS_SetDeepSleep (void)
@@ -467,11 +468,16 @@ void test_l1_deepSleepMgr_negative_PLAT_DS_SetDeepSleep (void)
     result = PLAT_DS_SetDeepSleep(deep_sleep_timeout, NULL, networkStandby);
     CHECK_FOR_EXTENDED_ERROR_CODE( result, DEEPSLEEPMGR_INVALID_ARGUMENT, DEEPSLEEPMGR_SUCCESS);
 
-    // Variation 04: Call PLAT_DS_TERM() and check the result
+    // Variation 04: Call PLAT_DS_SetDeepSleep() with invalid timeout value pointer for isGPIOWakeup
+    deep_sleep_timeout = 604801; //Max value is 604800
+    result = PLAT_DS_SetDeepSleep(deep_sleep_timeout, &isGPIOWakeup, networkStandby);
+    CHECK_FOR_EXTENDED_ERROR_CODE( result, DEEPSLEEPMGR_INVALID_ARGUMENT, DEEPSLEEPMGR_SUCCESS);
+
+    // Variation 05: Call PLAT_DS_TERM() and check the result
     result = PLAT_DS_TERM();
     UT_ASSERT_EQUAL_FATAL(result, DEEPSLEEPMGR_SUCCESS);
 
-    // Variation 05: Call PLAT_DS_SetDeepSleep() after termination
+    // Variation 06: Call PLAT_DS_SetDeepSleep() after termination
     deep_sleep_timeout = 60;
     result = PLAT_DS_SetDeepSleep(deep_sleep_timeout, &isGPIOWakeup, networkStandby);
     CHECK_FOR_EXTENDED_ERROR_CODE( result, DEEPSLEEPMGR_NOT_INITIALIZED, DEEPSLEEPMGR_SUCCESS);
