@@ -79,6 +79,9 @@ extern int test_l1_deepSleepMgr_register( void );
 /* L2 Testing Functions */
 extern int test_l2_deepSleepMgr_register( void );
 
+/* L3 Testing Functions */
+extern int test_l3_deepSleepMgr_register( void );
+
 int UT_register_APIDEF_l1_tests( void )
 {
 	int registerFailed=0;
@@ -94,6 +97,16 @@ int UT_register_APIDEF_l2_tests( void )
 	int registerFailed=0;
 
 	registerFailed |= test_l2_deepSleepMgr_register();
+
+	return registerFailed;
+}
+
+/* Register UT Functions */
+int UT_register_APIDEF_l3_tests( void )
+{
+	int registerFailed=0;
+
+	registerFailed |= test_l3_deepSleepMgr_register();
 
 	return registerFailed;
 }
