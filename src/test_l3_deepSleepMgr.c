@@ -170,6 +170,7 @@ void test_l3_deepsleep_manager_hal_Trigger_Deepsleep(void)
    UT_LOG_INFO("Result PLAT_DS_SetDeepSleep: DeepSleep_Return_Status_t:[%s]",
                 UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
 
+  exit:
    UT_LOG_INFO("Out %s\n", __FUNCTION__);
 }
 
