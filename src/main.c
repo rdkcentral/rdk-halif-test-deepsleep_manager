@@ -67,6 +67,7 @@
 
 extern int UT_register_APIDEF_l1_tests( void );
 extern int UT_register_APIDEF_l2_tests( void );
+extern int UT_register_APIDEF_l3_tests( void );
 
 int main(int argc, char** argv) 
 {
