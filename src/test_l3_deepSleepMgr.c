@@ -73,6 +73,7 @@
 #include "ut_kvp_profile.h"
 #include <ut_control_plane.h>
 
+#define UT_LOG_MENU_INFO UT_LOG_INFO
 
 static int gTestGroup = 3;
 static int gTestID = 1;
@@ -91,10 +92,20 @@ const static ut_control_keyStringMapping_t DeepSleep_Return_Status_mapTable [] =
 };
 
 /**
+ * @brief This function clears the stdin buffer.
+ *
+ * This function clears the stdin buffer.
+ */
+void readAndDiscardRestOfLine(FILE* in)
+{
+   int c;
+   while ( (c = fgetc(in)) != EOF && c != '\n');
+}
+
+/**
 * @brief Initialization of the HAL Deepsleep Manager Module
 *
 * This test provides a scope to open the HAL Deepsleep Manager module.
-
 *
 * **Test Group ID:** 03@n
 *
