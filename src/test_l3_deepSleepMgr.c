@@ -128,6 +128,7 @@ void test_l3_deepsleep_manager_hal_Init(void)
    UT_LOG_INFO("In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
 
    // Step 1: Call PLAT_DS_INIT()
+   UT_LOG_INFO("Calling PLAT_DS_INIT()");
    status = PLAT_DS_INIT();
    UT_LOG_INFO("Result PLAT_DS_INIT: DeepSleep_Return_Status_t:[%s]",
                 UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
@@ -136,10 +137,9 @@ void test_l3_deepsleep_manager_hal_Init(void)
 }
 
 /**
-* @brief Initialization of the HAL Deepsleep Manager Module
+* @brief Trigger deepsleep from the HAL Deepsleep Manager Module
 *
 * This test provides a scope to trigger deepsleep with a timeout.
-
 *
 * **Test Group ID:** 03@n
 *
@@ -164,7 +164,7 @@ void test_l3_deepsleep_manager_hal_Trigger_Deepsleep(void)
    bool isGPIOWakeup = false;
    bool networkStandby = false;
 
-
+    // Step 1: Get the Deep Sleep Timeout
    UT_LOG_MENU_INFO("----------------------------------------------------------");
    UT_LOG_MENU_INFO("Specify the Deep Sleep Timeout in seconds between 0 and 604800. 0 for no timeout.  ");
    UT_LOG_MENU_INFO("----------------------------------------------------------");
@@ -177,7 +177,8 @@ void test_l3_deepsleep_manager_hal_Trigger_Deepsleep(void)
             goto exit;
         }
     
-   // Step 1: Call PLAT_DS_SetDeepSleep()
+   // Step 2: Call PLAT_DS_SetDeepSleep()
+   UT_LOG_INFO("Calling PLAT_DS_SetDeepSleep()");
    status = PLAT_DS_SetDeepSleep(deep_sleep_timeout, &isGPIOWakeup, networkStandby);
    UT_LOG_INFO("Result PLAT_DS_SetDeepSleep: DeepSleep_Return_Status_t:[%s]",
                 UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
@@ -187,7 +188,7 @@ void test_l3_deepsleep_manager_hal_Trigger_Deepsleep(void)
 }
 
 /**
-* @brief Initialization of the HAL Deepsleep Manager Module
+* @brief Termination of the HAL Deepsleep Manager Module
 *
 * This test provides a scope to close the HAL Deepsleep Manager module.
 
@@ -213,6 +214,7 @@ void test_l3_deepsleep_manager_hal_Term(void)
    UT_LOG_INFO("In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
 
    // Step 1: Call PLAT_DS_TERM()
+   UT_LOG_INFO("Calling PLAT_DS_TERM()");
    status = PLAT_DS_TERM();
    UT_LOG_INFO("Result PLAT_DS_TERM: DeepSleep_Return_Status_t:[%s]",
                 UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
