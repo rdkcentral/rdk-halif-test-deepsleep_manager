@@ -91,6 +91,29 @@ const static ut_control_keyStringMapping_t DeepSleep_Return_Status_mapTable [] =
   {  NULL, -1 }
 };
 
+/* DeepSleep_WakeupReason_t */
+const static ut_control_keyStringMapping_t DeepSleep_WakeupReason_mapTable [] = {
+  { "DEEPSLEEP_WAKEUPREASON_IR",             (int32_t)DEEPSLEEP_WAKEUPREASON_IR                      },
+  { "DEEPSLEEP_WAKEUPREASON_RCU_BT",         (int32_t)DEEPSLEEP_WAKEUPREASON_RCU_BT                 },
+  { "DEEPSLEEP_WAKEUPREASON_RCU_RF4CE",      (int32_t)DEEPSLEEP_WAKEUPREASON_RCU_RF4CE           },
+  { "DEEPSLEEP_WAKEUPREASON_GPIO",           (int32_t)DEEPSLEEP_WAKEUPREASON_GPIO                },
+  { "DEEPSLEEP_WAKEUPREASON_LAN",            (int32_t)DEEPSLEEP_WAKEUPREASON_LAN                 },
+  { "DEEPSLEEP_WAKEUPREASON_WLAN",           (int32_t)DEEPSLEEP_WAKEUPREASON_WLAN                },
+  { "DEEPSLEEP_WAKEUPREASON_TIMER",          (int32_t)DEEPSLEEP_WAKEUPREASON_TIMER               },
+  { "DEEPSLEEP_WAKEUPREASON_FRONT_PANEL",    (int32_t)DEEPSLEEP_WAKEUPREASON_FRONT_PANEL         },
+  { "DEEPSLEEP_WAKEUPREASON_WATCHDOG",       (int32_t)DEEPSLEEP_WAKEUPREASON_WATCHDOG          },
+  { "DEEPSLEEP_WAKEUPREASON_SOFTWARE_RESET", (int32_t)DEEPSLEEP_WAKEUPREASON_SOFTWARE_RESET   },
+  { "DEEPSLEEP_WAKEUPREASON_THERMAL_RESET",  (int32_t)DEEPSLEEP_WAKEUPREASON_THERMAL_RESET    },
+  { "DEEPSLEEP_WAKEUPREASON_WARM_RESET",     (int32_t)DEEPSLEEP_WAKEUPREASON_WARM_RESET       },
+  { "DEEPSLEEP_WAKEUPREASON_COLDBOOT",       (int32_t)DEEPSLEEP_WAKEUPREASON_COLDBOOT         },
+  { "DEEPSLEEP_WAKEUPREASON_STR_AUTH_FAILURE", (int32_t)DEEPSLEEP_WAKEUPREASON_STR_AUTH_FAILURE },
+  { "DEEPSLEEP_WAKEUPREASON_CEC",            (int32_t)DEEPSLEEP_WAKEUPREASON_CEC             },
+  { "DEEPSLEEP_WAKEUPREASON_PRESENCE",       (int32_t)DEEPSLEEP_WAKEUPREASON_PRESENCE        },
+  { "DEEPSLEEP_WAKEUPREASON_VOICE",          (int32_t)DEEPSLEEP_WAKEUPREASON_VOICE           },
+  { "DEEPSLEEP_WAKEUPREASON_UNKNOWN",        (int32_t)DEEPSLEEP_WAKEUPREASON_UNKNOWN         },
+  { "DEEPSLEEP_WAKEUPREASON_MAX",            (int32_t)DEEPSLEEP_WAKEUPREASON_MAX             },
+  {  NULL, -1 }
+
 /**
  * @brief This function clears the stdin buffer.
  *
@@ -132,6 +155,8 @@ void test_l3_deepsleep_manager_hal_Init(void)
    status = PLAT_DS_INIT();
    UT_LOG_INFO("Result PLAT_DS_INIT: DeepSleep_Return_Status_t:[%s]",
                 UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
+
+    DS_ASSERT(status == DEEPSLEEPMGR_SUCCESS);
 
    UT_LOG_INFO("Out %s\n", __FUNCTION__);
 }
@@ -183,15 +208,16 @@ void test_l3_deepsleep_manager_hal_Trigger_Deepsleep(void)
    UT_LOG_INFO("Result PLAT_DS_SetDeepSleep: DeepSleep_Return_Status_t:[%s]",
                 UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
 
+    DS_ASSERT(status == DEEPSLEEPMGR_SUCCESS);
+
   exit:
    UT_LOG_INFO("Out %s\n", __FUNCTION__);
 }
 
 /**
-* @brief Termination of the HAL Deepsleep Manager Module
+* @brief Trigger deepsleepwakeup from the HAL Deepsleep Manager Module
 *
-* This test provides a scope to close the HAL Deepsleep Manager module.
-
+* This test provides a scope to trigger deepsleep wakeup.
 *
 * **Test Group ID:** 03@n
 *
@@ -205,10 +231,117 @@ void test_l3_deepsleep_manager_hal_Trigger_Deepsleep(void)
 * User or Automation tool should select the Test 1 to before running any test.
 *
 */
+void test_l3_deepsleep_manager_hal_wakeup(void){
+    gTestID = 3;
+    DeepSleep_Return_Status_t status = DEEPSLEEPMGR_SUCCESS;
+
+    UT_LOG_INFO("In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
+
+    // Step 1: Call PLAT_DS_DeepSleepWakeup()
+    UT_LOG_INFO("Calling PLAT_DS_DeepSleepWakeup()");
+    status = PLAT_DS_DeepSleepWakeup();
+    UT_LOG_INFO("Result PLAT_DS_DeepSleepWakeup: DeepSleep_Return_Status_t:[%s]",
+                UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
+
+    DS_ASSERT(status == DEEPSLEEPMGR_SUCCESS);
+
+    UT_LOG_INFO("Out %s\n", __FUNCTION__);
+}
+
+/**
+* @brief Trigger deepsleepwakeup reason from the HAL Deepsleep Manager Module
+*
+* This test provides a scope to trigger deepsleep wakeup reason.
+*
+* **Test Group ID:** 03@n
+*
+* **Test Case ID:** 004@n
+*
+* **Pre-Conditions:** None@n
+*
+* **Dependencies:** None@n
+*
+* **User Interaction:** @n
+* User or Automation tool should select the Test 1 to before running any test.
+*
+*/
+void test_l3_deepsleep_manager_hal_wakeupreason(void){
+    gTestID = 4;
+    DeepSleep_Return_Status_t status = DEEPSLEEPMGR_SUCCESS;
+    DeepSleepMgr_WakeupKeyCode_Param_t wakeupKeyCode;
+
+    UT_LOG_INFO("In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
+
+    // Step 1: Call PLAT_DS_GetLastWakeupKeyCode()
+    UT_LOG_INFO("Calling PLAT_DS_GetLastWakeupKeyCode()");
+    status = PLAT_DS_GetLastWakeupKeyCode(&wakeupKeyCode);
+    UT_LOG_INFO("Result PLAT_DS_GetLastWakeupKeyCode: DeepSleep_Return_Status_t:[%s]",
+                UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
+    UT_LOG_INFO("WakeupKeyCode: %s", UT_Control_GetMapString(DeepSleep_WakeupReason_mapTable, wakeupKeyCode));
+
+    DS_ASSERT(status == DEEPSLEEPMGR_SUCCESS);
+
+    UT_LOG_INFO("Out %s\n", __FUNCTION__);
+}
+
+/**
+* @brief Trigger deepsleep last wakeup keycode reason from the HAL Deepsleep Manager Module
+*
+* This test provides a scope to trigger deepsleep last wakeup keycode.
+*
+* **Test Group ID:** 03@n
+*
+* **Test Case ID:** 005@n
+*
+* **Pre-Conditions:** None@n
+*
+* **Dependencies:** None@n
+*
+* **User Interaction:** @n
+* User or Automation tool should select the Test 1 to before running any test.
+*
+*/
+void test_l3_deepsleep_manager_hal_lastwakeupkeycode(void){
+    gTestID = 5;
+    DeepSleep_Return_Status_t status = DEEPSLEEPMGR_SUCCESS;
+    DeepSleepMgr_WakeupKeyCode_Param_t  wakeupKeyCode;
+
+    UT_LOG_INFO("In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
+
+    // Step 1: Call PLAT_DS_GetLastWakeupKeyCode()
+    UT_LOG_INFO("Calling PLAT_DS_GetLastWakeupKeyCode()");
+    status = PLAT_DS_GetLastWakeupKeyCode(&wakeupKeyCode);
+    UT_LOG_INFO("Result PLAT_DS_GetLastWakeupKeyCode: DeepSleep_Return_Status_t:[%s]",
+                UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
+    UT_LOG_INFO("wakeupKeyCode: %d", wakeupKeyCode);
+
+    DS_ASSERT(status == DEEPSLEEPMGR_SUCCESS);
+
+    UT_LOG_INFO("Out %s\n", __FUNCTION__);
+}
+
+/**
+* @brief Termination of the HAL Deepsleep Manager Module
+*
+* This test provides a scope to close the HAL Deepsleep Manager module.
+
+*
+* **Test Group ID:** 03@n
+*
+* **Test Case ID:** 006@n
+*
+* **Pre-Conditions:** None@n
+*
+* **Dependencies:** None@n
+*
+* **User Interaction:** @n
+* User or Automation tool should select the Test 1 to before running any test.
+*
+*/
 
 void test_l3_deepsleep_manager_hal_Term(void)
 {
-   gTestID = 3;
+   gTestID = 6;
    DeepSleep_Return_Status_t status = DEEPSLEEPMGR_SUCCESS;
 
    UT_LOG_INFO("In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
@@ -218,6 +351,8 @@ void test_l3_deepsleep_manager_hal_Term(void)
    status = PLAT_DS_TERM();
    UT_LOG_INFO("Result PLAT_DS_TERM: DeepSleep_Return_Status_t:[%s]",
                 UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
+
+    DS_ASSERT(status == DEEPSLEEPMGR_SUCCESS);
 
    UT_LOG_INFO("Out %s\n", __FUNCTION__);
 }
@@ -233,14 +368,14 @@ int test_l3_deepSleepMgr_register(void)
 {
     // Create the test suite
     pSuite = UT_add_suite("[L3 deepsleep Functions] ", NULL, NULL);
-    if (pSuite == NULL)
-    {
-        return -1;
-    }
+    DS_ASSERT(pSuite == UT_KVP_STATUS_SUCCESS);
     // List of test function names and strings
 
     UT_add_test( pSuite, "L3_Init_deepSleep", test_l3_deepsleep_manager_hal_Init);
     UT_add_test( pSuite, "L3_deepSleepTrigger", test_l3_deepsleep_manager_hal_Trigger_Deepsleep);
+    UT_add_test( pSuite, "L3_DeepSleepWakeup", test_l3_deepsleep_manager_hal_wakeup);
+    UT_add_test( pSuite, "L3_DeepSleepWakeupReason", test_l3_deepsleep_manager_hal_wakeupreason);
+    UT_add_test( pSuite, "L3_DeepSleepLastWakeupKeyCode", test_l3_deepsleep_manager_hal_lastwakeupkeycode);
     UT_add_test( pSuite, "L3_Term_deepSleep", test_l3_deepsleep_manager_hal_Term);
 
     return 0;
