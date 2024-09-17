@@ -75,6 +75,8 @@
 
 #define UT_LOG_MENU_INFO UT_LOG_INFO
 
+#define DS_ASSERT assert
+
 static int gTestGroup = 3;
 static int gTestID = 1;
 
@@ -278,7 +280,7 @@ void test_l3_deepsleep_manager_hal_wakeupreason(void){
     status = PLAT_DS_GetLastWakeupKeyCode(&wakeupKeyCode);
     UT_LOG_INFO("Result PLAT_DS_GetLastWakeupKeyCode: DeepSleep_Return_Status_t:[%s]",
                 UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
-    UT_LOG_INFO("WakeupKeyCode: %s", UT_Control_GetMapString(DeepSleep_WakeupReason_mapTable, wakeupKeyCode));
+    UT_LOG_INFO("WakeupKeyCode: %d", wakeupKeyCode);
 
     DS_ASSERT(status == DEEPSLEEPMGR_SUCCESS);
 
