@@ -275,12 +275,12 @@ void test_l3_deepsleep_manager_hal_wakeupreason(void){
 
     UT_LOG_INFO("In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
 
-    // Step 1: Call PLAT_DS_GetLastWakeupKeyCode()
-    UT_LOG_INFO("Calling PLAT_DS_GetLastWakeupKeyCode()");
-    status = PLAT_DS_GetLastWakeupKeyCode(&wakeupKeyCode);
-    UT_LOG_INFO("Result PLAT_DS_GetLastWakeupKeyCode: DeepSleep_Return_Status_t:[%s]",
+    // Step 1: Call PLAT_DS_GetLastWakeupReason()
+    UT_LOG_INFO("Calling PLAT_DS_GetLastWakeupReason()");
+    status = PLAT_DS_GetLastWakeupReason(&wakeupKeyCode);
+    UT_LOG_INFO("Result PLAT_DS_GetLastWakeupReason: DeepSleep_Return_Status_t:[%s]",
                 UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
-    UT_LOG_INFO("WakeupKeyCode: %d", wakeupKeyCode);
+    UT_LOG_INFO("WakeupKeyCode: %s", UT_Control_GetMapString(DeepSleep_WakeupReason_mapTable, wakeupKeyCode));
 
     DS_ASSERT(status == DEEPSLEEPMGR_SUCCESS);
 
