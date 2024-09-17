@@ -113,6 +113,7 @@ const static ut_control_keyStringMapping_t DeepSleep_WakeupReason_mapTable [] = 
   { "DEEPSLEEP_WAKEUPREASON_UNKNOWN",        (int32_t)DEEPSLEEP_WAKEUPREASON_UNKNOWN         },
   { "DEEPSLEEP_WAKEUPREASON_MAX",            (int32_t)DEEPSLEEP_WAKEUPREASON_MAX             },
   {  NULL, -1 }
+};
 
 /**
  * @brief This function clears the stdin buffer.
