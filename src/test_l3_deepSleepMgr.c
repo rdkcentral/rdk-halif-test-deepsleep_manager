@@ -252,9 +252,9 @@ void test_l3_deepsleep_manager_hal_wakeup(void){
 }
 
 /**
-* @brief Trigger deepsleepwakeup reason from the HAL Deepsleep Manager Module
+* @brief Trigger deepsleep last wakeup reason from the HAL Deepsleep Manager Module
 *
-* This test provides a scope to trigger deepsleep wakeup reason.
+* This test provides a scope to trigger deepsleep last wakeup reason.
 *
 * **Test Group ID:** 03@n
 *
@@ -271,16 +271,16 @@ void test_l3_deepsleep_manager_hal_wakeup(void){
 void test_l3_deepsleep_manager_hal_wakeupreason(void){
     gTestID = 4;
     DeepSleep_Return_Status_t status = DEEPSLEEPMGR_SUCCESS;
-    DeepSleepMgr_WakeupKeyCode_Param_t wakeupKeyCode;
+    DeepSleep_WakeupReason_t wakeupReason;
 
     UT_LOG_INFO("In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
 
     // Step 1: Call PLAT_DS_GetLastWakeupReason()
     UT_LOG_INFO("Calling PLAT_DS_GetLastWakeupReason()");
-    status = PLAT_DS_GetLastWakeupReason(&wakeupKeyCode);
+    status = PLAT_DS_GetLastWakeupReason(&wakeupReason);
     UT_LOG_INFO("Result PLAT_DS_GetLastWakeupReason: DeepSleep_Return_Status_t:[%s]",
                 UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
-    UT_LOG_INFO("WakeupKeyCode: %s", UT_Control_GetMapString(DeepSleep_WakeupReason_mapTable, wakeupKeyCode));
+    UT_LOG_INFO("wakeupReason: %s", UT_Control_GetMapString(DeepSleep_WakeupReason_mapTable, wakeupReason));
 
     DS_ASSERT(status == DEEPSLEEPMGR_SUCCESS);
 
