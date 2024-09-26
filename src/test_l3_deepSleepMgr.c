@@ -368,7 +368,7 @@ static UT_test_suite_t * pSuite = NULL;
 int test_l3_deepSleepMgr_register(void)
 {
     // Create the test suite
-    pSuite = UT_add_suite("[L3 deepsleep Functions] ", NULL, NULL);
+    pSuite = UT_add_suite("[Deepsleep Manager Functions] ", NULL, NULL);
     assert(pSuite == UT_KVP_STATUS_SUCCESS);
     // List of test function names and strings
 
