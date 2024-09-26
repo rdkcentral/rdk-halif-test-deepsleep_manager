@@ -157,7 +157,7 @@ void test_l3_deepsleep_manager_hal_Init(void)
    UT_LOG_INFO("Result PLAT_DS_INIT: DeepSleep_Return_Status_t:[%s]",
                 UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
 
-    UT_ASSERT_EQUAL_FATAL(status, DEEPSLEEPMGR_SUCCESS);
+    assert(status, DEEPSLEEPMGR_SUCCESS);
 
    UT_LOG_INFO("Out %s\n", __FUNCTION__);
 }
@@ -209,7 +209,7 @@ void test_l3_deepsleep_manager_hal_Trigger_Deepsleep(void)
    UT_LOG_INFO("Result PLAT_DS_SetDeepSleep: DeepSleep_Return_Status_t:[%s]",
                 UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
 
-    UT_ASSERT_EQUAL_FATAL(status, DEEPSLEEPMGR_SUCCESS);
+    assert(status, DEEPSLEEPMGR_SUCCESS);
 
   exit:
    UT_LOG_INFO("Out %s\n", __FUNCTION__);
@@ -244,7 +244,7 @@ void test_l3_deepsleep_manager_hal_wakeup(void){
     UT_LOG_INFO("Result PLAT_DS_DeepSleepWakeup: DeepSleep_Return_Status_t:[%s]",
                 UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
 
-    UT_ASSERT_EQUAL_FATAL(status, DEEPSLEEPMGR_SUCCESS);
+    assert(status, DEEPSLEEPMGR_SUCCESS);
 
     UT_LOG_INFO("Out %s\n", __FUNCTION__);
 }
@@ -280,7 +280,7 @@ void test_l3_deepsleep_manager_hal_wakeupreason(void){
                 UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
     UT_LOG_INFO("wakeupReason: %s", UT_Control_GetMapString(DeepSleep_WakeupReason_mapTable, wakeupReason));
 
-    UT_ASSERT_EQUAL_FATAL(status, DEEPSLEEPMGR_SUCCESS);
+    assert(status, DEEPSLEEPMGR_SUCCESS);
 
     UT_LOG_INFO("Out %s\n", __FUNCTION__);
 }
@@ -316,7 +316,7 @@ void test_l3_deepsleep_manager_hal_lastwakeupkeycode(void){
                 UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
     UT_LOG_INFO("wakeupKeyCode: %d", wakeupKeyCode);
 
-    UT_ASSERT_EQUAL_FATAL(status, DEEPSLEEPMGR_SUCCESS);
+    assert(status, DEEPSLEEPMGR_SUCCESS);
 
     UT_LOG_INFO("Out %s\n", __FUNCTION__);
 }
@@ -353,7 +353,7 @@ void test_l3_deepsleep_manager_hal_Term(void)
    UT_LOG_INFO("Result PLAT_DS_TERM: DeepSleep_Return_Status_t:[%s]",
                 UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
 
-    UT_ASSERT_EQUAL_FATAL(status, DEEPSLEEPMGR_SUCCESS);
+    assert(status, DEEPSLEEPMGR_SUCCESS);
 
    UT_LOG_INFO("Out %s\n", __FUNCTION__);
 }
@@ -369,15 +369,15 @@ int test_l3_deepSleepMgr_register(void)
 {
     // Create the test suite
     pSuite = UT_add_suite("[L3 deepsleep Functions] ", NULL, NULL);
-    UT_ASSERT_EQUAL_FATAL(pSuite == UT_KVP_STATUS_SUCCESS);
+    assert(pSuite == UT_KVP_STATUS_SUCCESS);
     // List of test function names and strings
 
-    UT_add_test( pSuite, "L3_Init_deepSleep", test_l3_deepsleep_manager_hal_Init);
-    UT_add_test( pSuite, "L3_deepSleepTrigger", test_l3_deepsleep_manager_hal_Trigger_Deepsleep);
-    UT_add_test( pSuite, "L3_DeepSleepWakeup", test_l3_deepsleep_manager_hal_wakeup);
-    UT_add_test( pSuite, "L3_DeepSleepWakeupReason", test_l3_deepsleep_manager_hal_wakeupreason);
-    UT_add_test( pSuite, "L3_DeepSleepLastWakeupKeyCode", test_l3_deepsleep_manager_hal_lastwakeupkeycode);
-    UT_add_test( pSuite, "L3_Term_deepSleep", test_l3_deepsleep_manager_hal_Term);
+    UT_add_test( pSuite, "Initialize Deepsleep Manager", test_l3_deepsleep_manager_hal_Init);
+    UT_add_test( pSuite, "Deepsleep Trigger", test_l3_deepsleep_manager_hal_Trigger_Deepsleep);
+    UT_add_test( pSuite, "Deepsleep Wakeup", test_l3_deepsleep_manager_hal_wakeup);
+    UT_add_test( pSuite, "Get last wakeup reason", test_l3_deepsleep_manager_hal_wakeupreason);
+    UT_add_test( pSuite, "Get last wakeup keycode", test_l3_deepsleep_manager_hal_lastwakeupkeycode);
+    UT_add_test( pSuite, "Terminate Deepsleep Manager", test_l3_deepsleep_manager_hal_Term);
 
     return 0;
 }
