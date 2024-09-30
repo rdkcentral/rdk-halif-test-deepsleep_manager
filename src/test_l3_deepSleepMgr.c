@@ -204,12 +204,28 @@ void test_l3_deepsleep_manager_hal_Trigger_Deepsleep(void)
             UT_LOG_ERROR("Invalid timeout value");
             goto exit;
         }
+    UT_LOG_MENU_INFO("----------------------------------------------------------");
+    UT_LOG_MENU_INFO("Network Standby enabled/disabled");
+    UT_LOG_MENU_INFO("----------------------------------------------------------");
+    UT_LOG_MENU_INFO("\t#  %-20s","Enable/Disable Network Standby");
+    UT_LOG_MENU_INFO("\t%d  %-20s", 0, "Disable");
+    UT_LOG_MENU_INFO("\t%d  %-20s", 1, "Enable");
+    UT_LOG_MENU_INFO("----------------------------------------------------------");
+    UT_LOG_MENU_INFO("Select Enable/Disable Network standby: ");
+    scanf("%d", &enableGet);
+    readAndDiscardRestOfLine(stdin);
+    if(sourceType != 0 && sourceType != 1)
+    {
+        UT_LOG_ERROR("Invalid enable type");
+        goto exit;
+    }
+     bool enable = (bool)enableGet;
     
    // Step 2: Call PLAT_DS_SetDeepSleep()
-   UT_LOG_INFO("Calling PLAT_DS_SetDeepSleep()");
+   UT_LOG_INFO("Calling PLAT_DS_SetDeepSleep(): IN:deep_sleep_timeout[%d], OUT:isGPIOWakeup[], IN:networkStandby[%s]", deep_sleep_timeout, networkStandby ? "true" : "false");
    status = PLAT_DS_SetDeepSleep(deep_sleep_timeout, &isGPIOWakeup, networkStandby);
-   UT_LOG_INFO("Result PLAT_DS_SetDeepSleep: DeepSleep_Return_Status_t:[%s]",
-                UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
+   UT_LOG_INFO("Result PLAT_DS_SetDeepSleep: DeepSleep_Return_Status_t:[%s], isGPIOWakeup[%s]",
+                UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status), isGPIOWakeup ? "true" : "false");
 
     assert(status == DEEPSLEEPMGR_SUCCESS);
 
@@ -276,11 +292,11 @@ void test_l3_deepsleep_manager_hal_wakeupreason(void){
     UT_LOG_INFO("In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
 
     // Step 1: Call PLAT_DS_GetLastWakeupReason()
-    UT_LOG_INFO("Calling PLAT_DS_GetLastWakeupReason()");
+    UT_LOG_INFO("Calling PLAT_DS_GetLastWakeupReason(): OUT:wakeupReason[]");
     status = PLAT_DS_GetLastWakeupReason(&wakeupReason);
-    UT_LOG_INFO("Result PLAT_DS_GetLastWakeupReason: DeepSleep_Return_Status_t:[%s]",
+    UT_LOG_INFO("Result PLAT_DS_GetLastWakeupReason: DeepSleep_Return_Status_t:[%s], wakeupReason:[%s]",
                 UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
-    UT_LOG_INFO("wakeupReason: %s", UT_Control_GetMapString(DeepSleep_WakeupReason_mapTable, wakeupReason));
+    UT_LOG_INFO("wakeupReason: %s", UT_Control_GetMapString(DeepSleep_WakeupReason_mapTable, wakeupReason), wakeupReason);
 
     assert(status == DEEPSLEEPMGR_SUCCESS);
 
@@ -312,10 +328,10 @@ void test_l3_deepsleep_manager_hal_lastwakeupkeycode(void){
     UT_LOG_INFO("In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
 
     // Step 1: Call PLAT_DS_GetLastWakeupKeyCode()
-    UT_LOG_INFO("Calling PLAT_DS_GetLastWakeupKeyCode()");
+    UT_LOG_INFO("Calling PLAT_DS_GetLastWakeupKeyCode(): OUT:wakeupKeyCode[]");
     status = PLAT_DS_GetLastWakeupKeyCode(&wakeupKeyCode);
-    UT_LOG_INFO("Result PLAT_DS_GetLastWakeupKeyCode: DeepSleep_Return_Status_t:[%s]",
-                UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
+    UT_LOG_INFO("Result PLAT_DS_GetLastWakeupKeyCode: DeepSleep_Return_Status_t:[%s], wakeupKeyCode:[%d]",
+                UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status), wakeupKeyCode);
     UT_LOG_INFO("wakeupKeyCode: %d", wakeupKeyCode);
 
     assert(status == DEEPSLEEPMGR_SUCCESS);
