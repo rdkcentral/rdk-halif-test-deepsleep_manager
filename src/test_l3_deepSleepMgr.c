@@ -2,7 +2,7 @@
  *  If not stated otherwise in this file or this component's LICENSE
  *  file the following copyright and licenses apply:
  *
- *  Copyright 2022 RDK Management
+ *  Copyright 2024 RDK Management
  *
  *  Licensed under the Apache License, Version 2.0 (the License);
  *  you may not use this file except in compliance with the License.
@@ -82,38 +82,38 @@ static int gTestID = 1;
 
 /* DeepSleep_Return_Status_t */
 const static ut_control_keyStringMapping_t DeepSleep_Return_Status_mapTable [] = {
-  { "DEEPSLEEPMGR_SUCCESS",             (int32_t)DEEPSLEEPMGR_SUCCESS                      },
-  { "DEEPSLEEPMGR_ALREADY_INITIALIZED", (int32_t)DEEPSLEEPMGR_ALREADY_INITIALIZED                 },
-  { "DEEPSLEEPMGR_NOT_INITIALIZED",     (int32_t)DEEPSLEEPMGR_NOT_INITIALIZED           },
-  { "DEEPSLEEPMGR_INIT_FAILURE",        (int32_t)DEEPSLEEPMGR_INIT_FAILURE           },
-  { "DEEPSLEEPMGR_SET_FAILURE",         (int32_t)DEEPSLEEPMGR_SET_FAILURE         },
-  { "DEEPSLEEPMGR_WAKEUP_FAILURE",      (int32_t)DEEPSLEEPMGR_WAKEUP_FAILURE },
-  { "DEEPSLEEPMGR_TERM_FAILURE",        (int32_t)DEEPSLEEPMGR_TERM_FAILURE        },
-  { "DEEPSLEEPMGR_MAX",                 (int32_t)DEEPSLEEPMGR_MAX                    },
+  { "DEEPSLEEPMGR_SUCCESS",             (int32_t)DEEPSLEEPMGR_SUCCESS},
+  { "DEEPSLEEPMGR_ALREADY_INITIALIZED", (int32_t)DEEPSLEEPMGR_ALREADY_INITIALIZED},
+  { "DEEPSLEEPMGR_NOT_INITIALIZED",     (int32_t)DEEPSLEEPMGR_NOT_INITIALIZED},
+  { "DEEPSLEEPMGR_INIT_FAILURE",        (int32_t)DEEPSLEEPMGR_INIT_FAILURE},
+  { "DEEPSLEEPMGR_SET_FAILURE",         (int32_t)DEEPSLEEPMGR_SET_FAILURE},
+  { "DEEPSLEEPMGR_WAKEUP_FAILURE",      (int32_t)DEEPSLEEPMGR_WAKEUP_FAILURE},
+  { "DEEPSLEEPMGR_TERM_FAILURE",        (int32_t)DEEPSLEEPMGR_TERM_FAILURE},
+  { "DEEPSLEEPMGR_MAX",                 (int32_t)DEEPSLEEPMGR_MAX},
   {  NULL, -1 }
 };
 
 /* DeepSleep_WakeupReason_t */
 const static ut_control_keyStringMapping_t DeepSleep_WakeupReason_mapTable [] = {
-  { "DEEPSLEEP_WAKEUPREASON_IR",             (int32_t)DEEPSLEEP_WAKEUPREASON_IR                      },
-  { "DEEPSLEEP_WAKEUPREASON_RCU_BT",         (int32_t)DEEPSLEEP_WAKEUPREASON_RCU_BT                 },
-  { "DEEPSLEEP_WAKEUPREASON_RCU_RF4CE",      (int32_t)DEEPSLEEP_WAKEUPREASON_RCU_RF4CE           },
-  { "DEEPSLEEP_WAKEUPREASON_GPIO",           (int32_t)DEEPSLEEP_WAKEUPREASON_GPIO                },
-  { "DEEPSLEEP_WAKEUPREASON_LAN",            (int32_t)DEEPSLEEP_WAKEUPREASON_LAN                 },
-  { "DEEPSLEEP_WAKEUPREASON_WLAN",           (int32_t)DEEPSLEEP_WAKEUPREASON_WLAN                },
-  { "DEEPSLEEP_WAKEUPREASON_TIMER",          (int32_t)DEEPSLEEP_WAKEUPREASON_TIMER               },
-  { "DEEPSLEEP_WAKEUPREASON_FRONT_PANEL",    (int32_t)DEEPSLEEP_WAKEUPREASON_FRONT_PANEL         },
-  { "DEEPSLEEP_WAKEUPREASON_WATCHDOG",       (int32_t)DEEPSLEEP_WAKEUPREASON_WATCHDOG          },
-  { "DEEPSLEEP_WAKEUPREASON_SOFTWARE_RESET", (int32_t)DEEPSLEEP_WAKEUPREASON_SOFTWARE_RESET   },
-  { "DEEPSLEEP_WAKEUPREASON_THERMAL_RESET",  (int32_t)DEEPSLEEP_WAKEUPREASON_THERMAL_RESET    },
-  { "DEEPSLEEP_WAKEUPREASON_WARM_RESET",     (int32_t)DEEPSLEEP_WAKEUPREASON_WARM_RESET       },
-  { "DEEPSLEEP_WAKEUPREASON_COLDBOOT",       (int32_t)DEEPSLEEP_WAKEUPREASON_COLDBOOT         },
-  { "DEEPSLEEP_WAKEUPREASON_STR_AUTH_FAILURE", (int32_t)DEEPSLEEP_WAKEUPREASON_STR_AUTH_FAILURE },
-  { "DEEPSLEEP_WAKEUPREASON_CEC",            (int32_t)DEEPSLEEP_WAKEUPREASON_CEC             },
-  { "DEEPSLEEP_WAKEUPREASON_PRESENCE",       (int32_t)DEEPSLEEP_WAKEUPREASON_PRESENCE        },
-  { "DEEPSLEEP_WAKEUPREASON_VOICE",          (int32_t)DEEPSLEEP_WAKEUPREASON_VOICE           },
-  { "DEEPSLEEP_WAKEUPREASON_UNKNOWN",        (int32_t)DEEPSLEEP_WAKEUPREASON_UNKNOWN         },
-  { "DEEPSLEEP_WAKEUPREASON_MAX",            (int32_t)DEEPSLEEP_WAKEUPREASON_MAX             },
+  { "DEEPSLEEP_WAKEUPREASON_IR",             (int32_t)DEEPSLEEP_WAKEUPREASON_IR},
+  { "DEEPSLEEP_WAKEUPREASON_RCU_BT",         (int32_t)DEEPSLEEP_WAKEUPREASON_RCU_BT},
+  { "DEEPSLEEP_WAKEUPREASON_RCU_RF4CE",      (int32_t)DEEPSLEEP_WAKEUPREASON_RCU_RF4CE},
+  { "DEEPSLEEP_WAKEUPREASON_GPIO",           (int32_t)DEEPSLEEP_WAKEUPREASON_GPIO},
+  { "DEEPSLEEP_WAKEUPREASON_LAN",            (int32_t)DEEPSLEEP_WAKEUPREASON_LAN},
+  { "DEEPSLEEP_WAKEUPREASON_WLAN",           (int32_t)DEEPSLEEP_WAKEUPREASON_WLAN},
+  { "DEEPSLEEP_WAKEUPREASON_TIMER",          (int32_t)DEEPSLEEP_WAKEUPREASON_TIMER},
+  { "DEEPSLEEP_WAKEUPREASON_FRONT_PANEL",    (int32_t)DEEPSLEEP_WAKEUPREASON_FRONT_PANEL},
+  { "DEEPSLEEP_WAKEUPREASON_WATCHDOG",       (int32_t)DEEPSLEEP_WAKEUPREASON_WATCHDOG},
+  { "DEEPSLEEP_WAKEUPREASON_SOFTWARE_RESET", (int32_t)DEEPSLEEP_WAKEUPREASON_SOFTWARE_RESET},
+  { "DEEPSLEEP_WAKEUPREASON_THERMAL_RESET",  (int32_t)DEEPSLEEP_WAKEUPREASON_THERMAL_RESET},
+  { "DEEPSLEEP_WAKEUPREASON_WARM_RESET",     (int32_t)DEEPSLEEP_WAKEUPREASON_WARM_RESET},
+  { "DEEPSLEEP_WAKEUPREASON_COLDBOOT",       (int32_t)DEEPSLEEP_WAKEUPREASON_COLDBOOT},
+  { "DEEPSLEEP_WAKEUPREASON_STR_AUTH_FAILURE", (int32_t)DEEPSLEEP_WAKEUPREASON_STR_AUTH_FAILURE},
+  { "DEEPSLEEP_WAKEUPREASON_CEC",            (int32_t)DEEPSLEEP_WAKEUPREASON_CEC},
+  { "DEEPSLEEP_WAKEUPREASON_PRESENCE",       (int32_t)DEEPSLEEP_WAKEUPREASON_PRESENCE},
+  { "DEEPSLEEP_WAKEUPREASON_VOICE",          (int32_t)DEEPSLEEP_WAKEUPREASON_VOICE},
+  { "DEEPSLEEP_WAKEUPREASON_UNKNOWN",        (int32_t)DEEPSLEEP_WAKEUPREASON_UNKNOWN},
+  { "DEEPSLEEP_WAKEUPREASON_MAX",            (int32_t)DEEPSLEEP_WAKEUPREASON_MAX},
   {  NULL, -1 }
 };
 
@@ -222,10 +222,13 @@ void test_l3_deepsleep_manager_hal_Trigger_Deepsleep(void)
      bool enable = (bool)enableGet;
     
    // Step 2: Call PLAT_DS_SetDeepSleep()
-   UT_LOG_INFO("Calling PLAT_DS_SetDeepSleep(): IN:deep_sleep_timeout[%d], OUT:isGPIOWakeup[], IN:networkStandby[%s]", deep_sleep_timeout, networkStandby ? "true" : "false");
+   UT_LOG_INFO("Calling PLAT_DS_SetDeepSleep(IN:deep_sleep_timeout[%d], 
+            OUT:isGPIOWakeup[], IN:networkStandby[%s])", deep_sleep_timeout, networkStandby ? "true" : "false");
    status = PLAT_DS_SetDeepSleep(deep_sleep_timeout, &isGPIOWakeup, networkStandby);
-   UT_LOG_INFO("Result PLAT_DS_SetDeepSleep: DeepSleep_Return_Status_t:[%s], isGPIOWakeup[%s]",
-                UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status), isGPIOWakeup ? "true" : "false");
+   UT_LOG_INFO("Calling PLAT_DS_SetDeepSleep(IN:deep_sleep_timeout[%d], OUT:isGPIOWakeup[%d], 
+                IN:networkStandby[%s]) DeepSleep_Return_Status_t:[%s]", 
+                    deep_sleep_timeout,isGPIOWakeup, networkStandby ? "true" : "false", 
+                    UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
 
     assert(status == DEEPSLEEPMGR_SUCCESS);
 
@@ -259,7 +262,7 @@ void test_l3_deepsleep_manager_hal_wakeup(void){
     // Step 1: Call PLAT_DS_DeepSleepWakeup()
     UT_LOG_INFO("Calling PLAT_DS_DeepSleepWakeup()");
     status = PLAT_DS_DeepSleepWakeup();
-    UT_LOG_INFO("Result PLAT_DS_DeepSleepWakeup: DeepSleep_Return_Status_t:[%s]",
+    UT_LOG_INFO("Result PLAT_DS_DeepSleepWakeup() DeepSleep_Return_Status_t:[%s]",
                 UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
 
     assert(status == DEEPSLEEPMGR_SUCCESS);
@@ -292,11 +295,11 @@ void test_l3_deepsleep_manager_hal_wakeupreason(void){
     UT_LOG_INFO("In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
 
     // Step 1: Call PLAT_DS_GetLastWakeupReason()
-    UT_LOG_INFO("Calling PLAT_DS_GetLastWakeupReason(): OUT:wakeupReason[]");
+    UT_LOG_INFO("Calling PLAT_DS_GetLastWakeupReason(OUT:wakeupReason[]"));
     status = PLAT_DS_GetLastWakeupReason(&wakeupReason);
-    UT_LOG_INFO("Result PLAT_DS_GetLastWakeupReason: DeepSleep_Return_Status_t:[%s], wakeupReason:[%s]",
+    UT_LOG_INFO("Result PLAT_DS_GetLastWakeupReason(wakeupReason:[%s])  DeepSleep_Return_Status_t:[%s]",
+                UT_Control_GetMapString(DeepSleep_WakeupReason_mapTable, wakeupReason), 
                 UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
-    UT_LOG_INFO("wakeupReason: %s", UT_Control_GetMapString(DeepSleep_WakeupReason_mapTable, wakeupReason), wakeupReason);
 
     assert(status == DEEPSLEEPMGR_SUCCESS);
 
@@ -328,11 +331,10 @@ void test_l3_deepsleep_manager_hal_lastwakeupkeycode(void){
     UT_LOG_INFO("In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
 
     // Step 1: Call PLAT_DS_GetLastWakeupKeyCode()
-    UT_LOG_INFO("Calling PLAT_DS_GetLastWakeupKeyCode(): OUT:wakeupKeyCode[]");
+    UT_LOG_INFO("Calling PLAT_DS_GetLastWakeupKeyCode(OUT:wakeupKeyCode[])");
     status = PLAT_DS_GetLastWakeupKeyCode(&wakeupKeyCode);
-    UT_LOG_INFO("Result PLAT_DS_GetLastWakeupKeyCode: DeepSleep_Return_Status_t:[%s], wakeupKeyCode:[%d]",
-                UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status), wakeupKeyCode);
-    UT_LOG_INFO("wakeupKeyCode: %d", wakeupKeyCode);
+    UT_LOG_INFO("Result PLAT_DS_GetLastWakeupKeyCode(wakeupKeyCode:[%d]) DeepSleep_Return_Status_t:[%s]",
+                wakeupKeyCode, UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
 
     assert(status == DEEPSLEEPMGR_SUCCESS);
 
@@ -368,7 +370,7 @@ void test_l3_deepsleep_manager_hal_Term(void)
    // Step 1: Call PLAT_DS_TERM()
    UT_LOG_INFO("Calling PLAT_DS_TERM()");
    status = PLAT_DS_TERM();
-   UT_LOG_INFO("Result PLAT_DS_TERM: DeepSleep_Return_Status_t:[%s]",
+   UT_LOG_INFO("Result PLAT_DS_TERM() DeepSleep_Return_Status_t:[%s]",
                 UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
 
     assert(status == DEEPSLEEPMGR_SUCCESS);
