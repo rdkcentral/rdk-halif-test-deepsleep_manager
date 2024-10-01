@@ -92,8 +92,8 @@ classDiagram
 
 - **testSetupConfig.yaml**
   - This configuration file contains the list of requirements for tests to execute. Eg: Copying the streams, setting environment variables etc.
-  - Example configuration file [deepsleep_L3_testSetup.yml](../../../host/tests/deepsleep_L3_Tests/deepsleep_L3_testSetup.yml)
+  - Example configuration file [deepsleep_L3_testSetup.yml](../..host\tests\deepsleep_L3_Tests\deepsleep_L3_testSetup.yml)
 
 - **testSuite.yaml**
   - This configuration file contains the list of menu items for C/C++ L3 test running on `DUT`
-  - Example configuration file [deepsleep_test_suite.yml](../../../host/tests/deepsleepClasses/deepsleep_test_suite.yml)
+  - Example configuration file [deepsleep_test_suite.yml](../../host/tests/deepsleepClasses/deepsleep_test_suite.yml)
