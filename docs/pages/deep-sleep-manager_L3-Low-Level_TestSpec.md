@@ -93,7 +93,7 @@ classDiagram
   **componentProfile.yaml/platformProfile.yaml**
   - Contains component-specific configurations
   - Contains platform wide configuration broken down into separate components
-  - Example configuration file [dsHost_Settings](https://github.com/rdkcentral/rdk-halif-test-device_settings/blob/3.0.0/profiles/deepsleepmanagerExtendedEnumsNotSupported.yaml)
+  - Example configuration file [deepsleep_Settings](https://github.com/rdkcentral/rdk-halif-test-deepsleep_manager/blob/3.0.0/profiles/deepsleepmanagerExtendedEnumsNotSupported.yaml)
 
 - **testSetupConfig.yaml**
   - This configuration file contains the list of requirements for tests to execute. Eg: Copying the streams, setting environment variables etc.
