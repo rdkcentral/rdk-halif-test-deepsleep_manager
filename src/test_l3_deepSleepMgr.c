@@ -224,8 +224,8 @@ void test_l3_deepsleep_manager_hal_Trigger_Deepsleep(void)
      bool enable = (bool)enableGet;
     
    // Step 2: Call PLAT_DS_SetDeepSleep()
-   UT_LOG_INFO("Calling PLAT_DS_SetDeepSleep(IN:deep_sleep_timeout[%d], 
-            OUT:isGPIOWakeup[], IN:networkStandby[%s])", deep_sleep_timeout, networkStandby ? "true" : "false");
+   UT_LOG_INFO("Calling PLAT_DS_SetDeepSleep(IN:deep_sleep_timeout[%d], OUT:isGPIOWakeup[], IN:networkStandby[%s])",
+        deep_sleep_timeout, networkStandby ? "true" : "false");
    status = PLAT_DS_SetDeepSleep(deep_sleep_timeout, &isGPIOWakeup, networkStandby);
    UT_LOG_INFO("Calling PLAT_DS_SetDeepSleep(IN:deep_sleep_timeout[%d], OUT:isGPIOWakeup[%d], IN:networkStandby[%s]) DeepSleep_Return_Status_t:[%s]", 
                     deep_sleep_timeout,isGPIOWakeup, networkStandby ? "true" : "false", 
