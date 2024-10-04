@@ -227,8 +227,7 @@ void test_l3_deepsleep_manager_hal_Trigger_Deepsleep(void)
    UT_LOG_INFO("Calling PLAT_DS_SetDeepSleep(IN:deep_sleep_timeout[%d], 
             OUT:isGPIOWakeup[], IN:networkStandby[%s])", deep_sleep_timeout, networkStandby ? "true" : "false");
    status = PLAT_DS_SetDeepSleep(deep_sleep_timeout, &isGPIOWakeup, networkStandby);
-   UT_LOG_INFO("Calling PLAT_DS_SetDeepSleep(IN:deep_sleep_timeout[%d], OUT:isGPIOWakeup[%d], 
-                IN:networkStandby[%s]) DeepSleep_Return_Status_t:[%s]", 
+   UT_LOG_INFO("Calling PLAT_DS_SetDeepSleep(IN:deep_sleep_timeout[%d], OUT:isGPIOWakeup[%d], IN:networkStandby[%s]) DeepSleep_Return_Status_t:[%s]", 
                     deep_sleep_timeout,isGPIOWakeup, networkStandby ? "true" : "false", 
                     UT_Control_GetMapString(DeepSleep_Return_Status_mapTable, status));
 
