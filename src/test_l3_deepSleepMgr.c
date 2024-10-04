@@ -185,6 +185,8 @@ void test_l3_deepsleep_manager_hal_Trigger_Deepsleep(void)
 {
    gTestID = 2;
    DeepSleep_Return_Status_t status = DEEPSLEEPMGR_SUCCESS;
+    int enableGet = 0;
+
 
    UT_LOG_INFO("In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
 
@@ -214,7 +216,7 @@ void test_l3_deepsleep_manager_hal_Trigger_Deepsleep(void)
     UT_LOG_MENU_INFO("Select Enable/Disable Network standby: ");
     scanf("%d", &enableGet);
     readAndDiscardRestOfLine(stdin);
-    if(sourceType != 0 && sourceType != 1)
+    if(enableGet != 0 && enableGet != 1)
     {
         UT_LOG_ERROR("Invalid enable type");
         goto exit;
