@@ -192,7 +192,6 @@ void test_l3_deepsleep_manager_hal_Trigger_Deepsleep(void)
 
    int deep_sleep_timeout;
    bool isGPIOWakeup = false;
-   bool networkStandby = false;
 
     // Step 1: Get the Deep Sleep Timeout
    UT_LOG_MENU_INFO("----------------------------------------------------------");
@@ -221,7 +220,7 @@ void test_l3_deepsleep_manager_hal_Trigger_Deepsleep(void)
         UT_LOG_ERROR("Invalid enable type");
         goto exit;
     }
-     bool enable = (bool)enableGet;
+     bool networkStandby = (bool)enableGet;
     
    // Step 2: Call PLAT_DS_SetDeepSleep()
    UT_LOG_INFO("Calling PLAT_DS_SetDeepSleep(IN:deep_sleep_timeout[%d], OUT:isGPIOWakeup[], IN:networkStandby[%s])",
@@ -296,7 +295,7 @@ void test_l3_deepsleep_manager_hal_wakeupreason(void){
     UT_LOG_INFO("In %s [%02d%03d]\n", __FUNCTION__, gTestGroup, gTestID);
 
     // Step 1: Call PLAT_DS_GetLastWakeupReason()
-    UT_LOG_INFO("Calling PLAT_DS_GetLastWakeupReason(OUT:wakeupReason[]"));
+    UT_LOG_INFO("Calling PLAT_DS_GetLastWakeupReason(OUT:wakeupReason[]");
     status = PLAT_DS_GetLastWakeupReason(&wakeupReason);
     UT_LOG_INFO("Result PLAT_DS_GetLastWakeupReason(wakeupReason:[%s])  DeepSleep_Return_Status_t:[%s]",
                 UT_Control_GetMapString(DeepSleep_WakeupReason_mapTable, wakeupReason), 
