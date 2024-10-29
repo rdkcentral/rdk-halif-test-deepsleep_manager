@@ -197,7 +197,7 @@ void test_l3_deepsleep_manager_hal_Trigger_Deepsleep(void)
    UT_LOG_MENU_INFO("----------------------------------------------------------");
    UT_LOG_MENU_INFO("Specify the Deep Sleep Timeout in seconds between 0 and 604800. 0 for no timeout.  ");
    UT_LOG_MENU_INFO("----------------------------------------------------------");
-   UT_LOG_MENU_INFO("Select Enable/Disable Wakeup Source: ");
+   UT_LOG_MENU_INFO("Input timeout: ");
    scanf("%d", &deep_sleep_timeout);
    readAndDiscardRestOfLine(stdin);
    if(deep_sleep_timeout < 0 || deep_sleep_timeout > 604800 )
@@ -396,7 +396,7 @@ int test_l3_deepSleepMgr_register(void)
     // List of test function names and strings
 
     UT_add_test( pSuite, "Initialize Deepsleep Manager", test_l3_deepsleep_manager_hal_Init);
-    UT_add_test( pSuite, "Deepsleep Trigger", test_l3_deepsleep_manager_hal_Trigger_Deepsleep);
+    UT_add_test( pSuite, "Trigger Deepsleep", test_l3_deepsleep_manager_hal_Trigger_Deepsleep);
     UT_add_test( pSuite, "Deepsleep Wakeup", test_l3_deepsleep_manager_hal_wakeup);
     UT_add_test( pSuite, "Get last wakeup reason", test_l3_deepsleep_manager_hal_wakeupreason);
     UT_add_test( pSuite, "Get last wakeup keycode", test_l3_deepsleep_manager_hal_lastwakeupkeycode);
