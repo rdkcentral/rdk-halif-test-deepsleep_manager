@@ -318,7 +318,7 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
                  pass
             elif source == 0x03:
                  # Wake on Wifi
-                 result = self.wake_on_wifi(True)
+                 result = self.wake_on_wifi("XX:XX:XX:XX:XX:XX", True)
                  pass
             elif source == 0x04:
                  # Wake on IR
