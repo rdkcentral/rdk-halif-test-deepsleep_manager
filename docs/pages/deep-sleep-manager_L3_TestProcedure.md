@@ -210,19 +210,14 @@ All wake up sources should wake up properly
 
 - Once in deepsleep the device will need to be manually awoken
 
-    - When the device enters 'voice' test, to trigger the wake up manually the user will need speak to the device to trigger the wake up. If the device successfully wakes up from deepsleep via the specified method, it passes the test.
-
-    - When the device enters 'presence detection' test, to trigger the wake up move in front of the tv, in front the presence detection (e.g. camera) to trigger the wake up. If the device successfully wakes up from deepsleep via the specified method, it passes the test.
-
-    - When the device enters 'Bluetooth' test, to trigger the wake up use a bluetooth remove and press the power on botton on the remote. If the device successfully wakes up from deepsleep via the specified method, it passes the test.
-
-    - When the device enters 'wifi' test, to trigger the wake up send a signal(e.g. Wake On Lan app will work for wifi) via the mac address over wifi connection. If the device successfully wakes up from deepsleep via the specified method, it passes the test.
-
     - When the device enters 'IR' test, to trigger the wake up use an IR remote pressing the power on key on the remote to wake up the device. If the device successfully wakes up from deepsleep via the specified method, it passes the test.
 
     - When the device enters 'power key' test, to trigger the wake up press the power key button on the device itself. If the device successfully wakes up from deepsleep via the specified method, it passes the test.
 
     - When the device enters 'CEC' test, to trigger connect a HDMI cable to the device and send an Image_View_On CEC message from the connected device to wake up the tv. If the device successfully wakes up from deepsleep via the specified method, it passes the test.
 
-    - When the device enters 'LAN' test, to trigger the wake up send a signal while connected over ethernet via the mac address. If the device successfully wakes up from deepsleep via the specified method, it passes the test.
+- The following tests should be done automaticaly. The IP must specifid within the rack config.
 
+    - When the device enters 'LAN' test, it should automatically trigger the wake up if the IP is specifid correctly
+
+    - When the device enters 'wifi' test, it should automatically trigger the wake up if the IP is specifid correctly
