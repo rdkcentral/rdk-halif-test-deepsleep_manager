@@ -23,17 +23,16 @@
 
 import os
 import sys
-import bluetooth
 import time
-import struct
+import socket
 import subprocess
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
-sys.path.append(dir_path+"/../")
+sys.path.append(os.path.join(dir_path, "../../"))
+sys.path.append(os.path.join(dir_path, "../"))
 
 from deepsleepClasses.deepsleep import deepsleepClass
 from deepsleepClasses.power import powerManagerClass
-from deepsleepClasses.power import WakeupSources
 from raft.framework.plugins.ut_raft import utHelperClass
 from raft.framework.plugins.ut_raft.configRead import ConfigRead
 from raft.framework.plugins.ut_raft.utUserResponse import utUserResponse
@@ -56,6 +55,9 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
         self.moduleNamePower = "power"
         self.rackDevice = "dut"
         self.qcID = '1'
+        self.testWakeupSources = ["TIMER", "POWER_KEY", "IR", "CEC", "LAN", "WIFI"]
+        self.testWakeupReason = ["TIMER", "FRONT_PANEL", "IR", "CEC", "LAN", "WLAN"]
+        self.testTimer = 60 #one minute
 
         super().__init__(self.testName, self.qcID, log)
 
@@ -79,194 +81,191 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
         self.targetWorkspacePower = self.cpe.get("target_directory")
         self.targetWorkspacePower = os.path.join(self.targetWorkspacePower, self.moduleNamePower)
 
-    def wake_on_lan(self, macaddress, manual=False):
+    def isDeviceAwake(self, maxAttempts=3, delay=5):
         """
-        Sends a Wake-on-LAN magic packet to the specified MAC address.
+        Check if the device is awake by executing a simple command via SSH.
 
         Args:
-          macaddress: The MAC address of the target device (e.g., '00:11:22:33:44:55').
+            max_attempts (int): Maximum number of attempts to check if the device is awake.
+            delay (int): Delay (in seconds) between attempts.
+        Return:
+            True if the device is awake, False otherwise.
         """
-        # Check MAC address format
-        if manual == True:
-            return self.testUserResponse.getUserYN(f"Please trigger wake up via LAN. Did the device wakeup as expected (Y/N):")
-            
-        else:
-            #TODO: Add automation wakeup and verification methods
-            return False
-            if len(macaddress.split(':')) != 6:
-              raise ValueError('Incorrect MAC address format')
+        for attempt in range(maxAttempts):
+            # Test the SSH connection by running a simple command
+            self.session.write("echo 'Device is awake'")
+            result = self.session.read_until("Device is awake")
 
-            # Convert MAC address to bytes
-            mac_bytes = bytes.fromhex(macaddress.replace(':', ''))
+            if "Device is awake" in result:
+                return True
 
-            # Construct the magic packet
-            packet = b'\xff' * 6 + mac_bytes * 16
+            # Wait before the next attempt
+            time.sleep(delay)
 
-            # Create a UDP socket
-            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        return False
+
+    def getDeviceNetworkMACDetails(self):
+
+        # Execute the command to list network interfaces and IP addresses
+        self.session.write("ip addr show")
+
+        # Fetch the output and errors
+        result = self.session.read_until("ip")
+
+        # Parse the output for interface names, IPs, and MAC addresses
+        interfaces = {}
+        current_interface = None
+
+        for line in result.splitlines():
+            if line.startswith(" "):  # Details of the current interface
+                if "link/ether" in line:  # MAC address
+                    parts = line.split()
+                    mac_address = parts[1]
+                    if current_interface:
+                        interfaces[current_interface]["MAC"] = mac_address
+                elif "inet" in line:  # IPv4 address
+                    parts = line.split()
+                    ip_address = parts[1].split('/')[0]
+                    if current_interface:
+                        interfaces[current_interface]["IPs"].append(ip_address)
+            else:  # Interface line
+                parts = line.split(": ")
+                if len(parts) > 1:
+                    current_interface = parts[1].split("@")[0]
+                    interfaces[current_interface] = {"MAC": None, "IPs": []}
+
+        return interfaces
+
+    def wolwowlSendMagicPacket(self, mac_address):
+        """Send a Wake-on-LAN magic packet to a device with the given MAC address."""
+        # Format MAC address (remove colons or dashes)
+        mac_address = mac_address.replace(":", "").replace("-", "")
+
+        if len(mac_address) != 12:
+            self.log.fatal("Invalid mac address")
+
+        # Create the magic packet (6 x FF followed by 16 x MAC address)
+        magic_packet = bytes.fromhex("FF" * 6 + mac_address * 16)
+
+        # Send the packet to the broadcast address
+        broadcast_address = ("255.255.255.255", 9)
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
             sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+            sock.sendto(magic_packet, broadcast_address)
 
-            # Send the magic packet to the broadcast address
-            sock.sendto(packet, ('<broadcast>', 9))  # Port 9 is the standard WoL port
-            sock.close()
-
-    def wake_on_wifi(self, macaddress, manual=False):
+    def testVerifyWakeOnTimer(self, timeOut:int):
         """
-        Sends a Wake-on-LAN magic packet to the specified MAC address.
+        Function verify weather the device woke up after time out.
 
         Args:
-          macaddress: The MAC address of the target device (e.g., '00:11:22:33:44:55').
+            timeOut (int) : Time out value in seconds.
         """
+        # Wait till the time out
+        time.sleep(timeOut)
+        return self.isDeviceAwake()
 
-        if manual == True:
-            return self.testUserResponse.getUserYN(f"Please trigger wake up via wifi. Did the device wakeup as expected (Y/N):")
-            
-        else:
-            #TODO: Add automation wakeup and verification methods
-            return False
-            # Check MAC address format
-            if len(macaddress.split(':')) != 6:
-              raise ValueError('Incorrect MAC address format')
-
-            # Convert MAC address to bytes
-            mac_bytes = bytes.fromhex(macaddress.replace(':', ''))
-
-            # Construct the magic packet
-            packet = b'\xff' * 6 + mac_bytes * 16
-
-            # Create a UDP socket
-            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-
-            # Send the magic packet to the broadcast address
-            sock.sendto(packet, ('<broadcast>', 9))  # Port 9 is the standard WoL port
-            sock.close()
-
-    def wake_tv(self, hdmi_port=1, manual=False):
+    def testVerifyWakeOnPowerkey(self, manual=False):
         """
-        Wakes the TV using cec-client.
+        Function verify weather the device woke up after PowerKey.
 
         Args:
-          hdmi_port: The HDMI port number the TV is connected to.
+            manual (bool, optional): Flag to indicate if manual verification should be used.
+                                     Defaults to False for automation, True for manual.
         """
         if manual == True:
-            return self.testUserResponse.getUserYN(f"Please trigger wake up via CEC. Did the device wakeup as expected (Y/N):")
-
-        else:
-            #TODO: Add automation wakeup and verification methods
-            return False
-            try:
-              subprocess.run(["cec-client", "-s", "-p", str(hdmi_port), "on 0"], check=True)
-              print(f"TV on HDMI port {hdmi_port} woken up.")
-            except subprocess.CalledProcessError as e:
-              print(f"Error waking up TV: {e}")
-
-    def wake_on_voice(self, backend_url, audio_file, manual=False):
-        """
-        Sends audio data from a file to the microphone backend using GStreamer.
-
-        Args:
-          backend_url: The URL of the backend server (e.g., "rtmp://your-backend-server/live/stream").
-          audio_file: The path to the audio file to be sent.
-        """
-        if manual == True:
-            return self.testUserResponse.getUserYN(f"Please trigger wake up via voice command. Did the device wakeup as expected (Y/N):")
-
-        else:
-             #TODO: Add automation wakeup and verification methods
-             return False
-             try:
-               # Construct the GStreamer pipeline
-               pipeline = (
-                   "filesrc location={} ! decodebin ! audioconvert ! audioresample ! "
-                   "voaacenc bitrate=128000 ! aacparse ! "
-                   "flvmux ! rtmpsink location='{}'".format(audio_file, backend_url)
-               )
-     
-               # Run the GStreamer pipeline
-               subprocess.run(["gst-launch-1.0", pipeline], check=True)
-     
-               print("Microphone backend test successful!")
-     
-             except subprocess.CalledProcessError as e:
-               print(f"Error running GStreamer pipeline: {e}")
-
-    def wake_on_bluetooth(self, macaddress, manual=False):
-        """
-        Sends a keypress event to a Bluetooth device.
-
-        Args:
-            macaddress: The MAC address of the Bluetooth device.
-        """
-
-        if manual == True:
-            return self.testUserResponse.getUserYN(f"Please trigger wake up via bluetooth. Did the device wakeup as expected (Y/N):")
-           
-        else:
-            #TODO: Add automation wakeup and verification methods
-            return False
-            # Replace with your device's MAC address and port
-            device_mac = "XX:XX:XX:XX:XX:XX"
-            port = 1  # RFCOMM port
-
-            # Connect to the Bluetooth device
-            sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-            sock.connect((device_mac, port))
-
-            # Send keypress events
-            sock.send("\t")  # Send a Tab keypress
-            time.sleep(1)
-            sock.send("Hello from Raspberry Pi!\n")  # Send some text
-            time.sleep(1)
-            sock.send("\r")  # Send an Enter keypress
-
-            # Close the connection
-            sock.close()
-
-    def wake_on_presence_detection(self, manual=False):
-        """
-        Triggers a wake-up event based on presence detection.
-
-        Args:
-            None.
-        """
-        if manual == True:
-            return self.testUserResponse.getUserYN(f"Please trigger wake up via presence detection. Did the device wakeup as expected (Y/N):")
-
+            self.testUserResponse.getUserYN(f"Please trigger wake up via PowerKey and Press Enter:")
         else:
             #TODO: Add automation wakeup and verification methods
             return False
 
-    def wake_on_power_key(self, manual=False):
+        return self.isDeviceAwake()
+
+    def testVerifyWakeOnIR(self, manual=False):
         """
-        Triggers a wake-up event based on the power key.
+        Function verify weather the device woke up after IR.
 
         Args:
-            None.
+            manual (bool, optional): Flag to indicate if manual verification should be used.
+                                     Defaults to False for automation, True for manual.
         """
         if manual == True:
-            return self.testUserResponse.getUserYN(f"Please trigger wake up via power key. Did the device wakeup as expected (Y/N):")
-
+            self.testUserResponse.getUserYN(f"Please trigger wake up via IR and Press Enter:")
         else:
             #TODO: Add automation wakeup and verification methods
             return False
 
-    def wake_on_IR(self, manual=False):
+        return self.isDeviceAwake()
+
+    def testVerifyWakeOnCEC(self, manual=False):
         """
-        Triggers a wake-up event based on IR signal.
+        Function verify weather the device woke up after CEC.
 
         Args:
-            None.
+            manual (bool, optional): Flag to indicate if manual verification should be used.
+                                     Defaults to False for automation, True for manual.
         """
         if manual == True:
-            return self.testUserResponse.getUserYN(f"Please trigger wake up via IR. Did the device wakeup as expected (Y/N):")
-
+            self.testUserResponse.getUserYN(f"Please trigger wake up via CEC and Press Enter:")
         else:
             #TODO: Add automation wakeup and verification methods
             return False
 
-    def testFunction(self):
-        """This function will test the get cpu tempature functionality
+        return self.isDeviceAwake()
+
+    def testVerifyWakeOnLAN(self, mac:str, manual=False):
+        """
+        Function verify weather the device woke up after LAN.
+
+        Args:
+            mac (str) : MAC address of the device
+            manual (bool, optional): Flag to indicate if manual verification should be used.
+                                     Defaults to False for automation, True for manual.
+        """
+        if manual == True:
+            self.testUserResponse.getUserYN(f"Please trigger wake up via LAN and Press Enter:")
+        else:
+            # Wait for the device to go to deep sleep
+            time.sleep(30)
+
+            self.log.step(f"Send magic packet to the device to wakeup")
+
+            self.wolwowlSendMagicPacket(mac)
+
+            # Wait for the device to go to wakeup
+            time.sleep(5)
+
+        return self.isDeviceAwake()
+
+    def testVerifyWakeOnWIFI(self, mac:str, manual=False):
+        """
+        Function verify weather the device woke up after WIFI.
+
+        Args:
+            mac (str) : MAC address of the device
+            manual (bool, optional): Flag to indicate if manual verification should be used.
+                                     Defaults to False for automation, True for manual.
+        """
+        if manual == True:
+            self.testUserResponse.getUserYN(f"Please trigger wake up via WIFI and Press Enter:")
+        else:
+            # Wait for the device to go to deep sleep
+            time.sleep(30)
+
+            self.log.step(f"Send magic packet to the device to wakeup")
+
+            self.wolwowlSendMagicPacket(mac)
+
+            # Wait for the device to go to wakeup
+            time.sleep(5)
+
+        return self.isDeviceAwake()
+
+    def testPrepareFunction(self):
+        """
+        Prepares the environment and assets required for the test.
+
+        This function:
+        - Creates classes for powermanager and deepsleepmanager
 
         Returns:
             bool
@@ -277,80 +276,100 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
         # Create the Power Manager Class
         self.testPower = powerManagerClass(self.moduleConfigProfileFile, self.hal_session_power, self.targetWorkspacePower)
 
-        self.wakeup_sources_map = WakeupSources.get_wakeup_sources_map()
-        
+        return True
+
+    def testFunction(self):
+        """This function will test the get cpu tempature functionality
+
+        Returns:
+            bool
+        """
+        interfaces = self.getDeviceNetworkMACDetails()
 
         # Initialize the deepsleep manager and power manager
         self.testPower.initialise()
         self.testDeepsleep.initialise()
 
-        self.wakeupsources = self.testPower.getSupportedWakeupSources()
+        self.supportedWakeupsources = self.testPower.getSupportedWakeupSources()
 
         result = True
 
         finalResult = True
 
-        for source in self.wakeupsources:
-            source_enum = WakeupSources(int(source))
-            source_name = self.wakeup_sources_map.get(source_enum, "Unknown source")
-            self.log.stepStart(f"Triggering wake up test for {source_name}")
+        for source, wakeReason in zip(self.testWakeupSources, self.testWakeupReason):
+            testSource = None
+            for supported in self.supportedWakeupsources:
+                if source in supported:
+                    testSource = supported
+                    break
 
-            self.log.step(f"Setting wakeup source to {source_name}")
-            self.testPower.setWakeupSource(source, 1)
+            if not testSource:
+                continue
 
-            self.log.step(f"Triggering deepsleep")
-            if source == 0x06:
-                self.testDeepsleep.triggerDeepsleep(60, 1)
+            self.log.stepStart(f"Triggering wake up test for {source}")
+
+            self.log.step(f"Setting wakeup source to {source}")
+            self.testPower.setWakeupSource(testSource, 1)
+
+            self.log.step("Triggering deepsleep")
+            if "TIMER" in source:
+                self.testDeepsleep.triggerDeepsleep(self.testTimer, 1)
             else:
                 self.testDeepsleep.triggerDeepsleep(0, 1)
 
-            if source == 0x00:
-               # Wake on Voice
-               result = self.wake_on_voice("rtmp://your-backend-server/live/stream", "audio.wav", True)
-               pass
-            elif source == 0x01:
-                 # Wake on Presence Detection
-                 result = self.wake_on_presence_detection(True)
-                 pass
-            elif source == 0x02:
-                 # Wake on Bluetooth
-                 result = self.wake_on_bluetooth("XX:XX:XX:XX:XX:XX", True)
-                 pass
-            elif source == 0x03:
-                 # Wake on Wifi
-                 result = self.wake_on_wifi("XX:XX:XX:XX:XX:XX", True)
-                 pass
-            elif source == 0x04:
-                 # Wake on IR
-                 result = self.wake_on_IR(True)
-                 pass
-            elif source == 0x05:
-                 # Wake on Power key
-                 #Send power key
-                 result = self.wake_on_power_key(True)
-                 pass
-            elif source == 0x06:
-                    # Wake on Timer
-                    result = self.testUserResponse.getUserYN(f"Did the device wakeup as expected after sixty seconds? (Y/N):")
-                    pass
-            elif source == 0x07:
-                 # Wake on CEC
-                 result = self.wake_tv(1, True)
-                 pass
-            elif source == 0x08:
+            if "VOICE" in source:
+                # Wake on Voice
+                # Not supported in this version
+                pass
+            elif "PRESENCE_DETECTION" in source:
+                # Wake on Voice
+                # Not supported in this version
+                pass
+            elif "BLUETOOTH" in source:
+                # Wake on Voice
+                # Not supported in this version
+                pass
+            elif "WIFI" in source:
+                # Wake on Wifi
+                result = False
+                wlan0Interface = interfaces.get("wlan0")
+                if wlan0Interface:
+                    wlan0MAC = eth0Interface.get("MAC")
+                    if wlan0MAC:
+                        result = self.testVerifyWakeOnWIFI(wlan0MAC)
+            elif "IR" in source:
+                # Wake on IR
+                result = self.testVerifyWakeOnIR(True)
+            elif "POWER_KEY" in source:
+                # Wake on Power key
+                # Send power key
+                result = self.testVerifyWakeOnPowerkey(True)
+            elif "TIMER" in source:
+                # Wake on Timer
+                self.testVerifyWakeOnTimer(self.testTimer)
+            elif "CEC" in source:
+                # Wake on CEC
+                result = self.testVerifyWakeOnCEC(True)
+            elif "LAN" in source:
                  # Wake on LAN
-                 #wake_on_lan("XX:XX:XX:XX:XX:XX")
-                 result = self.wake_on_lan("XX:XX:XX:XX:XX:XX", True)
-                 pass
-            
-            if result:
-                   self.log.stepResult(result, f"{source_name} wakeup success")
-            else:
-                   self.log.stepResult(result, f"{source_name} wakeup failed")
-                   finalResult = False
+                result = False
+                eth0Interface = interfaces.get("eth0")
+                if eth0Interface:
+                    eth0MAC = eth0Interface.get("MAC")
+                    if eth0MAC:
+                        result = self.testVerifyWakeOnLAN(eth0MAC)
+
+            self.log.stepResult(result, f"Triggering wake up test for {source}")
+
+            self.log.stepStart(f"Check wakeup reason for {wakeReason}")
+            lastWakeupReason = self.testDeepsleep.getLastWakeupReason()
+            self.log.stepResult(wakeReason in lastWakeupReason, f"Check wakeup reason for {wakeReason}")
+
+            self.testPower.setWakeupSource(testSource, 0)
+            finalResult &= result
 
         return finalResult
-    
+
     def testEndFunction(self, powerOff=True):
         # Delete the deepsleep class
         del self.testDeepsleep

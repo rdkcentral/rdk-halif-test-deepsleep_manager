@@ -37,33 +37,17 @@ from raft.framework.plugins.ut_raft.interactiveShell import InteractiveShell
 from raft.framework.plugins.ut_raft.utBaseUtils import utBaseUtils
 
 class WakeupSources(Enum):
-    WAKE_ON_VOICE = 0x00
-    WAKE_ON_PRESENCE_DETECTION = 0x01
-    WAKE_ON_BLUETOOTH = 0x02
-    WAKE_ON_WIFI = 0x03
-    WAKE_ON_IR = 0x04
-    WAKE_ON_POWER_KEY = 0x05
-    WAKE_ON_TIMER = 0x06
-    WAKE_ON_CEC = 0x07
-    WAKE_ON_LAN = 0x08
-
-    @classmethod
-    def get_wakeup_sources_map(cls):
-        return {
-            cls.WAKE_ON_VOICE: "Wake on Voice",
-            cls.WAKE_ON_PRESENCE_DETECTION: "Wake on Presence Detection",
-            cls.WAKE_ON_BLUETOOTH: "Wake on Bluetooth",
-            cls.WAKE_ON_WIFI: "Wake on Wifi",
-            cls.WAKE_ON_IR: "Wake on IR",
-            cls.WAKE_ON_POWER_KEY: "Wake on Power key",
-            cls.WAKE_ON_TIMER: "Wake on Timer",
-            cls.WAKE_ON_CEC: "Wake on CEC",
-            cls.WAKE_ON_LAN: "Wake on LAN"
-        }
-    
+    PWRMGR_WAKEUPSRC_VOICE = 0x00
+    PWRMGR_WAKEUPSRC_PRESENCE_DETECTION = 0x01
+    PWRMGR_WAKEUPSRC_BLUETOOTH = 0x02
+    PWRMGR_WAKEUPSRC_WIFI = 0x03
+    PWRMGR_WAKEUPSRC_IR = 0x04
+    PWRMGR_WAKEUPSRC_POWER_KEY = 0x05
+    PWRMGR_WAKEUPSRC_TIMER = 0x06
+    PWRMGR_WAKEUPSRC_CEC = 0x07
+    PWRMGR_WAKEUPSRC_LAN = 0x08
 
 class powerManagerClass():
-
 
     """
     Power Class
@@ -87,7 +71,7 @@ class powerManagerClass():
         self.testConfig    = ConfigRead(self.testConfigFile, self.moduleName)
         self.testConfig.test.execute = os.path.join(targetWorkspace, self.testConfig.test.execute)
         self.testSuite = "L3 power manager "
-        
+
         self.deviceProfile = ConfigRead( moduleConfigProfileFile, self.moduleName)
         self.utMenu        = UTSuiteNavigatorClass(self.testConfig, None, session)
         self.testSession = session
@@ -157,9 +141,8 @@ class powerManagerClass():
         powerState = re.search(powerStatePattern, result)
 
         return powerState
-        
 
-    def setWakeupSource(self, source:int, enable:int):
+    def setWakeupSource(self, source:int, enable:int=1):
         """
         Set wakeup source.
 
@@ -174,9 +157,9 @@ class powerManagerClass():
 
         promptWithAnswers = [
             {
-                "query_type": "direct",
+                "query_type": "list",
                 "query": "Select Wake Up Source Type: ",
-                "input": str(source)
+                "input": source
             },
             {
                 "query_type": "direct",
@@ -220,17 +203,21 @@ class powerManagerClass():
     def getSupportedWakeupSources(self):
         """
         Get supported wakeup sources.
-        
+
         Args:
             None
 
         Returns:
             Wakeup sources
-        
         """
+        supportedWakeupSources = []
+        wakeupSources = self.deviceProfile.get("WakeupSources")
+        if not wakeupSources:
+            return supportedWakeupSources
 
-        return self.deviceProfile.get("WakeupSources")
-
+        for source in wakeupSources:
+            supportedWakeupSources.append(WakeupSources(source).name)
+        return supportedWakeupSources
 
     def terminate(self):
         """

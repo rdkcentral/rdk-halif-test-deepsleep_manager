@@ -29,7 +29,7 @@ from enum import Enum, auto
 
 # Add parent outside of the class directory
 dir_path = os.path.dirname(os.path.realpath(__file__))
-sys.path.append(dir_path+"/../")
+sys.path.append(os.path.join(dir_path, "../"))
 
 from raft.framework.plugins.ut_raft.configRead import ConfigRead
 from raft.framework.plugins.ut_raft.utSuiteNavigator import UTSuiteNavigatorClass
@@ -91,7 +91,7 @@ class deepsleepClass():
         """
         result = self.utMenu.select( self.testSuite, "Initialize Deepsleep Manager")
 
-    def triggerDeepsleep(self, timeout:int, networkStandby:int):
+    def triggerDeepsleep(self, timeout:int=0, networkStandby:int=0):
         """
         Trigger deepsleep.
 
@@ -143,7 +143,7 @@ class deepsleepClass():
         result = self.utMenu.select( self.testSuite, "Get last wakeup reason")
 
         wakeupReasonPattern = r'Result PLAT_DS_GetLastWakeupReason\(wakeupReason:\[(?P<wakeupReason>[^\]]+)\]\)'
-        
+
         wakeupReason = self.searchPattern(result, wakeupReasonPattern)
         return wakeupReason
 
