@@ -358,7 +358,7 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
                 # Wake on Wifi
                 wlan0Interface = interfaces.get("wlan0")
                 if wlan0Interface:
-                    wlan0MAC = eth0Interface.get("MAC")
+                    wlan0MAC = wlan0Interface.get("MAC")
                     if wlan0MAC:
                         result = self.testVerifyWakeOnWIFI(wlan0MAC)
             elif "IR" in source:

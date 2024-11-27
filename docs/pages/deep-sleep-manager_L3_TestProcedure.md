@@ -34,8 +34,8 @@ In this file, update the configuration to define the console sessions for the `D
 |---------------|-----------|
 |default|Downloads the streams required for test cases|
 |ssh_player|Plays the stream required for test case|
-|ssh_player_secondary|Plays a secondary stream, if required for test case|
-|ssh_hal_test|Executes the `HAL` binary for the test case|
+|ssh_hal_deepsleep_test|Executes the `HAL` binary for the deepsleep test case|
+|ssh_hal_power_test|Executes the `HAL` binary for the power test case|
 
 ```yaml
 rackConfig:
@@ -56,13 +56,13 @@ rackConfig:
             username: "root"
             ip: "XXX.XXX.XXX" # IP address of the device
             password: ' '
-        - ssh_player_secondary:
+        - ssh_hal_deepsleep_test:
             type: "ssh"
             port: 10022
             username: "root"
             ip: "XXX.XXX.XXX" # IP address of the device
             password: ' '
-        - ssh_hal_test:
+        - ssh_hal_power_test:
             type: "ssh"
             port: 10022
             username: "root"
@@ -95,10 +95,6 @@ deviceConfig:
     target_directory: "/tmp"  # Path where HAL binaries are copied in device
     test:
       profile: "../../../../profiles/deepsleepmanagerExtendedEnumsNotSupported.yaml"
-      player:
-        tool: "gstreamer"
-        prerequisites:
-          - export xxxx    # Pre-commands required to play the stream
 
 ```
 
@@ -113,33 +109,22 @@ Update the artifact paths from which the binaries should be copied to the device
 Set the execution paths for each test case.
 
 ```yaml
-dsHost:
-  description: "deepsleep manager Device Settings test setup"
+deepsleep:  # Prefix must always exist
+  description: "deepsleep Manager test setup"
   assets:
     device:
-      defaults: &defaults
-        artifacts:
-          - "<path>/bin/deepsleepmanager/hal_test"
-          - "<path>/bin/deepsleepmanager/libut_control.so"
-          - "<path>/bin/deepsleepmanagerExtendedEnumsNotSupported.yaml"
-          - "<path>/bin/deepsleepmanager/run.sh"
-          - "<path>/bin/powermanager/hal_test"
-          - "<path>/bin/powermanager/libut_control.so"
-          - "<path>/bin/powermanager/run.sh"
-        execute:
-          - "chmod +x /opt/HAL/deepsleep_L3/hal_test"
-          - "chmod +x /opt/HAL/deepsleep_L3/run.sh"
-          - cp -rf /usr/lib/libiarmmgrs-deepsleep-hal.so /opt/HAL/deepsleep_L3/
-          - "ln -s /usr/lib/libiarmmgrs-deepsleep-hal.so /opt/HAL/deepsleep_L3/libiarmmgrs-deepsleep-hal.so"
-          - cp -rf /usr/lib/libiarmmgrs-power-hal.so /opt/HAL/power_L3/
-          - "ln -s /usr/lib/libiarmmgrs-power-hal.so /opt/HAL/power_L3/libiarmmgrs-power-hal.so"
+      test1_TestWakeupSources:
         streams:
-        test1_TriggerDeepsleep:
-          <<: *defaults
-          streams:
+
+power:  # Prefix must always exist
+  description: "power Manager test setup"
+  assets:
+    device:
+      test1_TestWakeupSources:
+        streams:
 ```
-#### Test Suite Configuration
-Example Test Setup configuration File: [deepsleep_test_suite.yml](../../../host/tests/deepsleepClasses/deepsleep_test_suite.yml)
+#### Test Configuration
+Example Test configuration File: [deepsleep_test_suite.yml](../../../host/tests/deepsleepClasses/deepsleep_test_suite.yml)
 Example Test Setup configuration File: [power_test_suite.yml](../../../host/tests/deepsleepClasses/power_test_suite.yml)
 Update the execute command according to the device path where `HAL` binaries are copied.
 
