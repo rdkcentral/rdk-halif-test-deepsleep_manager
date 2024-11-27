@@ -1,4 +1,4 @@
-# dsHost HAL L3 Python Test Procedure
+# DeepSleep HAL L3 Python Test Procedure
 
 ## Table of Contents
 
@@ -94,7 +94,7 @@ deviceConfig:
     model: "uk"
     target_directory: "/tmp"  # Path where HAL binaries are copied in device
     test:
-      profile: "../../../../profiles/deepsleepmanagerExtendedEnumsNotSupported.yaml"
+      profile: "../../../profiles/deepsleepmanagerExtendedEnumsNotSupported.yaml"
 
 ```
 
@@ -104,9 +104,7 @@ Example Test Setup configuration File the deepsleep side: [deepsleep_L3_testSetu
 
 Example Test Setup configuration File the power manager side: [power_L3_testSetup.yml](../../..//host/tests/power_L3_Tests/deepsleep_L3_testSetup.yml)
 
-Update the artifact paths from which the binaries should be copied to the device.
-
-Set the execution paths for each test case.
+Streams required for each test case was provided in this file. Testing Deep sleep functionality doesn't require any streams.
 
 ```yaml
 deepsleep:  # Prefix must always exist
@@ -124,15 +122,16 @@ power:  # Prefix must always exist
         streams:
 ```
 #### Test Configuration
-Example Test configuration File: [deepsleep_test_suite.yml](../../../host/tests/deepsleepClasses/deepsleep_test_suite.yml)
-Example Test Setup configuration File: [power_test_suite.yml](../../../host/tests/deepsleepClasses/power_test_suite.yml)
-Update the execute command according to the device path where `HAL` binaries are copied.
+Example Test configuration File: [deepsleep_testConfig.yml](../../../host/tests/deepsleepClasses/deepsleep_testConfig.yml)
+Example Test Setup configuration File: [power_testConfig.yml](../../../host/tests/deepsleepClasses/power_testConfig.yml)
+
+Execute command to run the HAL binary was provided in this file.
 
 ```yaml
 deepsleep:
   description: "Deepsleep manager testing profile"
   test:
-    execute: "/tmp/run.sh -p /tmp/deepsleepmanagerExtendedEnumsNotSupported.yaml"
+    execute: "run.sh"
     type: UT-C  # Cunit tests (UT-C)
 ```
 
@@ -140,7 +139,7 @@ deepsleep:
 power:
   description: "Power manager testing profile"
   test:
-    execute: "/tmp/run.sh -p /tmp/deepsleepmanagerExtendedEnumsNotSupported.yaml"
+    execute: "run.sh"
     type: UT-C  # Cunit tests (UT-C)
 ```
 
@@ -154,10 +153,23 @@ python <TestCaseName.py> --config </PATH>/ut/host/tests/configs/example_rack_con
 
 ## Test Setup Connections
 
-Verify that the enable deepsleep sources are working on the device
-For Example:
+Make sure the device under test `DUT` is connected to wifi, LAN and a CEC supported device for waking up from deepsleep before starting the test case.
 
-- Set the deepsleep wake up source to on via power manager api, and then trigger deepsleep, and subsequent wakeup
+In order to connect to Wifi on vendor layer builds, use the below commands:
+
+**Copy the routers SSID and key details:**
+
+wpa_passphrase <"Router SSID"> <"Passsword" > /data/wpa-supplicant.conf
+
+**Start the wpa_supplicant daemon:**
+wpa_supplicant -dd -B -i wlan0 -c /data/wpa-supplicant.conf
+
+If still not getting IP for wlan0 bridge interface try:
+
+```
+ifconfig wlan0 down
+ifconfig wlan0 up
+```
 
 ## Test Cases
 ### test1_TriggerDeepsleep.py
@@ -168,15 +180,15 @@ For Example:
 
 #### User Input Required - test01
 
-**Yes**: User interaction is necessary to trigger deepsleep and trigger wake up (This will be automated later).
+**Yes**: User interaction is required to manually trigger wake-up events from deep sleep for specific wake-up sources. (This will be automated later).
 
 #### Acceptance Criteria - test01
 
-No tests are skipped, and all wake up sources are being triggered properly
+All supported wake-up sources must be validated and properly trigger the system to wake up from deep sleep
 
 #### Expected Results - test01
 
-All wake up sources should wake up properly
+All tested wake-up sources must successfully trigger the system to exit deep sleep without errors or failures. Upon waking, the recorded wake-up reason must accurately correspond to the triggered event.
 
 #### Test Steps - test01
 
@@ -187,22 +199,22 @@ All wake up sources should wake up properly
 
 - Trigger deepsleep prompt:
 
-    Would you like to trigger WAKE-UP SOURCE test? Note, skipping the test is considered a fail condition. (Y/N):
+    The test will set the wake-up source and trigger a deepsleep.
 
-    Please trigger wake up via [will be mention whatever wake up source is being tested]. Did the device wakeup as expected (Y/N):
+    The above will loop through all supported wake up sources that applicable for the specific device based on the .yaml file.
 
-- The above will loop through all wake up sources that acclicable for the specific device based on the .yaml file.
+- Once in deepsleep the device will need to be manually awoken for some sources like IR, CEC and Power_Key.
 
-- Once in deepsleep the device will need to be manually awoken
+    - When the device enters 'IR' test, to trigger the wake up use an IR remote pressing the power key on the remote to wake up the device. If the device successfully wakes up from deepsleep via the specified method, User should enter the response it passes the test.
 
-    - When the device enters 'IR' test, to trigger the wake up use an IR remote pressing the power on key on the remote to wake up the device. If the device successfully wakes up from deepsleep via the specified method, it passes the test.
+    - When the device enters 'power key' test, to trigger the wake up press the front panel power key button of the device itself. If the device successfully wakes up from deepsleep via the specified method, User should enter the response it passes the test.
 
-    - When the device enters 'power key' test, to trigger the wake up press the power key button on the device itself. If the device successfully wakes up from deepsleep via the specified method, it passes the test.
+    - When the device enters 'CEC' test, to trigger connect a HDMI cable to the device and send an Image_View_On CEC message from the connected device to wake up the `DUT`. If the device successfully wakes up from deepsleep via the specified method, User should enter the response it passes the test.
 
-    - When the device enters 'CEC' test, to trigger connect a HDMI cable to the device and send an Image_View_On CEC message from the connected device to wake up the tv. If the device successfully wakes up from deepsleep via the specified method, it passes the test.
+- The following tests should be done automaticaly.
 
-- The following tests should be done automaticaly. The IP must specifid within the rack config.
+    - When the device enters 'LAN' test, it should automatically trigger the wake up.
 
-    - When the device enters 'LAN' test, it should automatically trigger the wake up if the IP is specifid correctly
+    - When the device enters 'wifi' test, it should automatically trigger the wake up.
 
-    - When the device enters 'wifi' test, it should automatically trigger the wake up if the IP is specifid correctly
+    -  When the device enters 'Timer' test, it should automatically trigger the wake up after 60 seconds.
