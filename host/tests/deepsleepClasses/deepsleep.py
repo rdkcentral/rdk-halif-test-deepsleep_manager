@@ -21,11 +21,9 @@
 # *
 #* ******************************************************************************
 
-import yaml
 import os
 import sys
 import re
-from enum import Enum, auto
 
 # Add parent outside of the class directory
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -43,16 +41,16 @@ class deepsleepClass():
 
     This module provides common extensions for Deepsleep Manager Module.
 
-    Args:
-            moduleConfigProfileFile  (str): Path to the device profile configuration file.
-            session: Optional; session object for the user interface.
-
-        Returns:
-            None
     """
     def __init__(self, moduleConfigProfileFile:str, session=None, targetWorkspace="/tmp" ):
         """
         Initializes the Deepsleep Manager class function.
+        Args:
+            moduleConfigProfileFile  (str): Path to the device profile configuration file.
+            session (Optional): session object for the user interface. Defaults to None
+            targetWorkspace (str): Target workspace folder on device. Defaults to "/tmp"
+        Returns:
+            None
         """
 
         self.moduleName = "deepsleep"
@@ -60,10 +58,10 @@ class deepsleepClass():
         self.testConfig    = ConfigRead(self.testConfigFile, self.moduleName)
         self.testConfig.test.execute = os.path.join(targetWorkspace, self.testConfig.test.execute)
         self.testSuite = "L3 Deepsleep manager "
-        
+
         self.deviceProfile = ConfigRead( moduleConfigProfileFile, self.moduleName)
         self.utMenu        = UTSuiteNavigatorClass(self.testConfig, None, session)
-        self.testSession = session
+        self.testSession   = session
         self.utils         = utBaseUtils()
 
         for artifact in self.testConfig.test.artifacts:
@@ -72,8 +70,15 @@ class deepsleepClass():
 
         self.utMenu.start()
 
-
     def searchPattern(self, haystack, pattern):
+        """
+        Search pattern in the given string
+        Args:
+            haystack  (str): String.
+            pattern (str): Pattern to search in haystack
+        Returns:
+            None
+        """
         match = re.search(pattern, haystack)
         if match:
             return match.group(1)
@@ -137,8 +142,8 @@ class deepsleepClass():
         Args:
             None
 
-        Returns:
-            None
+        Return:
+            wakeupReason (str) : Wakeup reason
         """
         result = self.utMenu.select( self.testSuite, "Get last wakeup reason")
 
@@ -155,16 +160,15 @@ class deepsleepClass():
             None
 
         Returns:
-            None
+            wakeupKeycode (str) : Return wakeup code
         """
         result = self.utMenu.select( self.testSuite, "Get last wakeup keycode")
 
         wakeupKeycodePattern = r'Result PLAT_DS_GetLastWakeupKeyCode\(wakeupKeyCode:\[(?P<wakeupKeycode>\d+)\]\)'
-        
+
         wakeupKeycode = self.searchPattern(result, wakeupKeycodePattern)
         return wakeupKeycode
 
-        
     def terminate(self):
         """
         Terminates the deepsleep manager module.

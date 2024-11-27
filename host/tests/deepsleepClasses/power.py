@@ -21,7 +21,6 @@
 # *
 #* ******************************************************************************
 
-import yaml
 import os
 import sys
 import re
@@ -37,15 +36,15 @@ from raft.framework.plugins.ut_raft.interactiveShell import InteractiveShell
 from raft.framework.plugins.ut_raft.utBaseUtils import utBaseUtils
 
 class WakeupSources(Enum):
-    PWRMGR_WAKEUPSRC_VOICE = 0x00
-    PWRMGR_WAKEUPSRC_PRESENCE_DETECTION = 0x01
-    PWRMGR_WAKEUPSRC_BLUETOOTH = 0x02
-    PWRMGR_WAKEUPSRC_WIFI = 0x03
-    PWRMGR_WAKEUPSRC_IR = 0x04
-    PWRMGR_WAKEUPSRC_POWER_KEY = 0x05
-    PWRMGR_WAKEUPSRC_TIMER = 0x06
-    PWRMGR_WAKEUPSRC_CEC = 0x07
-    PWRMGR_WAKEUPSRC_LAN = 0x08
+    PWRMGR_WAKEUPSRC_VOICE = 0
+    PWRMGR_WAKEUPSRC_PRESENCE_DETECTION = auto()
+    PWRMGR_WAKEUPSRC_BLUETOOTH = auto()
+    PWRMGR_WAKEUPSRC_WIFI = auto()
+    PWRMGR_WAKEUPSRC_IR = auto()
+    PWRMGR_WAKEUPSRC_POWER_KEY = auto()
+    PWRMGR_WAKEUPSRC_TIMER = auto()
+    PWRMGR_WAKEUPSRC_CEC = auto()
+    PWRMGR_WAKEUPSRC_LAN = auto()
 
 class powerManagerClass():
 
@@ -54,16 +53,16 @@ class powerManagerClass():
 
     This module provides common extensions for Power Module.
 
-    Args:
-            moduleConfigProfileFile  (str): Path to the device profile configuration file.
-            session: Optional; session object for the user interface.
-
-        Returns:
-            None
     """
     def __init__(self, moduleConfigProfileFile:str, session=None, targetWorkspace="/tmp" ):
         """
-        Initializes the Power Manager class function.
+        Initializes the Deepsleep Manager class function.
+        Args:
+            moduleConfigProfileFile  (str): Path to the device profile configuration file.
+            session (Optional): session object for the user interface. Defaults to None
+            targetWorkspace (str): Target workspace folder on device. Defaults to "/tmp"
+        Returns:
+            None
         """
 
         self.moduleName = "power"
@@ -74,7 +73,7 @@ class powerManagerClass():
 
         self.deviceProfile = ConfigRead( moduleConfigProfileFile, self.moduleName)
         self.utMenu        = UTSuiteNavigatorClass(self.testConfig, None, session)
-        self.testSession = session
+        self.testSession   = session
         self.utils         = utBaseUtils()
 
         for artifact in self.testConfig.test.artifacts:
@@ -84,6 +83,14 @@ class powerManagerClass():
         self.utMenu.start()
 
     def searchPattern(self, haystack, pattern):
+        """
+        Search pattern in the given string
+        Args:
+            haystack  (str): String.
+            pattern (str): Pattern to search in haystack
+        Returns:
+            None
+        """
         match = re.search(pattern, haystack)
         if match:
             return match.group(1)
@@ -101,19 +108,17 @@ class powerManagerClass():
         """
         result = self.utMenu.select( self.testSuite, "Initialize Power Manger")
 
-
     def setPowerMode(self, mode:int):
         """
         Set Power Mode.
 
         Args:
-            mode: int: This enumeration defines the power state.
+            mode (int): This enumeration defines the power state.
                         Refer to the PWRMGR_PowerState_t enum for valid options
 
         Returns:
             None
         """
-
         promptWithAnswers = [
             {
                 "query_type": "direct",
@@ -131,9 +136,8 @@ class powerManagerClass():
 
         Args:
             None
-
         Returns:
-            None
+            powerState (str) : Returns current state of the device
         """
         result = self.utMenu.select( self.testSuite, "Get Power State")
 
@@ -180,7 +184,7 @@ class powerManagerClass():
                             Refer to the PWRMGR_WakeupSrcType_t enum for valid options
 
         Returns:
-            None
+            enable (str) : Returns whether the wakeup soruce is enabled or not
         """
 
         promptWithAnswers = [
@@ -208,7 +212,7 @@ class powerManagerClass():
             None
 
         Returns:
-            Wakeup sources
+            supportedWakeupSources(list) : Returns list of Wakeup sources
         """
         supportedWakeupSources = []
         wakeupSources = self.deviceProfile.get("WakeupSources")

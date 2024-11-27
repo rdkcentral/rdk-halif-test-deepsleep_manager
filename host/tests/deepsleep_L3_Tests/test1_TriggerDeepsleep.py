@@ -47,7 +47,6 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
         Args:
             None.
         """
-
         self.testName  = "test1_TriggerDeepsleep"
         self.testSetupPathPower = dir_path + "/power_L3_testSetup.yml"
         self.testSetupPathDeepsleep = dir_path + "/deepsleep_L3_testSetup.yml"
@@ -105,7 +104,14 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
         return False
 
     def getDeviceNetworkMACDetails(self):
+        """
+        Function to get the device network interface details.
 
+        Args:
+            None
+        Return:
+            dict - dictionary containing network interface details
+        """
         # Execute the command to list network interfaces and IP addresses
         self.session.write("ip addr show")
 
@@ -137,7 +143,14 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
         return interfaces
 
     def wolwowlSendMagicPacket(self, mac_address):
-        """Send a Wake-on-LAN magic packet to a device with the given MAC address."""
+        """
+        This function sends a Wake-on-LAN magic packet to a device with the given MAC address
+
+        Args:
+            mac_address (str): MAC address of the device.
+        Return:
+            None
+        """
         # Format MAC address (remove colons or dashes)
         mac_address = mac_address.replace(":", "").replace("-", "")
 
@@ -155,7 +168,7 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
 
     def testVerifyWakeOnTimer(self, timeOut:int):
         """
-        Function verify weather the device woke up after time out.
+        Function to verify whether the device woke up after a timeout.
 
         Args:
             timeOut (int) : Time out value in seconds.
@@ -166,11 +179,13 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
 
     def testVerifyWakeOnPowerkey(self, manual=False):
         """
-        Function verify weather the device woke up after PowerKey.
+        Function to verify whether the device woke up after pressing the PowerKey.
 
         Args:
             manual (bool, optional): Flag to indicate if manual verification should be used.
                                      Defaults to False for automation, True for manual.
+        Return:
+            bool: True if the device successfully wakes up, False otherwise.
         """
         if manual == True:
             self.testUserResponse.getUserYN(f"Please trigger wake up via PowerKey and Press Enter:")
@@ -182,11 +197,13 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
 
     def testVerifyWakeOnIR(self, manual=False):
         """
-        Function verify weather the device woke up after IR.
+        Function to verify whether the device woke up after receiving an IR signal.
 
         Args:
             manual (bool, optional): Flag to indicate if manual verification should be used.
                                      Defaults to False for automation, True for manual.
+        Return:
+            bool: True if the device successfully wakes up, False otherwise.
         """
         if manual == True:
             self.testUserResponse.getUserYN(f"Please trigger wake up via IR and Press Enter:")
@@ -198,11 +215,13 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
 
     def testVerifyWakeOnCEC(self, manual=False):
         """
-        Function verify weather the device woke up after CEC.
+        Function to verify whether the device woke up after receiving a CEC signal.
 
         Args:
             manual (bool, optional): Flag to indicate if manual verification should be used.
                                      Defaults to False for automation, True for manual.
+        Return:
+            bool: True if the device successfully wakes up, False otherwise.
         """
         if manual == True:
             self.testUserResponse.getUserYN(f"Please trigger wake up via CEC and Press Enter:")
@@ -214,12 +233,14 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
 
     def testVerifyWakeOnLAN(self, mac:str, manual=False):
         """
-        Function verify weather the device woke up after LAN.
+        Function to verify whether the device woke up after a LAN event.
 
         Args:
             mac (str) : MAC address of the device
             manual (bool, optional): Flag to indicate if manual verification should be used.
                                      Defaults to False for automation, True for manual.
+        Return:
+            bool: True if the device successfully wakes up, False otherwise.
         """
         if manual == True:
             self.testUserResponse.getUserYN(f"Please trigger wake up via LAN and Press Enter:")
@@ -238,12 +259,14 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
 
     def testVerifyWakeOnWIFI(self, mac:str, manual=False):
         """
-        Function verify weather the device woke up after WIFI.
+        Function to verify whether the device woke up after a Wi-Fi event.
 
         Args:
             mac (str) : MAC address of the device
             manual (bool, optional): Flag to indicate if manual verification should be used.
                                      Defaults to False for automation, True for manual.
+        Return:
+            bool: True if the device successfully wakes up, False otherwise.
         """
         if manual == True:
             self.testUserResponse.getUserYN(f"Please trigger wake up via WIFI and Press Enter:")
@@ -262,15 +285,13 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
 
     def testPrepareFunction(self):
         """
-        Prepares the environment and assets required for the test.
+        This function creates classes for powermanager and deepsleepmanager
 
-        This function:
-        - Creates classes for powermanager and deepsleepmanager
-
+        Args:
+            None
         Returns:
-            bool
+            bool : Test results
         """
-
         # Create the deepsleep manager class
         self.testDeepsleep = deepsleepClass(self.moduleConfigProfileFile, self.hal_session_deepsleep, self.targetWorkspaceDeepsleep)
         # Create the Power Manager Class
@@ -279,10 +300,12 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
         return True
 
     def testFunction(self):
-        """This function will test the get cpu tempature functionality
+        """This function will test the device deepsleep functionality
 
+        Args:
+            None
         Returns:
-            bool
+            bool : Test results
         """
         interfaces = self.getDeviceNetworkMACDetails()
 
@@ -292,18 +315,20 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
 
         self.supportedWakeupsources = self.testPower.getSupportedWakeupSources()
 
-        result = True
-
+        result = False
         finalResult = True
 
         for source, wakeReason in zip(self.testWakeupSources, self.testWakeupReason):
+            result = False
             testSource = None
+
             for supported in self.supportedWakeupsources:
                 if source in supported:
                     testSource = supported
                     break
 
             if not testSource:
+                self.log.warn(f"Device doesn't support {source} Wakeup")
                 continue
 
             self.log.stepStart(f"Triggering wake up test for {source}")
@@ -331,7 +356,6 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
                 pass
             elif "WIFI" in source:
                 # Wake on Wifi
-                result = False
                 wlan0Interface = interfaces.get("wlan0")
                 if wlan0Interface:
                     wlan0MAC = eth0Interface.get("MAC")
@@ -346,13 +370,12 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
                 result = self.testVerifyWakeOnPowerkey(True)
             elif "TIMER" in source:
                 # Wake on Timer
-                self.testVerifyWakeOnTimer(self.testTimer)
+                result = self.testVerifyWakeOnTimer(self.testTimer)
             elif "CEC" in source:
                 # Wake on CEC
                 result = self.testVerifyWakeOnCEC(True)
             elif "LAN" in source:
                  # Wake on LAN
-                result = False
                 eth0Interface = interfaces.get("eth0")
                 if eth0Interface:
                     eth0MAC = eth0Interface.get("MAC")
@@ -371,9 +394,15 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
         return finalResult
 
     def testEndFunction(self, powerOff=True):
-        # Delete the deepsleep class
-        del self.testDeepsleep
+        """This function deletes the test classes
 
+        Args:
+            powerOff (bool) : Flag to power off the device
+        Returns:
+            bool : Test results
+        """
+        # Delete the deepsleep and power classes
+        del self.testDeepsleep
         del self.testPower
 
 if __name__ == '__main__':
