@@ -347,11 +347,11 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
                 # Not supported in this version
                 pass
             elif "PRESENCE_DETECTION" in source:
-                # Wake on Voice
+                # Wake on Presence detection
                 # Not supported in this version
                 pass
             elif "BLUETOOTH" in source:
-                # Wake on Voice
+                # Wake on bluetooth
                 # Not supported in this version
                 pass
             elif "WIFI" in source:

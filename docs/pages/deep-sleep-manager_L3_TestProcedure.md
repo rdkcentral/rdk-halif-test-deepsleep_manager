@@ -15,6 +15,11 @@
 - `DUT`    - Device Under Test
 - `RAFT`   - Rapid Automation Framework for Testing
 - `YAML`   - YAML Ain't Markup Language
+- `HDMI`   - High-Definition Multimedia Interface
+- `CEC`    - Consumer Electronics Control
+- `LAN`    - Local Area Network
+- `SSID`   - Service Set Identifier
+- `IP`     - Internet Protocal
 
 ## Setting Up Test Environment
 
@@ -24,7 +29,7 @@ To execute `HAL` `L3` Python test cases, need a Python environment. Follow these
 
 #### Rack Configuration File
 
-Example Rack configuration File: [example_rack_config.yml](../../../host/tests/configs/example_rack_config.yml)
+Example Rack configuration File: [example_rack_config.yml](../../host/tests/configs/example_rack_config.yml)
 
 For more details refer [RAFT](https://github.com/rdkcentral/python_raft/blob/1.0.0/README.md) and [example_rack_config.yml](https://github.com/rdkcentral/python_raft/blob/1.0.0/examples/configs/example_rack_config.yml)
 
@@ -32,8 +37,7 @@ In this file, update the configuration to define the console sessions for the `D
 
 |Console Session|Description|
 |---------------|-----------|
-|default|Downloads the streams required for test cases|
-|ssh_player|Plays the stream required for test case|
+|default|This session is used for basic operations, such as verifying the device status and retrieving the MAC address|
 |ssh_hal_deepsleep_test|Executes the `HAL` binary for the deepsleep test case|
 |ssh_hal_power_test|Executes the `HAL` binary for the power test case|
 
@@ -45,12 +49,6 @@ rackConfig:
       platform: "stb"
       consoles:
         - default:
-            type: "ssh"
-            port: 10022
-            username: "root"
-            ip: "XXX.XXX.XXX" # IP address of the device
-            password: ' '
-        - ssh_player:
             type: "ssh"
             port: 10022
             username: "root"
@@ -79,7 +77,7 @@ rackConfig:
 
 #### Device Configuration File
 
-Example Device configuration File: [deviceConfig.yml](../../../host/tests/configs/deviceConfig.yml)
+Example Device configuration File: [deviceConfig.yml](../../host/tests/configs/deviceConfig.yml)
 
 For more details refer [RAFT](https://github.com/rdkcentral/python_raft/blob/1.0.0/README.md) and [example_device_config.yml](https://github.com/rdkcentral/python_raft/blob/1.0.0/examples/configs/example_device_config.yml)
 
@@ -100,9 +98,9 @@ deviceConfig:
 
 #### Test Setup Configuration File
 
-Example Test Setup configuration File the deepsleep side: [deepsleep_L3_testSetup.yml](../../..//host/tests/deepsleep_L3_Tests/deepsleep_L3_testSetup.yml)
+Example Test Setup configuration File the deepsleep side: [deepsleep_L3_testSetup.yml](../../host/tests/deepsleep_L3_Tests/deepsleep_L3_testSetup.yml)
 
-Example Test Setup configuration File the power manager side: [power_L3_testSetup.yml](../../..//host/tests/power_L3_Tests/deepsleep_L3_testSetup.yml)
+Example Test Setup configuration File the power manager side: [power_L3_testSetup.yml](../../host/tests/power_L3_Tests/deepsleep_L3_testSetup.yml)
 
 Streams required for each test case was provided in this file. Testing Deep sleep functionality doesn't require any streams.
 
@@ -122,25 +120,33 @@ power:  # Prefix must always exist
         streams:
 ```
 #### Test Configuration
-Example Test configuration File: [deepsleep_testConfig.yml](../../../host/tests/deepsleepClasses/deepsleep_testConfig.yml)
-Example Test Setup configuration File: [power_testConfig.yml](../../../host/tests/deepsleepClasses/power_testConfig.yml)
+Example Test configuration File for deepsleep manager: [deepsleep_testConfig.yml](../../host/tests/deepsleepClasses/deepsleep_testConfig.yml)
+Example Test Setup configuration File for power manager: [power_testConfig.yml](../../host/tests/deepsleepClasses/power_testConfig.yml)
 
-Execute command to run the HAL binary was provided in this file.
+The test copies the binary files from the path specified in the `artifacts` entry of the `yml` file. Ensure that the `HAL` test binaries for the deep sleep manager and power manager are available in the specified folder.
+
+Execute command to run the `HAL` binary was provided in this file.
 
 ```yaml
 deepsleep:
-  description: "Deepsleep manager testing profile"
-  test:
-    execute: "run.sh"
-    type: UT-C  # Cunit tests (UT-C)
+    description: "deepsleep Manager testing profile / menu system for UT"
+    test:
+        artifacts:
+        #List of artifacts folders, test class copies the content of folder to the target device workspace
+          - "../../../bin/deepsleepmanager/"
+        # exectute command, this will appended with the target device workspace path
+        execute: "run.sh" #Execute command
 ```
 
 ```yaml
 power:
-  description: "Power manager testing profile"
-  test:
-    execute: "run.sh"
-    type: UT-C  # Cunit tests (UT-C)
+    description: "power Manager testing profile / menu system for UT"
+    test:
+        artifacts:
+        #List of artifacts folders, test class copies the content of folder to the target device workspace
+          - "../../../bin/powermanager/"
+        # exectute command, this will appended with the target device workspace path
+        execute: "run.sh" #Execute command
 ```
 
 ## Run Test Cases
@@ -153,20 +159,29 @@ python <TestCaseName.py> --config </PATH>/ut/host/tests/configs/example_rack_con
 
 ## Test Setup Connections
 
-Make sure the device under test `DUT` is connected to wifi, LAN and a CEC supported device for waking up from deepsleep before starting the test case.
+Make sure the device under test `DUT` is connected to wifi, `LAN` and a `CEC` supported device for waking up from deepsleep before starting the test case.
 
-In order to connect to Wifi on vendor layer builds, use the below commands:
+### Example WIFI Configuration
+If the `DUT` supports WPA, follow these steps to configure the `WIFI`:
 
-**Copy the routers SSID and key details:**
+**Generate the WPA Configuration File:**
 
+Use the router's `SSID` and password to create a configuration file:
+
+```bash
 wpa_passphrase <"Router SSID"> <"Passsword" > /data/wpa-supplicant.conf
+```
 
 **Start the wpa_supplicant daemon:**
+Run the following command to start the `wpa_supplicant` service:
+
+```bash
 wpa_supplicant -dd -B -i wlan0 -c /data/wpa-supplicant.conf
-
-If still not getting IP for wlan0 bridge interface try:
-
 ```
+
+If still not getting `IP` for `wlan0` bridge interface try:
+
+```bash
 ifconfig wlan0 down
 ifconfig wlan0 up
 ```
@@ -201,20 +216,20 @@ All tested wake-up sources must successfully trigger the system to exit deep sle
 
     The test will set the wake-up source and trigger a deepsleep.
 
-    The above will loop through all supported wake up sources that applicable for the specific device based on the .yaml file.
+    The above will loop through all supported wake up sources that applicable for the specific device based on the `yaml` file.
 
-- Once in deepsleep the device will need to be manually awoken for some sources like IR, CEC and Power_Key.
+- Once in deepsleep the device will need to be manually awoken for some sources like `IR`, `CEC` and `Power_Key`.
 
-    - When the device enters 'IR' test, to trigger the wake up use an IR remote pressing the power key on the remote to wake up the device. If the device successfully wakes up from deepsleep via the specified method, User should enter the response it passes the test.
+    - During the `IR` test, use an `IR` remote to trigger the wake-up by pressing the power key. If the device successfully wakes up from deep sleep using this method, the test evaluates whether the wake-up process was successful.
 
-    - When the device enters 'power key' test, to trigger the wake up press the front panel power key button of the device itself. If the device successfully wakes up from deepsleep via the specified method, User should enter the response it passes the test.
+    - During the `Power_Key` test, press the power key of the `dut` to wake-up. If the device successfully wakes up from deep sleep using this method, the test evaluates whether the wake-up process was successful.
 
-    - When the device enters 'CEC' test, to trigger connect a HDMI cable to the device and send an Image_View_On CEC message from the connected device to wake up the `DUT`. If the device successfully wakes up from deepsleep via the specified method, User should enter the response it passes the test.
+    - During the `CEC` test, initiate the wake-up process by connecting an `HDMI` cable to the device and sending a wake-up `CEC` command (e.g., `Image_View_On`) from the connected device to the `DUT`. If the device transitions successfully from deep sleep to an active state using this method, the test assesses the success of the wake-up operation.
 
 - The following tests should be done automaticaly.
 
-    - When the device enters 'LAN' test, it should automatically trigger the wake up.
+    - When the device enters `LAN` test, test automatically triggers the wake up and validates whether the device successfully wakes up.
 
-    - When the device enters 'wifi' test, it should automatically trigger the wake up.
+    - When the device enters `wifi` test, test automatically triggers the wake up and validates whether the device successfully wakes up.
 
-    -  When the device enters 'Timer' test, it should automatically trigger the wake up after 60 seconds.
+    - When the device enters `Timer` test, `dut` wakes up after 60 seconds and test validates whether the device successfully wakes up.
