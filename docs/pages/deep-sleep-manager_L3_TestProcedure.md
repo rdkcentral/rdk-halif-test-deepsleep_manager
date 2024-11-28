@@ -220,7 +220,7 @@ All tested wake-up sources must successfully trigger the system to exit deep sle
 
 - Once in deepsleep the device will need to be manually awoken for some sources like `IR`, `CEC` and `Power_Key`.
 
-    - During the `IR` test, use an `IR` remote to trigger the wake-up by pressing the power key. If the device successfully wakes up from deep sleep using this method, the test evaluates whether the wake-up process was successful.
+    - During the `IR` test, use an `IR` remote to trigger the wake-up by pressing the power key or home key. If the device successfully wakes up from deep sleep using this method, the test evaluates whether the wake-up process was successful.
 
     - During the `Power_Key` test, press the power key of the `dut` to wake-up. If the device successfully wakes up from deep sleep using this method, the test evaluates whether the wake-up process was successful.
 
