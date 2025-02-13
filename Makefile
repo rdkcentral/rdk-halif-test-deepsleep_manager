@@ -34,6 +34,7 @@ SRC_DIRS = $(ROOT_DIR)/src
 INC_DIRS := $(ROOT_DIR)/../include
 HAL_LIB := iarmmgrs-deepsleep-hal
 SKELTON_SRCS := $(ROOT_DIR)/skeletons/src/deepSleepMgr.c
+TARGET_EXEC :=hal_test_$(HAL_LIB)
 
 ifeq ($(TARGET),)
 $(info TARGET NOT SET )
@@ -61,6 +62,7 @@ export INC_DIRS
 export TARGET
 export TOP_DIR
 export HAL_LIB_DIR
+export TARGET_EXEC
 
 .PHONY: clean list build
 
