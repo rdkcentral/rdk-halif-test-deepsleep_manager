@@ -59,7 +59,6 @@ class deepsleepClass():
         self.testConfig.test.execute = os.path.join(targetWorkspace, self.testConfig.test.execute)
         self.testSuite = "L3 Deepsleep manager "
 
-        self.deviceProfile = ConfigRead( moduleConfigProfileFile, self.moduleName)
         self.utMenu        = UTSuiteNavigatorClass(self.testConfig, None, session)
         self.testSession   = session
         self.utils         = utBaseUtils()
