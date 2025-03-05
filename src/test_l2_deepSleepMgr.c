@@ -206,8 +206,8 @@ int test_l2_deepSleepMgr_register(void)
     }
     // List of test function names and strings
 
-    UT_add_test( pSuite, "L2_SetDeepSleepAndVerifyWakeup1sec", test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeup1);
-    UT_add_test( pSuite, "L2_SetDeepSleepAndVerifyWakeUp10sec", test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeUp10);
+    UT_add_test( pSuite, "SetDsAndVerifyWakeup1sec", test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeup1);
+    UT_add_test( pSuite, "SetDsAndVerifyWakeUp10sec", test_l2_deepSleepMgr_SetDeepSleepAndVerifyWakeUp10);
 
     return 0;
 }
