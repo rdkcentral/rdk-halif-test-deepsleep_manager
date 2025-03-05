@@ -29,7 +29,7 @@ deviceConfig:
         target_directory: "/tmp/"
         test:
             #TODO: Use the single profile file which contains all details (ds, hdmi, etc)
-            profile: "../../../profiles/deepsleepmanagerExtendedEnumsNotSupported.yaml"
+            profile: "../../../profiles/deepsleepmanagerWakeUpSources.yaml"
     cpe2:
         platform: "test"
         model: "test"
