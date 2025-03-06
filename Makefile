@@ -35,6 +35,8 @@ INC_DIRS := $(ROOT_DIR)/../include
 HAL_LIB := iarmmgrs-deepsleep-hal
 SKELTON_SRCS := $(ROOT_DIR)/skeletons/src/deepSleepMgr.c
 TARGET_EXEC :=hal_test_$(HAL_LIB)
+VERSION := $(shell git describe --tags | head -n1)
+KCFLAGS := -DHALIF_TEST_TAG_VERSION=\"$(VERSION)\"
 
 ifeq ($(TARGET),)
 $(info TARGET NOT SET )
@@ -63,6 +65,7 @@ export TARGET
 export TOP_DIR
 export HAL_LIB_DIR
 export TARGET_EXEC
+export KCFLAGS
 
 .PHONY: clean list build
 
