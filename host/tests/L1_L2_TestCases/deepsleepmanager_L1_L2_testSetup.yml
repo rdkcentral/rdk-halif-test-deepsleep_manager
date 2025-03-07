@@ -1,0 +1,86 @@
+# This is a sample test configuration file. Users can customize the YAML entries as needed
+# This test configuration file includes sample YAML entries for executing various combinations
+deepsleepmanager:
+  description: "Deep Sleep Manager L1 and L2 test setup"
+  test_suites: # List of L1 and L2 test suites
+
+    ######################################
+    # Entry to run all test case
+    ######################################
+    #- name: "L1 deepSleepMgr"
+    #  test_cases:
+    #    - all
+
+    #######################################
+    # Entries to run individual test cases
+    #######################################
+    - name: "L1 deepSleepMgr"
+      test_cases:
+        - PLAT_INIT_pos
+    - name: "L1 deepSleepMgr"
+      test_cases:
+        - PLAT_INIT_neg
+    - name: "L1 deepSleepMgr"
+      test_cases:
+        - PLAT_TERM_pos
+    - name: "L1 deepSleepMgr"
+      test_cases:
+        - PLAT_TERM_neg
+    - name: "L1 deepSleepMgr"
+      test_cases:
+        - PLAT_DeepSleepWakeup_pos
+    - name: "L1 deepSleepMgr"
+      test_cases:
+        - PLAT_DeepSleepWakeup_neg
+    #- name: "L1 deepSleepMgr"
+     # test_cases:
+      #  - PLAT_SetDeepSleep_pos
+    - name: "L1 deepSleepMgr"
+      test_cases:
+        - PLAT_SetDeepSleep_neg
+    - name: "L1 deepSleepMgr"
+      test_cases:
+        - PLAT_GetLastWakeupReason_pos
+    - name: "L1 deepSleepMgr"
+      test_cases:
+        - PLAT_GetLastWakeupReason_neg
+    - name: "L1 deepSleepMgr"
+      test_cases:
+        - PLAT_GetLastWakeupKeyCode_pos
+    - name: "L1 deepSleepMgr"
+      test_cases:
+        - PLAT_GetLastWakeupKeyCode_neg
+
+    ######################################
+    # Entries to run selected test case
+    ######################################
+    #- name: "L1 deepSleepMgr"  # Name of the test suit to run
+    #  test_cases:  # List of test cases to execute, to run all test cases in test suite with R option use `all`
+    #    - PLAT_INIT_pos
+    #    - PLAT_INIT_neg
+    #    - PLAT_TERM_pos
+    #    - PLAT_TERM_neg
+    #    - PLAT_DeepSleepWakeup_pos
+    #    - PLAT_DeepSleepWakeup_neg
+    #    - PLAT_SetDeepSleep_pos
+    #    - PLAT_SetDeepSleep_neg
+    #    - PLAT_GetLastWakeupReason_pos
+    #    - PLAT_GetLastWakeupReason_neg
+
+    #######################################
+    # Entries to run individual test cases
+    #######################################
+    - name: "L2 deepSleepMgr"
+      test_cases:
+        - SetDsAndVerifyWakeup1sec
+    - name: "L2 deepSleepMgr"
+      test_cases:
+        - SetDsAndVerifyWakeUp10sec
+
+    ######################################
+    # Entries to run selected test case
+    ######################################
+    #- name: "L2 deepSleepMgr"
+    #  test_cases:
+    #    - SetDsAndVerifyWakeup1sec
+    #    - SetDsAndVerifyWakeUp10sec

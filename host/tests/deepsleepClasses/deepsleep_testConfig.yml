@@ -33,25 +33,25 @@ deepsleep:  # Prefix must always exist
         type: UT-C # C (UT-C Cunit) / C++ (UT-G (g++ ut-core gtest backend))
         suites:
             0:
-                name: "L1 deepsleep"
+                name: "L1 deepsleepMgr"
                 tests:
-                  - "PLAT_DS_INIT_L1_positive"
-                  - "PLAT_DS_INIT_L1_negative"
-                  - "PLAT_DS_TERM_L1_positive"
-                  - "PLAT_DS_TERM_L1_negative"
-                  - "PLAT_DS_DeepSleepWakeup_L1_positive"
-                  - "PLAT_DS_DeepSleepWakeup_L1_negative"
-                  - "PLAT_DS_SetDeepSleep_L1_positive"
-                  - "PLAT_DS_SetDeepSleep_L1_negative"
-                  - "PLAT_DS_GetLastWakeupReason_L1_positive"
-                  - "PLAT_DS_GetLastWakeupReason_L1_negative"
-                  - "PLAT_DS_GetLastWakeupKeyCode_L1_positive"
-                  - "PLAT_DS_GetLastWakeupKeyCode_L1_negative"
+                  - "PLAT_INIT_pos"
+                  - "PLAT_INIT_neg"
+                  - "PLAT_TERM_pos"
+                  - "PLAT_TERM_neg"
+                  - "PLAT_DeepSleepWakeup_pos"
+                  - "PLAT_DeepSleepWakeup_neg"
+                  - "PLAT_SetDeepSleep_pos"
+                  - "PLAT_SetDeepSleep_neg"
+                  - "PLAT_GetLastWakeupReason_pos"
+                  - "PLAT_GetLastWakeupReason_neg"
+                  - "PLAT_GetLastWakeupKeyCode_pos"
+                  - "PLAT_GetLastWakeupKeyCode_neg"
             1:
-                name: "L2 deepsleep"
+                name: "L2 deepsleepMgr"
                 tests:
-                  - "L2_SetDeepSleepAndVerifyWakeup1sec"
-                  - "L2_SetDeepSleepAndVerifyWakeUp10sec"
+                  - "SetDsAndVerifyWakeup1sec"
+                  - "SetDsAndVerifyWakeUp10sec"
             2:
                 name: "L3 deepsleep"
                 tests:
