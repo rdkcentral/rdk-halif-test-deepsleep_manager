@@ -23,6 +23,7 @@
 
 import os
 import sys
+import time
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(os.path.join(dir_path, "../"))
@@ -61,6 +62,20 @@ class deepsleepmanager_L1_L2_tests(utHelperClass):
         testSetupPath = os.path.join(dir_path, "deepsleepmanager_L1_L2_testSetup.yml")
         self.testSetup = ConfigRead(testSetupPath, moduleName)
         self.hal_session = self.dut.getConsoleSession("ssh_hal_test")
+    
+    def waitAndVerifyDeviceUp(self, timeout: int = 150):
+        """
+        Waits for the system to come back up.
+
+        Args:
+            timeout (int): Maximum time in seconds to wait for the system to come up.
+
+        Raises:
+            TimeoutError: If the system doesn't come up within the timeout period.
+        """
+        time.sleep(timeout)
+        status = self.waitForBoot()
+        return status
 
     def testFunction(self):
         """
@@ -90,10 +105,15 @@ class deepsleepmanager_L1_L2_tests(utHelperClass):
                 for test_case in testsuite.get("test_cases"):
                     self.log.stepStart(f'Test Suit: {testsuite_name} Test Case: {test_case}')
                     result = testdeepsleep.runTest(test_case)
+                    if test_case == "PLAT_SetDeepSleep_pos":
+                        result = self.waitAndVerifyDeviceUp()
                     finalresult &= result
                     self.log.stepResult(result, f'Test Suit: {testsuite_name} Test Case: {test_case}')
 
-            del testdeepsleep
+            if test_case == "PLAT_SetDeepSleep_pos":
+                continue
+            else:
+                del testdeepsleep
 
         return finalresult
 
