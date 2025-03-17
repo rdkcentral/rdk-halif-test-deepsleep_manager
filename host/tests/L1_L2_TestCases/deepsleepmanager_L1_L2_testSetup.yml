@@ -8,8 +8,8 @@ deepsleepmanager:
     # Entry to run all test case
     ######################################
     #- name: "L1 deepSleepMgr"
-    #  test_cases:
-    #    - all
+     # test_cases:
+      #  - all
 
     #######################################
     # Entries to run individual test cases
@@ -32,9 +32,9 @@ deepsleepmanager:
     - name: "L1 deepSleepMgr"
       test_cases:
         - PLAT_DeepSleepWakeup_neg
-    #- name: "L1 deepSleepMgr"
-     # test_cases:
-      #  - PLAT_SetDeepSleep_pos
+    - name: "L1 deepSleepMgr"
+      test_cases:
+        - PLAT_SetDeepSleep_pos
     - name: "L1 deepSleepMgr"
       test_cases:
         - PLAT_SetDeepSleep_neg
@@ -66,6 +66,13 @@ deepsleepmanager:
     #    - PLAT_SetDeepSleep_neg
     #    - PLAT_GetLastWakeupReason_pos
     #    - PLAT_GetLastWakeupReason_neg
+
+    ######################################
+    # Entry to run all test case
+    ######################################
+    #- name: "L2 deepSleepMgr"
+     # test_cases:
+      #  - all
 
     #######################################
     # Entries to run individual test cases

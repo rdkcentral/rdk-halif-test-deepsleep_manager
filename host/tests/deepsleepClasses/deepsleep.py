@@ -91,7 +91,7 @@ class deepsleepClass():
             return match.group(1)
         return None
 
-    def runTest(self, test_case:str=None):
+    def runTest(self, test_case:str=None, promptWithAnswers:dict = None, timeout:int=None):
         """
         Runs the test case passed to this funtion
         Args:
@@ -99,7 +99,7 @@ class deepsleepClass():
         Returns:
             bool: True - test pass, False - test fails
         """
-        output = self.utMenu.select( self.testSuite, test_case)
+        output = self.utMenu.select( self.testSuite, test_case, promptWithAnswers, timeout)
         results = self.utMenu.collect_results(output)
         if results == None:
             results = False

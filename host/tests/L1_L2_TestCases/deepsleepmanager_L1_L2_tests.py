@@ -32,6 +32,7 @@ from raft.framework.plugins.ut_raft.configRead import ConfigRead
 from raft.framework.core.logModule import logModule
 from deepsleepClasses.deepsleep import deepsleepClass
 from raft.framework.plugins.ut_raft import utHelperClass
+from raft.framework.plugins.ut_raft.interactiveShell import InteractiveShell
 
 class deepsleepmanager_L1_L2_tests(utHelperClass):
     """
@@ -63,20 +64,6 @@ class deepsleepmanager_L1_L2_tests(utHelperClass):
         self.testSetup = ConfigRead(testSetupPath, moduleName)
         self.hal_session = self.dut.getConsoleSession("ssh_hal_test")
     
-    def waitAndVerifyDeviceUp(self, timeout: int = 150):
-        """
-        Waits for the system to come back up.
-
-        Args:
-            timeout (int): Maximum time in seconds to wait for the system to come up.
-
-        Raises:
-            TimeoutError: If the system doesn't come up within the timeout period.
-        """
-        time.sleep(timeout)
-        status = self.waitForBoot()
-        return status
-
     def testFunction(self):
         """
         The main test function to run the L1 and L2 tests.
@@ -98,22 +85,25 @@ class deepsleepmanager_L1_L2_tests(utHelperClass):
             if len(test_cases) == 1 and test_cases[0] == "all":
                 self.log.stepStart(f'Test Suit: {testsuite_name} Run all Tests cases')
                 # If 'all' test case mentioned in list, run all tests with 'r' option
-                result = testdeepsleep.runTest()
+                if testsuite_name == "L1 deepSleepMgr":
+                    result = testdeepsleep.runTest(None, None, 180)
+                else:
+                    result = testdeepsleep.runTest(None, None, 120)
                 finalresult &= result
                 self.log.stepResult(result, f'Test Suit: {testsuite_name} Run all Tests cases')
             else:
                 for test_case in testsuite.get("test_cases"):
                     self.log.stepStart(f'Test Suit: {testsuite_name} Test Case: {test_case}')
-                    result = testdeepsleep.runTest(test_case)
-                    if test_case == "PLAT_SetDeepSleep_pos":
-                        result = self.waitAndVerifyDeviceUp()
+                    if test_case == "PLAT_SetDeepSleep_pos" or test_case == "PLAT_SetDeepSleep_neg":
+                        result = testdeepsleep.runTest(test_case, None, 90)
+                    elif test_case == "SetDsAndVerifyWakeup1sec" or test_case == "SetDsAndVerifyWakeUp10sec":
+                        result = testdeepsleep.runTest(test_case, None, 60)
+                    else:
+                        result = testdeepsleep.runTest(test_case)
                     finalresult &= result
                     self.log.stepResult(result, f'Test Suit: {testsuite_name} Test Case: {test_case}')
 
-            if test_case == "PLAT_SetDeepSleep_pos":
-                continue
-            else:
-                del testdeepsleep
+            del testdeepsleep
 
         return finalresult
 
