@@ -122,7 +122,7 @@ deepsleepmanager:
 
 #### Test Configuration
 
-Example Test Setup configuration File: [deepsleepmanager_testConfig.yml](../../host/tests/deepsleepClasses/deepsleepmanager_testConfig.yml)
+Example Test Setup configuration File: [deepsleepmanager_testConfig.yml](../../host/tests/deepsleepClasses/deepsleep_testConfig.yml)
 
 Execute command to run the HAL binary was provided in this file.
 
