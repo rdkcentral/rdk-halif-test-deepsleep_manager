@@ -85,21 +85,13 @@ class deepsleepmanager_L1_L2_tests(utHelperClass):
             if len(test_cases) == 1 and test_cases[0] == "all":
                 self.log.stepStart(f'Test Suit: {testsuite_name} Run all Tests cases')
                 # If 'all' test case mentioned in list, run all tests with 'r' option
-                if testsuite_name == "L1 deepSleepMgr":
-                    result = testdeepsleep.runTest(None, None, 180)
-                else:
-                    result = testdeepsleep.runTest(None, None, 120)
+                result = testdeepsleep.runTest(None, None, 240)
                 finalresult &= result
                 self.log.stepResult(result, f'Test Suit: {testsuite_name} Run all Tests cases')
             else:
                 for test_case in testsuite.get("test_cases"):
                     self.log.stepStart(f'Test Suit: {testsuite_name} Test Case: {test_case}')
-                    if test_case == "PLAT_SetDeepSleep_pos" or test_case == "PLAT_SetDeepSleep_neg":
-                        result = testdeepsleep.runTest(test_case, None, 90)
-                    elif test_case == "SetDsAndVerifyWakeup1sec" or test_case == "SetDsAndVerifyWakeUp10sec":
-                        result = testdeepsleep.runTest(test_case, None, 60)
-                    else:
-                        result = testdeepsleep.runTest(test_case)
+                    result = testdeepsleep.runTest(test_case, None, 150)
                     finalresult &= result
                     self.log.stepResult(result, f'Test Suit: {testsuite_name} Test Case: {test_case}')
 

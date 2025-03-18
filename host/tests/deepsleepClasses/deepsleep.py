@@ -91,7 +91,7 @@ class deepsleepClass():
             return match.group(1)
         return None
 
-    def runTest(self, test_case:str=None, promptWithAnswers:dict = None, timeout:int=None):
+    def runTest(self, test_case:str=None, promptWithAnswers:dict = None, timeout:int=10):
         """
         Runs the test case passed to this funtion
         Args:
