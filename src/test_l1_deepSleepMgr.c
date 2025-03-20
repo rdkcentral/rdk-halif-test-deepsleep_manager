@@ -696,18 +696,18 @@ int test_l1_deepSleepMgr_register ( void )
         return -1;
     }
  
-    UT_add_test( pSuite, "PLAT_DS_INIT_L1_positive" ,test_l1_deepSleepMgr_positive_PLAT_DS_INIT );
-    UT_add_test( pSuite, "PLAT_DS_INIT_L1_negative" ,test_l1_deepSleepMgr_negative_PLAT_DS_INIT );
-    UT_add_test( pSuite, "PLAT_DS_TERM_L1_positive" ,test_l1_deepSleepMgr_positive_PLAT_DS_TERM );
-    UT_add_test( pSuite, "PLAT_DS_TERM_L1_negative" ,test_l1_deepSleepMgr_negative_PLAT_DS_TERM );
-    UT_add_test( pSuite, "PLAT_DS_DeepSleepWakeup_L1_positive" ,test_l1_deepSleepMgr_positive_PLAT_DS_DeepSleepWakeup );
-    UT_add_test( pSuite, "PLAT_DS_DeepSleepWakeup_L1_negative" ,test_l1_deepSleepMgr_negative_PLAT_DS_DeepSleepWakeup );
-    UT_add_test( pSuite, "PLAT_DS_SetDeepSleep_L1_positive" ,test_l1_deepSleepMgr_positive_PLAT_DS_SetDeepSleep );
-    UT_add_test( pSuite, "PLAT_DS_SetDeepSleep_L1_negative" ,test_l1_deepSleepMgr_negative_PLAT_DS_SetDeepSleep );
-    UT_add_test( pSuite, "PLAT_DS_GetLastWakeupReason_L1_positive" ,test_l1_deepSleepMgr_positive_PLAT_DS_GetLastWakeupReason );
-    UT_add_test( pSuite, "PLAT_DS_GetLastWakeupReason_L1_negative" ,test_l1_deepSleepMgr_negative_PLAT_DS_GetLastWakeupReason );
-    UT_add_test( pSuite, "PLAT_DS_GetLastWakeupKeyCode_L1_positive" ,test_l1_deepSleepMgr_positive_PLAT_DS_GetLastWakeupKeyCode );
-    UT_add_test( pSuite, "PLAT_DS_GetLastWakeupKeyCode_L1_negative" ,test_l1_deepSleepMgr_negative_PLAT_DS_GetLastWakeupKeyCode );
+    UT_add_test( pSuite, "PLAT_INIT_pos" ,test_l1_deepSleepMgr_positive_PLAT_DS_INIT );
+    UT_add_test( pSuite, "PLAT_INIT_neg" ,test_l1_deepSleepMgr_negative_PLAT_DS_INIT );
+    UT_add_test( pSuite, "PLAT_TERM_pos" ,test_l1_deepSleepMgr_positive_PLAT_DS_TERM );
+    UT_add_test( pSuite, "PLAT_TERM_neg" ,test_l1_deepSleepMgr_negative_PLAT_DS_TERM );
+    UT_add_test( pSuite, "PLAT_DeepSleepWakeup_pos" ,test_l1_deepSleepMgr_positive_PLAT_DS_DeepSleepWakeup );
+    UT_add_test( pSuite, "PLAT_DeepSleepWakeup_neg" ,test_l1_deepSleepMgr_negative_PLAT_DS_DeepSleepWakeup );
+    UT_add_test( pSuite, "PLAT_SetDeepSleep_pos" ,test_l1_deepSleepMgr_positive_PLAT_DS_SetDeepSleep );
+    UT_add_test( pSuite, "PLAT_SetDeepSleep_neg" ,test_l1_deepSleepMgr_negative_PLAT_DS_SetDeepSleep );
+    UT_add_test( pSuite, "PLAT_GetLastWakeupReason_pos" ,test_l1_deepSleepMgr_positive_PLAT_DS_GetLastWakeupReason );
+    UT_add_test( pSuite, "PLAT_GetLastWakeupReason_neg" ,test_l1_deepSleepMgr_negative_PLAT_DS_GetLastWakeupReason );
+    UT_add_test( pSuite, "PLAT_GetLastWakeupKeyCode_pos" ,test_l1_deepSleepMgr_positive_PLAT_DS_GetLastWakeupKeyCode );
+    UT_add_test( pSuite, "PLAT_GetLastWakeupKeyCode_neg" ,test_l1_deepSleepMgr_negative_PLAT_DS_GetLastWakeupKeyCode );
 
     extendedEnumsSupported = ut_kvp_getBoolField( ut_kvp_profile_getInstance(), "deepsleepmanager/features/extendedEnumsSupported" );
 
