@@ -63,7 +63,7 @@ class deepsleepmanager_L1_L2_tests(utHelperClass):
         testSetupPath = os.path.join(dir_path, "deepsleepmanager_L1_L2_testSetup.yml")
         self.testSetup = ConfigRead(testSetupPath, moduleName)
         self.hal_session = self.dut.getConsoleSession("ssh_hal_test")
-    
+
     def testFunction(self):
         """
         The main test function to run the L1 and L2 tests.
@@ -75,24 +75,28 @@ class deepsleepmanager_L1_L2_tests(utHelperClass):
 
         finalresult = True
 
+        copyArtifacts = True
         for testsuite in testsuites:
             testsuite_name = testsuite.get("name")
 
             # Create the deepslep class
-            testdeepsleep = deepsleepClass(self.moduleConfigProfileFile, self.hal_session, testsuite_name, self.targetWorkspace)
+            testdeepsleep = deepsleepClass(self.moduleConfigProfileFile, self.hal_session, testsuite_name, self.targetWorkspace, copyArtifacts)
+            copyArtifacts = False
             test_cases = testsuite.get("test_cases")
 
             if len(test_cases) == 1 and test_cases[0] == "all":
                 self.log.stepStart(f'Test Suit: {testsuite_name} Run all Tests cases')
                 # If 'all' test case mentioned in list, run all tests with 'r' option
                 result = testdeepsleep.runTest(None, None, 240)
-                finalresult &= result
+                if not result:
+                    finalresult = False
                 self.log.stepResult(result, f'Test Suit: {testsuite_name} Run all Tests cases')
             else:
                 for test_case in testsuite.get("test_cases"):
                     self.log.stepStart(f'Test Suit: {testsuite_name} Test Case: {test_case}')
                     result = testdeepsleep.runTest(test_case, None, 150)
-                    finalresult &= result
+                    if not result:
+                        finalresult = False
                     self.log.stepResult(result, f'Test Suit: {testsuite_name} Test Case: {test_case}')
 
             del testdeepsleep
