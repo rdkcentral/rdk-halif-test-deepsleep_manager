@@ -1,9 +1,8 @@
-deepsleepmanager:
+deepsleep:
   features:
     extendedEnumsSupported: false
 
 power:
-  type: sink
   name: Panel_wakeupsrc_pwrstate_all
 
   features:
