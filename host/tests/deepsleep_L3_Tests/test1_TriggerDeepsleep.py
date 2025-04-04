@@ -48,6 +48,7 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
             None.
         """
         self.testName  = "test1_TriggerDeepsleep"
+        self.testsuite  = "L3 Deepsleep manager"
         self.testSetupPathPower = dir_path + "/power_L3_testSetup.yml"
         self.testSetupPathDeepsleep = dir_path + "/deepsleep_L3_testSetup.yml"
         self.moduleNameDeepsleep = "deepsleep"
@@ -293,7 +294,7 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
             bool : Test results
         """
         # Create the deepsleep manager class
-        self.testDeepsleep = deepsleepClass(self.moduleConfigProfileFile, self.hal_session_deepsleep, self.targetWorkspaceDeepsleep)
+        self.testDeepsleep = deepsleepClass(self.moduleConfigProfileFile, self.hal_session_deepsleep, self.testsuite, self.targetWorkspaceDeepsleep)
         # Create the Power Manager Class
         self.testPower = powerManagerClass(self.moduleConfigProfileFile, self.hal_session_power, self.targetWorkspacePower)
 
