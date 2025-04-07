@@ -41,7 +41,7 @@ In this file, update the configuration to define the console sessions for the `D
 |Console Session|Description|
 |---------------|-----------|
 |default|Used by raft|
-|ssh_hal_test|To run the `HAL` binary|
+|ssh_hal_deepsleep_test|To run the `HAL` binary|
 
 ```yaml
 rackConfig:
@@ -56,7 +56,7 @@ rackConfig:
             username: "root"
             ip: "XXX.XXX.XXX" # IP address of the device
             password: ' '
-        - ssh_hal_test:
+        - ssh_hal_deepsleep_test:
             type: "ssh"
             port: 10022
             username: "root"
@@ -108,7 +108,7 @@ deepsleepmanager:
         - all
     - name: "L1 deepSleepMgr"
       test_cases:
-        - PLAT_DS_INIT_pos 
+        - PLAT_DS_INIT_pos
         - PLAT_DS_INIT_neg
         - PLAT_DS_TERM_pos
         - PLAT_DS_TERM_neg
