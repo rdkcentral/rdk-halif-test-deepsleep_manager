@@ -62,7 +62,7 @@ class deepsleepmanager_L1_L2_tests(utHelperClass):
         # Load test setup configuration
         testSetupPath = os.path.join(dir_path, "deepsleepmanager_L1_L2_testSetup.yml")
         self.testSetup = ConfigRead(testSetupPath, moduleName)
-        self.hal_session = self.dut.getConsoleSession("ssh_hal_test")
+        self.hal_session = self.dut.getConsoleSession("ssh_hal_deepsleep_test")
 
     def testFunction(self):
         """
