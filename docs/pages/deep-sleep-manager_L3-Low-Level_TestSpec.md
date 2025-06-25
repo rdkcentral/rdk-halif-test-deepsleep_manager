@@ -101,4 +101,4 @@ classDiagram
 
 - **testSuite.yaml**
   - This configuration file contains the list of menu items for C/C++ L3 test running on `DUT`
-  - Example configuration file [deepsleep_testConfig.yml](../../host/tests/deepsleepClasses/deepsleep_testConfig.yml)
+  - Example configuration file [deepsleep_testConfig.yml](https://github.com/rdkcentral/rdk-halif-test-deepsleep_manager/blob/main/host/tests/deepsleepClasses/deepsleep_testConfig.yml)
