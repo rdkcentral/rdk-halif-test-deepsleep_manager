@@ -98,7 +98,7 @@ Alternatively, use the run.sh script with the profile file:
 ./run.sh -p /absolute/path/to/profile/file
  ```
 
-- Profiles file available in [profile yaml file](./profiles/)
+- Profiles file available in [profile yaml file](https://github.com/rdkcentral/rdk-halif-test-deepsleep_manager/blob/develop/profiles/deepsleepmanagerWakeUpSources.yaml)
 
 ### Setting Python environment for running the `L1` `L2` and `L3` automation test cases
 

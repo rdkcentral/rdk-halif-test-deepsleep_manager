@@ -100,7 +100,7 @@ deviceConfig:
 
 Example Test Setup configuration File the deepsleep side: [deepsleep_L3_testSetup.yml](../../host/tests/deepsleep_L3_Tests/deepsleep_L3_testSetup.yml)
 
-Example Test Setup configuration File the power manager side: [power_L3_testSetup.yml](../../host/tests/power_L3_Tests/deepsleep_L3_testSetup.yml)
+Example Test Setup configuration File the power manager side: [power_L3_testSetup.yml](../../host/tests/deepsleep_L3_Tests/power_L3_testSetup.yml)
 
 Streams required for each test case was provided in this file. Testing Deep sleep functionality doesn't require any streams.
 
