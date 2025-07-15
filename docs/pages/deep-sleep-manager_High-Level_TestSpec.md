@@ -1,13 +1,5 @@
 # Deep Sleep Manager High Level Test Specification Documentation
 
-## Table of Contents
-
-- [Acronyms, Terms and Abbreviations](#acronyms-terms-and-abbreviations)
-- [Introduction](#introduction)
-- [Test Scenarios](#test-scenarios)
-  - [Set Deep Sleep with timeout](#set-deep-sleep-with-timeout)
-  - [Test with wake-up Source](#test-with-wake-up-source)
-
 ## Acronyms, Terms and Abbreviations
 
 - `HAL`- Hardware Abstraction Layer
