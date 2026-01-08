@@ -2,12 +2,18 @@
 
 ## Table of Contents
 
-- [Acronyms, Terms and Abbreviations](#acronyms-terms-and-abbreviations)
-- [Run L1 and L2 Test directly (without python)](#run-l1-and-l2-test-directly-without-python)
-- [Run L1 and L2 using python](#run-l1-and-l2-using-python)
-  - [Setting Up Test Environment](#setting-up-test-environment)
-  - [Update Configuration Files](#update-configuration-files)
-  - [Run Test Cases](#run-test-cases)
+- [Deep Sleep Manager HAL L1 and L2 Test Procedure](#deep-sleep-manager-hal-l1-and-l2-test-procedure)
+  - [Table of Contents](#table-of-contents)
+  - [Acronyms, Terms and Abbreviations](#acronyms-terms-and-abbreviations)
+  - [Run L1 and L2 Test directly (without python)](#run-l1-and-l2-test-directly-without-python)
+  - [Run L1 and L2 using python](#run-l1-and-l2-using-python)
+    - [Setting Up Test Environment](#setting-up-test-environment)
+    - [Update Configuration Files](#update-configuration-files)
+      - [Rack Configuration File](#rack-configuration-file)
+      - [Device Configuration File](#device-configuration-file)
+      - [Test Setup Configuration File](#test-setup-configuration-file)
+      - [Test Configuration](#test-configuration)
+    - [Run Test Cases](#run-test-cases)
 
 ## Acronyms, Terms and Abbreviations
 
@@ -127,7 +133,7 @@ Example Test Setup configuration File: [deepsleep_testConfig.yml](../../host/tes
 Execute command to run the HAL binary was provided in this file.
 
 ```yaml
-deepsleep:
+deepsleepmanager:
     description: "deepsleep Manager testing profile / menu system for UT"
     test:
         artifacts:

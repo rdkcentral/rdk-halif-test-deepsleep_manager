@@ -105,7 +105,7 @@ Example Test Setup configuration File the power manager side: [power_L3_testSetu
 Streams required for each test case was provided in this file. Testing Deep sleep functionality doesn't require any streams.
 
 ```yaml
-deepsleep:  # Prefix must always exist
+deepsleepmanager:  # Prefix must always exist
   description: "deepsleep Manager test setup"
   assets:
     device:
@@ -128,7 +128,7 @@ The test copies the binary files from the path specified in the `artifacts` entr
 Execute command to run the `HAL` binary was provided in this file.
 
 ```yaml
-deepsleep:
+deepsleepmanager:
     description: "deepsleep Manager testing profile / menu system for UT"
     test:
         artifacts:
