@@ -1,12 +1,12 @@
 deepsleepmanager:
   features:
-    extendedEnumsSupported: false
+    extendedEnumsSupported: true
 
 power:
   name: Panel_wakeupsrc_pwrstate_all
 
   features:
-    extendedEnumsSupported: false
+    extendedEnumsSupported: true
 
   CountOfWakeupSources: 7
 
