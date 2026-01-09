@@ -53,7 +53,7 @@ class deepsleepClass():
             None
         """
 
-        self.moduleName = "deepsleep"
+        self.moduleName = "deepsleepmanager"
         self.testConfigFile =  os.path.join(dir_path, "deepsleep_testConfig.yml")
         self.testSuite = testSuite
 

@@ -127,7 +127,7 @@ Example Test Setup configuration File: [deepsleep_testConfig.yml](../../host/tes
 Execute command to run the HAL binary was provided in this file.
 
 ```yaml
-deepsleep:
+deepsleepmanager:
     description: "deepsleep Manager testing profile / menu system for UT"
     test:
         artifacts:
