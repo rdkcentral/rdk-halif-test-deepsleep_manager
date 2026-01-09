@@ -51,7 +51,7 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
         self.testsuite  = "L3 Deepsleep manager"
         self.testSetupPathPower = dir_path + "/power_L3_testSetup.yml"
         self.testSetupPathDeepsleep = dir_path + "/deepsleep_L3_testSetup.yml"
-        self.moduleNameDeepsleep = "deepsleep"
+        self.moduleNameDeepsleep = "deepsleepmanager"
         self.moduleNamePower = "power"
         self.rackDevice = "dut"
         self.qcID = '1'
