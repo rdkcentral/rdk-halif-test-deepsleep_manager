@@ -42,7 +42,7 @@ class deepsleepClass():
     This module provides common extensions for Deepsleep Manager Module.
 
     """
-    def __init__(self, moduleConfigProfileFile:str, session=None, testSuite:str="L3 Deepsleep manager", targetWorkspace="/tmp", copyArtifacts:bool=True ):
+    def __init__(self, moduleConfigProfileFile:str, session=None, testSuite:str="L3 Deepsleep manager", targetWorkspace="/tmp", copyArtifacts:bool=True, profileType:str="source"):
         """
         Initializes the Deepsleep Manager class function.
         Args:
@@ -58,10 +58,34 @@ class deepsleepClass():
         self.testSuite = testSuite
 
         # Load configurations for device profile and menu
-        self.moduleConfigProfile = ConfigRead( moduleConfigProfileFile , self.moduleName)
-        self.testConfig    = ConfigRead(self.testConfigFile, self.moduleName)
-        self.testConfig.test.execute = os.path.join(targetWorkspace, self.testConfig.test.execute)
-        self.testConfig.test.execute = self.testConfig.test.execute + f" -p {os.path.basename(moduleConfigProfileFile)}"
+        self.moduleConfigProfile = ConfigRead(moduleConfigProfileFile, self.moduleName)
+        self.testConfig = ConfigRead(self.testConfigFile, self.moduleName)
+
+        normalized_workspace = str(targetWorkspace).replace("\\", "/").rstrip("/")
+        unified_mode = (not copyArtifacts) and normalized_workspace.endswith("/VTS/bin")
+
+        if unified_mode:
+            profile_type = str(profileType).lower()
+            profile_type_field = self.moduleConfigProfile.fields.get("type")
+            if profile_type_field:
+                profile_type = str(profile_type_field).lower()
+
+            unified_profile = os.path.join(
+                normalized_workspace,
+                "profiles",
+                profile_type,
+                f"unified_{profile_type}_hal_profile.yaml",
+            ).replace("\\", "/")
+
+            self.testConfig.test.execute = os.path.join(
+                normalized_workspace,
+                "run_hal_test.sh",
+            ).replace("\\", "/")
+            self.testConfig.test.execute += f" -p {unified_profile}"
+        else:
+            # Existing standalone behavior remains unchanged.
+            self.testConfig.test.execute = os.path.join(targetWorkspace, self.testConfig.test.execute)
+            self.testConfig.test.execute = self.testConfig.test.execute + f" -p {os.path.basename(moduleConfigProfileFile)}"
 
         self.utMenu        = UTSuiteNavigatorClass(self.testConfig, None, session)
         self.testSession   = session
@@ -76,7 +100,8 @@ class deepsleepClass():
             # Copy the profile file to the target
             self.utils.scpCopy(self.testSession, moduleConfigProfileFile, targetWorkspace)
 
-        self.utMenu.start()
+        if not (unified_mode):
+            self.utMenu.start()
 
     def searchPattern(self, haystack, pattern):
         """
@@ -134,12 +159,12 @@ class deepsleepClass():
         promptWithAnswers = [
             {
                 "query_type": "direct",
-                "query": "Deep direct Timeout in seconds between 0 and 604800. 0 for no timeout.",
+                "query": "Input timeout:",
                 "input": str(timeout)
             },
             {
                 "query_type": "direct",
-                "query": "Network Standby enabled/disabled [0/1]",
+                "query": "Select Enable/Disable Network standby:",
                 "input": str(networkStandby)
             }
         ]
@@ -169,10 +194,13 @@ class deepsleepClass():
         """
         result = self.utMenu.select( self.testSuite, "Get last wakeup reason")
 
-        wakeupReasonPattern = r'Result PLAT_DS_GetLastWakeupReason\(wakeupReason:\[(?P<wakeupReason>[^\]]+)\]\)'
+        if not isinstance(result, str):
+            return ""
+
+        wakeupReasonPattern = r'Result PLAT_DS_GetLastWakeupReason\(wakeupReason:\[([^\]]+)\]\)'
 
         wakeupReason = self.searchPattern(result, wakeupReasonPattern)
-        return wakeupReason
+        return wakeupReason or ""
 
     def getLastWakeupKeycode(self):
         """
@@ -186,7 +214,10 @@ class deepsleepClass():
         """
         result = self.utMenu.select( self.testSuite, "Get last wakeup keycode")
 
-        wakeupKeycodePattern = r'Result PLAT_DS_GetLastWakeupKeyCode\(wakeupKeyCode:\[(?P<wakeupKeycode>\d+)\]\)'
+        if not isinstance(result, str):
+            return None
+
+        wakeupKeycodePattern = r'Result PLAT_DS_GetLastWakeupKeyCode\(wakeupKeyCode:\[(\d+)\]\)'
 
         wakeupKeycode = self.searchPattern(result, wakeupKeycodePattern)
         return wakeupKeycode
@@ -213,7 +244,12 @@ class deepsleepClass():
         Returns:
             None
         """
-        self.utMenu.stop()
+        ut_menu = getattr(self, "utMenu", None)
+        if ut_menu is not None:
+            try:
+                ut_menu.stop()
+            except Exception:
+                pass
 
 # Test and example usage code
 if __name__ == '__main__':

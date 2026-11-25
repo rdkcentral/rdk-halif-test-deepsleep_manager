@@ -54,7 +54,7 @@ class powerManagerClass():
     This module provides common extensions for Power Module.
 
     """
-    def __init__(self, moduleConfigProfileFile:str, session=None, targetWorkspace="/tmp" ):
+    def __init__(self, moduleConfigProfileFile:str, session=None, targetWorkspace="/tmp", copyArtifacts:bool=True, profileType:str="source"):
         """
         Initializes the Deepsleep Manager class function.
         Args:
@@ -67,20 +67,41 @@ class powerManagerClass():
 
         self.moduleName = "power"
         self.testConfigFile =  os.path.join(dir_path, "power_testConfig.yml")
-        self.testConfig    = ConfigRead(self.testConfigFile, self.moduleName)
-        self.testConfig.test.execute = os.path.join(targetWorkspace, self.testConfig.test.execute)
+        self.testConfig = ConfigRead(self.testConfigFile, self.moduleName)
+
+        normalized_workspace = str(targetWorkspace).replace("\\", "/").rstrip("/")
+        unified_mode = (not copyArtifacts) and normalized_workspace.endswith("/VTS/bin")
+
+        if unified_mode:
+            profile_type = str(profileType).lower()
+            unified_profile = os.path.join(
+                normalized_workspace,
+                "profiles",
+                profile_type,
+                f"unified_{profile_type}_hal_profile.yaml",
+            ).replace("\\", "/")
+            self.testConfig.test.execute = os.path.join(
+                normalized_workspace,
+                "run_hal_test.sh",
+            ).replace("\\", "/")
+            self.testConfig.test.execute += f" -p {unified_profile}"
+        else:
+            self.testConfig.test.execute = os.path.join(targetWorkspace, self.testConfig.test.execute)
+
         self.testSuite = "L3 power manager "
 
-        self.deviceProfile = ConfigRead( moduleConfigProfileFile, self.moduleName)
+        self.deviceProfile = ConfigRead(moduleConfigProfileFile, self.moduleName)
         self.utMenu        = UTSuiteNavigatorClass(self.testConfig, None, session)
         self.testSession   = session
         self.utils         = utBaseUtils()
 
-        for artifact in self.testConfig.test.artifacts:
-            filesPath = os.path.join(dir_path, artifact)
-            self.utils.rsync(self.testSession, filesPath, targetWorkspace)
+        if copyArtifacts:
+            for artifact in self.testConfig.test.artifacts:
+                filesPath = os.path.join(dir_path, artifact)
+                self.utils.rsync(self.testSession, filesPath, targetWorkspace)
 
-        self.utMenu.start()
+        if not unified_mode:
+            self.utMenu.start()
 
     def searchPattern(self, haystack, pattern):
         """
@@ -245,7 +266,12 @@ class powerManagerClass():
         Returns:
             None
         """
-        self.utMenu.stop()
+        ut_menu = getattr(self, "utMenu", None)
+        if ut_menu is not None:
+            try:
+                ut_menu.stop()
+            except Exception:
+                pass
 
 # Test and example usage code
 if __name__ == '__main__':

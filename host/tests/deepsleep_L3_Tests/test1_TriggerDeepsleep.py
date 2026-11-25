@@ -74,12 +74,37 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
 
         # Get path to device profile file
         deviceTestSetup = self.cpe.get("test")
-        self.moduleConfigProfileFile = os.path.join(dir_path, deviceTestSetup.get("profile"))
-        self.targetWorkspaceDeepsleep = self.cpe.get("target_directory")
-        self.targetWorkspaceDeepsleep = os.path.join(self.targetWorkspaceDeepsleep, self.moduleNameDeepsleep)
+        # Resolve the component profile locally; the unified launcher receives
+        # unified_source/sink_hal_profile.yaml through deepsleepClass.
+        profile_type = self.cpe.get("profile_type", "source")
+        self.profileType = str(profile_type).lower()
 
-        self.targetWorkspacePower = self.cpe.get("target_directory")
-        self.targetWorkspacePower = os.path.join(self.targetWorkspacePower, self.moduleNamePower)
+        component_root = os.path.abspath(os.path.join(dir_path, "../../../"))
+
+        profile_candidates = [
+            os.path.join(component_root, "profiles", "deepsleepmanagerWakeUpSources.yaml"),
+            os.path.join(component_root, "profiles", profile_type, "deepsleepmanagerWakeUpSources.yaml"),
+        ]
+        self.moduleConfigProfileFile = next(
+            (candidate for candidate in profile_candidates if os.path.isfile(candidate)),
+            None,
+        )
+        if not self.moduleConfigProfileFile:
+            raise FileNotFoundError(
+                "Deepsleep component profile not found. Tried: "
+                + ", ".join(profile_candidates)
+            )
+
+        target_root = str(self.cpe.get("target_directory", "/opt/")).replace("\\", "/").rstrip("/")
+        if target_root.endswith("/VTS/bin"):
+            unified_runtime = target_root
+        elif target_root.endswith("/VTS"):
+            unified_runtime = os.path.join(target_root, "bin").replace("\\", "/")
+        else:
+            unified_runtime = os.path.join(target_root, "VTS", "bin").replace("\\", "/")
+
+        self.targetWorkspaceDeepsleep = unified_runtime
+        self.targetWorkspacePower = unified_runtime
 
     def isDeviceAwake(self, maxAttempts=3, delay=5):
         """
@@ -294,9 +319,32 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
             bool : Test results
         """
         # Create the deepsleep manager class
-        self.testDeepsleep = deepsleepClass(self.moduleConfigProfileFile, self.hal_session_deepsleep, self.testsuite, self.targetWorkspaceDeepsleep)
-        # Create the Power Manager Class
-        self.testPower = powerManagerClass(self.moduleConfigProfileFile, self.hal_session_power, self.targetWorkspacePower)
+        self.testDeepsleep = deepsleepClass(
+            self.moduleConfigProfileFile,
+            self.hal_session_deepsleep,
+            self.testsuite,
+            self.targetWorkspaceDeepsleep,
+            copyArtifacts=False,
+            profileType=self.profileType,
+        )
+
+        # Unified mode: start exactly one hal_test menu and reuse it for power
+        # and deepsleep suites. Standalone constructors still start normally.
+        if not hasattr(self.testDeepsleep, "utMenu"):
+            return False
+        self.testDeepsleep.utMenu.start()
+
+        self.testPower = powerManagerClass(
+            self.moduleConfigProfileFile,
+            self.hal_session_power,
+            self.targetWorkspacePower,
+            copyArtifacts=False,
+            profileType=self.profileType,
+        )
+
+        # Rebind power operations to the same already-running unified menu.
+        self.testPower.utMenu = self.testDeepsleep.utMenu
+        self.testPower.testSession = self.testDeepsleep.testSession
 
         return True
 
@@ -387,7 +435,8 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
 
             self.log.stepStart(f"Check wakeup reason for {wakeReason}")
             lastWakeupReason = self.testDeepsleep.getLastWakeupReason()
-            self.log.stepResult(wakeReason in lastWakeupReason, f"Check wakeup reason for {wakeReason}")
+            reason_matched = bool(lastWakeupReason) and (wakeReason in lastWakeupReason)
+            self.log.stepResult(reason_matched, f"Check wakeup reason for {wakeReason}")
 
             self.testPower.setWakeupSource(testSource, 0)
             finalResult &= result
