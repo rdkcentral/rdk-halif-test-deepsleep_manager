@@ -74,7 +74,12 @@ class deepsleep_test1_TriggerDeepsleep(utHelperClass):
 
         # Get path to device profile file
         deviceTestSetup = self.cpe.get("test")
-        self.moduleConfigProfileFile = os.path.join(dir_path, deviceTestSetup.get("profile"))
+        if self._moduleName is not None:
+            self.profile_type = self.cpe.get("profile_type")
+            self.moduleConfigProfileFile = os.path.join(dir_path,"../../" ,deviceTestSetup.get("profile"))
+            self.moduleConfigProfileFile = self.moduleConfigProfileFile.replace("{profile_type}", self.profile_type)
+        else:
+            self.moduleConfigProfileFile = os.path.join(dir_path, deviceTestSetup.get("profile"))
         self.targetWorkspaceDeepsleep = self.cpe.get("target_directory")
         self.targetWorkspaceDeepsleep = os.path.join(self.targetWorkspaceDeepsleep, self.moduleNameDeepsleep)
 
